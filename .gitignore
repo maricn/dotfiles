@@ -1,0 +1,10 @@
+*
+
+!.gitignore
+!.*rc
+!.config
+!.config/**
+!*.sh
+!*.py
+
+.pypirc
