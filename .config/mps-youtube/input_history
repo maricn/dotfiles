@@ -1,0 +1,197 @@
+ls
+open 2
+1
+exit
+/chopin
+i1
+q
+h
+help basic
+help search
+help
+help edit
+help
+help playlists
+help invoke
+help
+help tips
+set
+help
+help new
+/nick cave
+dump
+//nick cave
+1
+dump
+all shuffle
+set
+all 
+q
+h
+h invoke
+//asdf
+1
+q
+set
+set player mplayer
+/asdf
+1
+set
+set player mpv
+set player mplayer
+q
+set
+set player mpv
+/asdf
+1
+q
+set
+/asdf
+1
+set
+/asdf
+1
+set
+set player mpv
+set playerargs
+set playerargs --msg-level=all=no:statusline=status
+/asdf
+1
+set
+set playerargs
+set player mplayer
+1
+set player mpv
+1
+set player mplayer
+exit
+set player mplayerd
+set player mplayer
+exit
+url https://www.youtube.com/watch?v=6LyLkcwIiqI
+1
+q
+ls
+open 2
+all shuffle repeat
+exit
+/s vremena na vrijeme
+1
+r1
+1
+2
+/kupio sam prsten
+1
+ls
+set
+open 1
+all
+ls
+open 3
+all,-2,-5
+all-2,-5
+all-2,5
+1-8, -2, -5
+help
+help basic
+help
+help tips
+help new
+help
+help invoke
+ls
+open 3
+1,3-4, 6-8 repeat
+ls
+/bad manners
+1
+2
+3
+exit
+h
+h dl-command
+h
+h encode
+h playlist
+h new
+h
+h basic
+h
+h tips
+q
+ls
+open 1
+all
+/dodjite na kafu
+set show_video true
+1
+2
+exit
+/dont worry be happy
+i 2
+exit
+q
+/zabranjeno pusenje safari
+i 1
+4
+15
+exit
+/mix 2015 dnb
+1
+exit
+/zz top la grunge
+1
+3
+exit
+/zz top la grunge
+5
+1
+exit
+/zz top la grunge
+1
+exit
+/jammin
+/a
+/asdf
+exit
+/jammin
+exit
+/jaming
+exit
+/zabranjeno pusenje
+set
+set all default
+/zabranjeno pusenje
+set
+exit
+/asdf
+exit
+/asfd
+exit
+/asdf
+/asd
+exit
+/asfd
+exit
+/guardians of the galaxy
+exit
+/guardians of the galaxy
+1
+asfd
+/asfd
+exit
+/guardians of the galaxy
+1
+/guardians of the galaxy soundtrack
+2
+3
+4
+11
+exit
+/guardians of the galaxy soundtrack
+1
+2
+4
+3
+11
+exit

@@ -13,6 +13,8 @@ ZSH_THEME="lukerandall2"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias sad='/usr/bin/sed'
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
+alias updatedb="sudo /usr/libexec/locate.updatedb"
+alias cdws="cd ~/workspaces/workspace-spring/"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -57,15 +59,15 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip)
+plugins=(git osx urltools web-search gradle mvn pip common-aliases docker)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
-export ANDROID_HOME=/Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86
-export ANDROID_TOOLS=/Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86/tools
-export ANDROID_PLATFORM_TOOLS=/Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86/platform-tools
+export ANDROID_HOME=/Users/nikola/android-sdk-mac_x86
+export ANDROID_TOOLS=/Users/nikola/android-sdk-mac_x86/tools
+export ANDROID_PLATFORM_TOOLS=/Users/nikola/android-sdk-mac_x86/platform-tools
 
 export EDITOR=nano
 export HTTPIE_BASE_URL=localhost:9000
@@ -80,6 +82,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home
 #/usr/local/bin /usr/local/bin /usr/bin /bin /usr/sbin /sbin /opt/X11/bin '' '' /Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86/tools 
 #/Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86/platform-tools /Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86 /opt/local/bin /Users/nikola/.rvm/bin)
 
-export PATH="$M3_HOME/bin":$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME
+export GEM_HOME=$HOME/.gem
+export PATH="/usr/local/sbin:$M3_HOME/bin":$(brew --prefix homebrew/php/php55)/bin:$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:$GEM_HOME
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 export ANDROID_STUDIO_JDK=/System/Library/Frameworks/JavaVM.framework/Versions/Current
