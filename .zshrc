@@ -15,6 +15,7 @@ alias sad='/usr/bin/sed'
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias cdws="cd ~/workspaces/workspace-spring/"
+alias pingg="ping 8.8.8.8"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -83,6 +84,22 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home
 #/Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86/platform-tools /Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86 /opt/local/bin /Users/nikola/.rvm/bin)
 
 export GEM_HOME=$HOME/.gem
-export PATH="/usr/local/sbin:$M3_HOME/bin":$(brew --prefix homebrew/php/php55)/bin:$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:$GEM_HOME
+export PATH="$(pyenv which python):/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$HOME/.project-switcher/bin:$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:$GEM_HOME"
+eval "$(project-switcher --inject)"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 export ANDROID_STUDIO_JDK=/System/Library/Frameworks/JavaVM.framework/Versions/Current
+
+source /Users/nikola/.iterm2_shell_integration.zsh
+
+export PYTHONPATH=".:$(pyenv which python):/usr/local/bin/python"
+export FINDBUGS_HOME="/Users/nikola/workspaces/utils/findbugs-3.0.1"
+# less - if there is under one page, I don't need to press q to quit
+#export LESS=-FX
+
+eval "$(pyenv init -)"
+eval $(thefuck --alias)
+eval $(thefuck --alias)
+
+source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Welcome message for login shells
