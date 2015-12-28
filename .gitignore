@@ -7,5 +7,6 @@
 !*.sh
 !*.py
 !.oh-my-zsh
+!realwork.txt
 
 .pypirc
