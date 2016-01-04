@@ -16,6 +16,7 @@ alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias cdws="cd ~/workspaces/workspace-spring/"
 alias pingg="ping 8.8.8.8"
+alias gitca="git commit --amend"
 alias mvniam='mvn clean cargo:run -Ddevelopment -Djava.net.preferIPv4Stack=true | sed -u "s/\\n\\tat\ /\
 \t/g"'
 alias mvniamt='mvn clean exec:java cargo:run -Djava.net.preferIPv4Stack=true | sed -u "s/\\n\\tat\ /\
