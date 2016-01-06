@@ -33,7 +33,7 @@ command: ENCODER_PATH -i IN -codec:a libmp3lame -q:a 0 OUT.EXT
 name: MP3 VBR good
 extension: mp3
 valid for: ogg,m4a
-command: ENCODER_PATH -i IN -codec:a libmp3lame -q:a 2 OUT.EXT
+command: ENCODER_PATH -i IN -codec:a libmp3lame -q:a 1 OUT.EXT
 
 # Encode m4a to ogg
 name: OGG 256k
