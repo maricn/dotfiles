@@ -91,7 +91,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home
 #/Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86/platform-tools /Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86 /opt/local/bin /Users/nikola/.rvm/bin)
 
 export GEM_HOME=$HOME/.gem
-export PATH="$(pyenv which python):/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$HOME/.project-switcher/bin:$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:$GEM_HOME"
+export PATH="$(pyenv which python):/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$HOME/.project-switcher/bin:$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:$GEM_HOME/bin"
 eval "$(project-switcher --inject)"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 export ANDROID_STUDIO_JDK=/System/Library/Frameworks/JavaVM.framework/Versions/Current
