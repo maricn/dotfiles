@@ -8,5 +8,6 @@
 !*.sh
 !*.py
 !realwork.txt
+!iTerm2/
 
 .pypirc
