@@ -2,15 +2,26 @@
 
 !.gitignore
 !.gitmodules
+
+# list of symbolic links in ~ directory
 !dotfile-symlinks
+
 !.*rc
-!.config
-!.config/**
 !*.sh
 !*.py
-!realwork.txt
-!iTerm2
-!Library
-!.oh-my-zsh
-
 .pypirc
+
+!.config
+!.config/**
+!realwork.txt
+
+# iTerm2 settings
+!iTerm2/**
+!iTerm2/
+
+# IntelliJ IDEA Settings
+!Library/**
+!Library/
+
+# My Oh-My-Zsh fork
+!.oh-my-zsh
