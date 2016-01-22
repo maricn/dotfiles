@@ -9,8 +9,8 @@
 !*.sh
 !*.py
 !realwork.txt
-!iTerm2/
-!Library/
-!.oh-my-zsh/
+!iTerm2
+!Library
+!.oh-my-zsh
 
 .pypirc
