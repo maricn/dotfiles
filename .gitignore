@@ -1,6 +1,7 @@
 *
 
 !.gitignore
+!.gitmodules
 !dotfile-symlinks
 !.*rc
 !.config
@@ -9,5 +10,7 @@
 !*.py
 !realwork.txt
 !iTerm2/
+!Library/
+!.oh-my-zsh/
 
 .pypirc
