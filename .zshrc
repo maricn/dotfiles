@@ -37,7 +37,7 @@ alias iampretty='sed -u "s/\\n\\tat\ /\
 # DISABLE_LS_COLORS="true"
 
 # Uncomment following line if you want to disable autosetting terminal title.
-DISABLE_AUTO_TITLE="true"
+# DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want to disable command autocorrection
 # DISABLE_CORRECTION="true"
@@ -105,7 +105,7 @@ export FINDBUGS_HOME="/Users/nikola/workspaces/utils/findbugs-3.0.1"
 
 eval "$(pyenv init -)"
 eval $(thefuck --alias)
-eval $(thefuck --alias)
+#eval $(thefuck --alias)
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
