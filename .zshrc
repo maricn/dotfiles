@@ -1,12 +1,7 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
 ZSH_THEME="lukerandall2"
-#ZSH_THEME="dario"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -14,7 +9,7 @@ ZSH_THEME="lukerandall2"
 alias sad='/usr/bin/sed'
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
-alias cdws="cd ~/workspaces/workspace-spring/"
+alias cdws="cd ~/Workspace/"
 alias pingg="ping 8.8.8.8"
 alias gitca="git commit --amend"
 alias mvniam='mvn clean cargo:run -Ddevelopment -Djava.net.preferIPv4Stack=true | sed -u "s/\\n\\tat\ /\
@@ -23,6 +18,11 @@ alias mvniamt='mvn clean exec:java cargo:run -Djava.net.preferIPv4Stack=true | s
 \t/g"'
 alias iampretty='sed -u "s/\\n\\tat\ /\
 \t/g" | sed "/\tat\ \(org\.apache\.\|java\.lang\.Thread\.run\|javax\.servlet\.\).*$/d"'
+
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+   eval `ssh-agent`
+   ssh-add
+fi
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -73,39 +73,29 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
-export ANDROID_HOME=/Users/nikola/android-sdk-mac_x86
-export ANDROID_TOOLS=/Users/nikola/android-sdk-mac_x86/tools
-export ANDROID_PLATFORM_TOOLS=/Users/nikola/android-sdk-mac_x86/platform-tools
+export GIT_AUTHOR_NAME=Nikola Maric
+export GIT_AUTHOR_EMAIL=nikola.maric@auto1.com
 
 export EDITOR=nano
 export HTTPIE_BASE_URL=localhost:9000
-export M3_HOME=/usr/local/Cellar/maven/3.2.3
+export M3_HOME=/usr/local/Cellar/maven/3.3.9/libexec
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
 
-#path=(/Users/nikola/.rvm/gems/ruby-2.1.2/bin /Users/nikola/.rvm/gems/ruby-2.1.2@global/bin /Users/nikola/.rvm/rubies/ruby-2.1.2/bin /Users/nikola/.gvm/vertx/current/bin 
-#/Users/nikola/.gvm/springboot/current/bin /Users/nikola/.gvm/lazybones/current/bin /Users/nikola/.gvm/jbake/current/bin /Users/nikola/.gvm/groovyserv/current/bin 
-#/Users/nikola/.gvm/groovy/current/bin /Users/nikola/.gvm/griffon/current/bin /Users/nikola/.gvm/grails/current/bin /Users/nikola/.gvm/gradle/current/bin 
-#/Users/nikola/.gvm/glide/current/bin /Users/nikola/.gvm/gaiden/current/bin /Users/nikola/.gvm/crash/current/bin /usr/local/Cellar/maven/3.2.3/bin /usr/local/sbin 
-#/usr/local/bin /usr/local/bin /usr/bin /bin /usr/sbin /sbin /opt/X11/bin '' '' /Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86/tools 
-#/Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86/platform-tools /Users/nikola/Library/Developer/Xamarin/android-sdk-mac_x86 /opt/local/bin /Users/nikola/.rvm/bin)
-
-export GEM_HOME=$HOME/.gem
-export PATH="$(pyenv which python):/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$HOME/.project-switcher/bin:$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:$GEM_HOME/bin"
-eval "$(project-switcher --inject)"
+export RVM_HOME="$HOME/.rvm"
+export PATH="/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:$RVM_HOME/bin"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
-export ANDROID_STUDIO_JDK=/System/Library/Frameworks/JavaVM.framework/Versions/Current
 
-source /Users/nikola/.iterm2_shell_integration.zsh
+source $HOME/.iterm2_shell_integration.zsh
 
-export PYTHONPATH=".:$(pyenv which python):/usr/local/bin/python"
 export FINDBUGS_HOME="/Users/nikola/workspaces/utils/findbugs-3.0.1"
 # less - if there is under one page, I don't need to press q to quit
 #export LESS=-FX
 
-eval "$(pyenv init -)"
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
 eval $(thefuck --alias)
-#eval $(thefuck --alias)
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
