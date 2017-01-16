@@ -9,9 +9,11 @@ ZSH_THEME="lukerandall2"
 alias sad='/usr/bin/sed'
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
+alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd ~/Workspace/"
 alias pingg="ping 8.8.8.8"
 alias gitca="git commit --amend"
+
 alias mvniam='mvn clean cargo:run -Ddevelopment -Djava.net.preferIPv4Stack=true | sed -u "s/\\n\\tat\ /\
 \t/g"'
 alias mvniamt='mvn clean exec:java cargo:run -Djava.net.preferIPv4Stack=true | sed -u "s/\\n\\tat\ /\
@@ -24,17 +26,10 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
    ssh-add
 fi
 
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Uncomment this to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment to change how often before auto-updates occur? (in days)
 # export UPDATE_ZSH_DAYS=13
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
 
 # Uncomment following line if you want to disable autosetting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -67,7 +62,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip common-aliases docker)
+plugins=(git osx urltools web-search gradle mvn pip common-aliases docker capistrano globalias)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,14 +78,16 @@ export M3_HOME=/usr/local/Cellar/maven/3.3.9/libexec
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
 
 export RVM_HOME="$HOME/.rvm"
-export PATH="/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:$RVM_HOME/bin"
+export PATH="$RVM_HOME/bin:/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 source $HOME/.iterm2_shell_integration.zsh
 
 export FINDBUGS_HOME="/Users/nikola/workspaces/utils/findbugs-3.0.1"
-# less - if there is under one page, I don't need to press q to quit
-#export LESS=-FX
+# less 
+# - if there is under one page, I don't need to press q to quit
+# R handle colors
+export LESS=-eFRX
 
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
@@ -100,3 +97,4 @@ eval $(thefuck --alias)
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Welcome message for login shells
+
