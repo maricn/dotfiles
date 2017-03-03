@@ -12,14 +12,7 @@ alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd ~/Workspace/"
 alias pingg="ping 8.8.8.8"
-alias gitca="git commit --amend"
-
-alias mvniam='mvn clean cargo:run -Ddevelopment -Djava.net.preferIPv4Stack=true | sed -u "s/\\n\\tat\ /\
-\t/g"'
-alias mvniamt='mvn clean exec:java cargo:run -Djava.net.preferIPv4Stack=true | sed -u "s/\\n\\tat\ /\
-\t/g"'
-alias iampretty='sed -u "s/\\n\\tat\ /\
-\t/g" | sed "/\tat\ \(org\.apache\.\|java\.lang\.Thread\.run\|javax\.servlet\.\).*$/d"'
+alias grepc="grep --color -E "
 
 if [ -z "$SSH_AUTH_SOCK" ] ; then
    eval `ssh-agent`
@@ -62,14 +55,15 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip common-aliases docker capistrano globalias)
+plugins=(git osx urltools web-search gradle mvn pip common-aliases docker capistrano globalias highlight)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
-export GIT_AUTHOR_NAME=Nikola Maric
+export GIT_AUTHOR_NAME=Nikola\ Maric
 export GIT_AUTHOR_EMAIL=nikola.maric@auto1.com
+export DOCKER_HOST=unix:///var/run/docker.sock
 
 export EDITOR=nano
 export HTTPIE_BASE_URL=localhost:9000
@@ -78,9 +72,11 @@ export M3_HOME=/usr/local/Cellar/maven/3.3.9/libexec
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
 
 export RVM_HOME="$HOME/.rvm"
-export PATH="$RVM_HOME/bin:/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME"
+export GOPATH="$HOME/go-workspace"
+export PATH="$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
+source $HOME/.auto1.zsh
 source $HOME/.iterm2_shell_integration.zsh
 
 export FINDBUGS_HOME="/Users/nikola/workspaces/utils/findbugs-3.0.1"
