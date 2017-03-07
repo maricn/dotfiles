@@ -10,3 +10,6 @@ lrwxr-xr-x    1 nikola  staff    20B Oct 20  2014 .zsh-update@ -> dotfiles/.zsh-
 lrwxr-xr-x    1 nikola  staff    39B Oct 20  2014 .zsh_history.2014.06.02.backup@ -> dotfiles/.zsh_history.2014.06.02.backup
 lrwxr-xr-x    1 nikola  staff    39B Nov 24 15:18 .zsh_history.2015-11-24.backup@ -> dotfiles/.zsh_history.2015-11-24.backup
 lrwxr-xr-x    1 nikola  staff    15B Oct 20  2014 .zshrc@ -> dotfiles/.zshrc
+
+# git config --global init.templatedir '~/.git_template' # http://stackoverflow.com/a/8842663/865499
+.git_template -> .dotfiles/.git_template 
