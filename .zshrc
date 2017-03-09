@@ -11,6 +11,7 @@ alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd ~/Workspace/"
+alias cdcap="cd ~/Workspace/ops-deployment/capistrano/java_app/"
 alias pingg="ping 8.8.8.8"
 alias grepc="grep --color -E "
 
