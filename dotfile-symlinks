@@ -13,3 +13,5 @@ lrwxr-xr-x    1 nikola  staff    15B Oct 20  2014 .zshrc@ -> dotfiles/.zshrc
 
 # git config --global init.templatedir '~/.git_template' # http://stackoverflow.com/a/8842663/865499
 .git_template -> .dotfiles/.git_template 
+lrwxr-xr-x  1 nmaric  staff    55B Mar  9 12:10 en_US_wkda.aff@ -> /Users/nmaric/.dotfiles/Library/Spelling/en_US_wkda.aff
+lrwxr-xr-x  1 nmaric  staff    55B Mar  9 12:10 en_US_wkda.dic@ -> /Users/nmaric/.dotfiles/Library/Spelling/en_US_wkda.dic

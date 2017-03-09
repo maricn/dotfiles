@@ -28,3 +28,4 @@
 
 # My git templates / hooks
 !.git_template
+!.git_template/**
