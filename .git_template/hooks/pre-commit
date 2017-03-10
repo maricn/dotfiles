@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+unamestr=$(uname)
+if [[ $unamestr == 'Darwin' ]]; then
+  #specific case for Mac OSX
+  SED_TRALING_WHITESPACE=sed -i '' -e's/[[:space:]]*$//' "$f"
+else
+  SED_TRALING_WHITESPACE=sed -i 's/[[:space:]]*$//' "$f"
+fi
+
+
 # Files (not deleted) in the index
 files=$(git diff-index --name-status --cached HEAD | grep -v ^D | cut -c3-)
 echo -e "\e[1;30mChecking and fixing files with trailing spaces and missing newlines on file endings...\e[0m"
@@ -7,7 +16,6 @@ if [ "$files" != "" ]
 then
   for f in $files
   do
-
     # Only examine known text files
     if [[ "$f" =~ [.](json|properties|conf|txt|xml|yml|yaml|md|sh|sql|java|scala|feature)$ ]]
     then
@@ -17,13 +25,13 @@ then
         echo >> $f
         git add $f
       fi
-
-      # Remove trailing whitespace if it exists
-      if grep -q "[[:blank:]]$" "$f"
-      then
-        /usr/bin/sed -i '' -e's/[[:space:]]*$//' $f
-        git add $f
-      fi
+    
+    # Remove trailing whitespace if it exists
+    if grep -q "[[:blank:]]$" "$f"
+    then
+      $($SED_TRAILING_WHITESPACE)
+      git add $f
     fi
+  fi
   done
 fi

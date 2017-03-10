@@ -6,7 +6,7 @@ ZSH_THEME="lukerandall2"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias sad='/usr/bin/sed'
+alias sad=gsed
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'

@@ -6,14 +6,14 @@ addBranchName() {
   branch_name=$(git symbolic-ref --short -q HEAD)
   branch_name=${branch_name##refs/heads/}
   NAME=${branch_name:-HEAD}
-  #NAME=$(git branch | grep '*' | sed 's/* //') 
+  #NAME=$(git branch | grep '*' | sed 's/* //')
   DESCRIPTION=$(git config branch."$NAME".description)
   echo "[$NAME]: $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
-  if [ -n "$DESCRIPTION" ] 
+  if [ -n "$DESCRIPTION" ]
   then
      echo "" >> $COMMIT_EDITMSG
      echo $DESCRIPTION >> $COMMIT_EDITMSG
-  fi 
+  fi
 }
 
 MERGE=$(cat $COMMIT_EDITMSG|grep 'Merge (branch|pull request)'|wc -l)
@@ -23,11 +23,3 @@ if [ -z "$firstLine" ] ; then
     addBranchName
   fi
 fi
-
-
-#if [ -z "$firstLine"  ] ;then #Check that this is not an amend by checking that the first line is empty
-#    sed -i "1s/^/$branchName: \n/" $1 #Insert branch name at the start of the commit message file
-#fi
-#sed -i '1,/^$/c$branch_name' "$1"
-#sad -i '1d' "$1"
-#echo "[$branch_name] " >> "$1"
