@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-###!/usr/local/bin/bash
 
 # Files (not deleted) in the index
 files=$(git diff-index --name-status --cached HEAD | grep -v ^D | cut -c3-)
@@ -13,14 +12,14 @@ then
     if [[ "$f" =~ [.](json|properties|conf|txt|xml|yml|yaml|md|sh|sql|java|scala|feature)$ ]]
     then
       # Add a linebreak to the file if it doesn't have one
-      if [[ $(tail -c1 $f) != '\n' ]]
+      if [ $(tail -c1 "$f") != '\n' ]
       then
         echo >> $f
         git add $f
       fi
 
       # Remove trailing whitespace if it exists
-      if grep -q "[[:blank:]]$" $f
+      if grep -q "[[:blank:]]$" "$f"
       then
         /usr/bin/sed -i '' -e's/[[:space:]]*$//' $f
         git add $f

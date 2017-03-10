@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+#echo $"\e[1;30mChecking for Aspell...\e[0m"
+ASPELL=$(which aspell)
+if [ $? -ne 0 ]; then
+  #echo $"\e[1;30mChecking for Hunspell...\e[0m"
+  HUNSPELL=$(which hunspell)
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1;30m\tAspell/Hunspell not installed - unable to check spelling.\e[0m" >&2
+  else
+    WORDS=$(cat "$1" | tr '[:upper:]' '[:lower:]' | $HUNSPELL -d ~/Library/Spelling/en_US_wkda -l)
+  fi
+else
+  WORDS=$($ASPELL list < "$1")
+fi
+
+if [ -n "$WORDS" ]; then
+    echo -e "\e[1;31mPossible spelling errors found in commit message. Use git commit --amend to change the message.\n\e[1;33mPossible mispelled words: \n\t" $WORDS "\e[0m" >&2
+fi
