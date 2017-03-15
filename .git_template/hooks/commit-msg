@@ -8,7 +8,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     echo -e "\e[1;30m\tAspell/Hunspell not installed - unable to check spelling.\e[0m" >&2
   else
-    WORDS=$(cat "$1" | tr '[:upper:]' '[:lower:]' | $HUNSPELL -d ~/Library/Spelling/en_US_wkda -l)
+    WORDS=$(cat "$1" | grep "^[^#;]" | tr '[:upper:]' '[:lower:]' | $HUNSPELL -d ~/Library/Spelling/en_US_wkda -l)
   fi
 else
   WORDS=$($ASPELL list < "$1")

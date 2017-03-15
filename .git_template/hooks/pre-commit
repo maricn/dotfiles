@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
 unamestr=$(uname)
-if [[ $unamestr == 'Darwin' ]]; then
-  #specific case for Mac OSX
-  SED_TRALING_WHITESPACE="sed -i '' -e's/[[:space:]]*$//'"
-else
-  SED_TRALING_WHITESPACE="sed -i 's/[[:space:]]*$//'"
-fi
-
 
 # Files (not deleted) in the index
 files=$(git diff-index --name-status --cached HEAD | grep -v ^D | cut -c3-)
@@ -29,7 +22,12 @@ then
     # Remove trailing whitespace if it exists
     if grep -q "[[:blank:]]$" "$f"
     then
-      $($SED_TRAILING_WHITESPACE "$f")
+      if [[ $unamestr == 'Darwin' ]]; then
+        #specific case for Mac OSX
+        sed -i '' -e's/[[:space:]]*$//' "$f"
+      else
+        sed -i 's/[[:space:]]*$//' "$f"
+      fi
       git add $f
     fi
   fi
