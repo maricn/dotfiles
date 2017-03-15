@@ -3,9 +3,9 @@
 unamestr=$(uname)
 if [[ $unamestr == 'Darwin' ]]; then
   #specific case for Mac OSX
-  SED_TRALING_WHITESPACE=sed -i '' -e's/[[:space:]]*$//' "$f"
+  SED_TRALING_WHITESPACE="sed -i '' -e's/[[:space:]]*$//'"
 else
-  SED_TRALING_WHITESPACE=sed -i 's/[[:space:]]*$//' "$f"
+  SED_TRALING_WHITESPACE="sed -i 's/[[:space:]]*$//'"
 fi
 
 
@@ -20,7 +20,7 @@ then
     if [[ "$f" =~ [.](json|properties|conf|txt|xml|yml|yaml|md|sh|sql|java|scala|feature)$ ]]
     then
       # Add a linebreak to the file if it doesn't have one
-      if [ $(tail -c1 "$f") != '\n' ]
+      if [[ $(tail -c1 $f) != '\n' ]]
       then
         echo >> $f
         git add $f
@@ -29,7 +29,7 @@ then
     # Remove trailing whitespace if it exists
     if grep -q "[[:blank:]]$" "$f"
     then
-      $($SED_TRAILING_WHITESPACE)
+      $($SED_TRAILING_WHITESPACE "$f")
       git add $f
     fi
   fi
