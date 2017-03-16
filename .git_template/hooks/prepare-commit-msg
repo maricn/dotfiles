@@ -7,9 +7,13 @@ addBranchName() {
   branch_name=${branch_name##refs/heads/}
   NAME=${branch_name:-HEAD}
   NAME=$(echo $NAME | grep -o -i "\(\w\+\-\d\+\|SPIKE\|HOTFIX\)")
+  echo -n $NAME
   #NAME=$(git branch | grep '*' | sed 's/* //')
   DESCRIPTION=$(git config branch."$NAME".description)
-  echo "[$NAME]: $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
+  if [ -n "$NAME" ]
+  then
+    echo "[$NAME]: $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
+  fi
   if [ -n "$DESCRIPTION" ]
   then
      echo "" >> $COMMIT_EDITMSG
