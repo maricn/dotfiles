@@ -30,6 +30,3 @@
 !.git_template
 !.git_template/**
 .git_template/.*
-
-# Testing git hook
-!test.feature
