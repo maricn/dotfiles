@@ -3,7 +3,7 @@
 unamestr=$(uname)
 
 # Files (not deleted) in the index
-files=$(git diff-index --name-status --cached HEAD | grep -v ^D | cut -c3-)
+files=$(git diff-index --name-status --cached HEAD | grep -v "^D" | cut -c3-)
 echo -e "\e[1;30mChecking and fixing files with trailing spaces and missing newlines on file endings...\e[0m"
 if [ "$files" != "" ]
 then
@@ -12,24 +12,19 @@ then
     # Only examine known text files
     if [[ "$f" =~ [.](json|properties|conf|txt|xml|yml|yaml|md|sh|sql|java|scala|feature)$ ]]
     then
-      # Add a linebreak to the file if it doesn't have one
-      if [[ $(tail -c1 $f) != '\n' ]]
-      then
-        echo >> $f
-        git add $f
-      fi
-    
-    # Remove trailing whitespace if it exists
-    if grep -q "[[:blank:]]$" "$f"
-    then
+
+      # Remove trailing whitespace if it exists
       if [[ $unamestr == 'Darwin' ]]; then
         #specific case for Mac OSX
         sed -i '' -e's/[[:space:]]*$//' "$f"
       else
         sed -i 's/[[:space:]]*$//' "$f"
       fi
-      git add $f
+
+      # Strip empty lines before and after, leaving ending newline
+      [[ $(<$f) =~ ^$'\n'*(.*)$ ]] && echo "${BASH_REMATCH[1]}" > "$f"
+
+      git add "$f"
     fi
-  fi
   done
 fi
