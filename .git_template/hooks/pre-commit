@@ -28,3 +28,7 @@ then
     fi
   done
 fi
+
+my_dir="$(dirname "$0")"
+
+#"$my_dir/hook.sh $@"

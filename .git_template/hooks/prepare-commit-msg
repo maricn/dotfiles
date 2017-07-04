@@ -21,7 +21,7 @@ addBranchName() {
   fi
 }
 
-MERGE=$(cat $COMMIT_EDITMSG|grep 'Merge (branch|pull request|maven-release-plugin)'|wc -l)
+MERGE=$(cat $COMMIT_EDITMSG | grep -i 'Merge (branch|pull request|maven-release-plugin).*' | wc -l)
 
 if [ -z "$firstLine" ] ; then
   if [ $MERGE -eq 0 ] ; then
