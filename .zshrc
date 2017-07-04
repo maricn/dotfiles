@@ -18,6 +18,19 @@ alias cdws="cd ~/Workspace/"
 alias cdcap="cd ~/Workspace/ops-deployment/capistrano/java_app/"
 alias pingg="ping 8.8.8.8"
 alias grepc="grep --color -E "
+alias trees="tree -shC"
+
+# Radio stations
+alias radio_ai_320ogg_gaming='mpv http://ai-radio.org/320.ogg'
+alias radio_ai_flac_gaming='mpv http://ai-radio.org/44.flac'
+alias radio_cliqhoq_128aac_idm='mpv http://ice1.somafm.com/cliqhop-128-aac'
+alias radio_spacestation_128aac_ambient_midtempo_electronica='mpv http://ice1.somafm.com/spacestation-128-aac'
+alias radio_deepspaceone_128aac_deep_ambient_experimental_space='mpv http://ice1.somafm.com/deepspaceone-128-aac'
+alias radio_thetrip_128aac_prog_house_trance='mpv http://ice1.somafm.com/thetrip-128-aac'
+alias radio_beatblender_128aac_deep_house_downtempo_chill='mpv http://ice1.somafm.com/beatblender-128-aac'
+alias radio_earwaves_128aac_electro_experimental='mpv http://ice1.somafm.com/earwaves-128-aac'
+alias radio_paradise_320aac_rock_mixup='mpv http://stream-uk1.radioparadise.com/aac-320'
+alias radio_krawallradio_unknown_deutschrock='mpv http://yokote.streampanel.net:8124/stream'
 
 if [ -z "$SSH_AUTH_SOCK" ] ; then
    eval `ssh-agent`
@@ -78,7 +91,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Hom
 
 export RVM_HOME="$HOME/.rvm"
 export GOPATH="$HOME/go-workspace"
-export PATH="$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
+export PATH="$HOME/.jenv/bin:$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 source $HOME/.auto1.zsh
@@ -94,6 +107,10 @@ export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 
 eval $(thefuck --alias)
+eval "$(jenv init -)"
+
+#eval "$(ssh-agent -s)"
+ssh-add -A ~/.ssh/maricn
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
