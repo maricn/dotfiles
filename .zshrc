@@ -4,13 +4,15 @@ ZSH=$HOME/.oh-my-zsh
 # Setting for the new UTF-8 terminal support in Lion
 LC_CTYPE=en_US.UTF-8
 LC_ALL=en_US.UTF-8
+# Setting for nano to figure out I want it in English
+LANG=en_US.UTF-8
 
 ZSH_THEME="lukerandall2"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-# alias sad=gsed
+alias sad=gsed
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
@@ -85,13 +87,12 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 
 export EDITOR=nano
 export HTTPIE_BASE_URL=localhost:9000
-export M3_HOME=/usr/local/Cellar/maven/3.3.9/libexec
 
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
 
 export RVM_HOME="$HOME/.rvm"
 export GOPATH="$HOME/go-workspace"
-export PATH="$HOME/.jenv/bin:$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/sbin:$M3_HOME/bin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
+export PATH="$HOME/.jenv/bin:$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/sbin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 source $HOME/.auto1.zsh

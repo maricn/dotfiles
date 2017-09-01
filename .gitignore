@@ -30,3 +30,7 @@
 !.git_template
 !.git_template/**
 .git_template/.*
+
+# Nano syntax highlighting
+!.nano/
+!.nano/*.nanorc
