@@ -88,7 +88,7 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 export EDITOR=nano
 export HTTPIE_BASE_URL=localhost:9000
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
 export RVM_HOME="$HOME/.rvm"
 export GOPATH="$HOME/go-workspace"
@@ -108,6 +108,8 @@ export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 
 eval $(thefuck --alias)
+alias fuckyeah="fuck -y"
+
 eval "$(jenv init -)"
 
 #eval "$(ssh-agent -s)"
