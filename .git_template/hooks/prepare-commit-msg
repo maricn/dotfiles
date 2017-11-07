@@ -12,7 +12,7 @@ addBranchName() {
   DESCRIPTION=$(git config branch."$NAME".description)
   if [ -n "$NAME" ]
   then
-    echo "[$NAME]: $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
+    echo "$NAME: $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
   fi
   if [ -n "$DESCRIPTION" ]
   then
