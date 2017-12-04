@@ -6,24 +6,25 @@ addBranchName() {
   branch_name=$(git symbolic-ref --short -q HEAD)
   branch_name=${branch_name##refs/heads/}
   NAME=${branch_name:-HEAD}
-  NAME=$(echo $NAME | grep -o -i "\(\w\+\-\d\+\|SPIKE\|HOTFIX\)")
-  echo -n $NAME
-  #NAME=$(git branch | grep '*' | sed 's/* //')
+  NAME=$(echo $NAME | grep -o -i "\([a-zA-Z]\+\-[1-9][0-9]\+\|SPIKE\|HOTFIX\)")
+  ## echo "Got git branch name: $NAME"
+  
   DESCRIPTION=$(git config branch."$NAME".description)
   if [ -n "$NAME" ]
   then
     echo "$NAME: $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
   fi
-  if [ -n "$DESCRIPTION" ]
+  if [ -n "$DESCRIPTION" ]   
   then
-     echo "" >> $COMMIT_EDITMSG
-     echo $DESCRIPTION >> $COMMIT_EDITMSG
+   echo "" >> $COMMIT_EDITMSG
+   echo $DESCRIPTION >> $COMMIT_EDITMSG
   fi
 }
 
-MERGE=$(cat $COMMIT_EDITMSG | grep -i 'Merge (branch|pull request|maven-release-plugin).*' | wc -l)
+AMEND=$(cat $COMMIT_EDITMSG | head -n1)
 
-if [ -z "$firstLine" ] ; then
+if [ -z "$AMEND" ] ; then
+  MERGE=$(cat $COMMIT_EDITMSG | grep -i 'Merge (branch|pull request|maven-release-plugin).*' | wc -l)
   if [ $MERGE -eq 0 ] ; then
     addBranchName
   fi
