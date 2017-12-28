@@ -45,7 +45,7 @@ DISABLE_AUTO_UPDATE="true"
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want to disable command autocorrection
 # DISABLE_CORRECTION="true"
@@ -97,6 +97,22 @@ function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 source $HOME/.auto1.zsh
 source $HOME/.iterm2_shell_integration.zsh
+
+# $1 = type; 0 - both, 1 - tab, 2 - title
+# rest = text
+setTerminalText () {
+    # echo works in bash & zsh
+    local mode=$1 ; shift
+#    echo -ne "\033]$mode;$@\007"
+    echo -ne "\e]$mode;$@\a"
+}
+stt_both () { setTerminalText 0 $@; } 
+stt_tab () { setTerminalText 1 $@; } 
+stt_title () { setTerminalText 2 $@; } 
+stt_tab_current_project () { stt_tab `basename $(pwd) | sad -r 's/\B[a-z]\s*//g' | sad -r 's/\-//g'` } 
+stt_tab_current_project_if_in_workspace () { if [ "${PWD##/Users/nmaric/}" != "${PWD}" ] ; then ; stt_tab_current_project ; fi }
+
+chpwd_functions=(${chpwd_functions[@]} "stt_tab_current_project_if_in_workspace")
 
 export FINDBUGS_HOME="/Users/nikola/workspaces/utils/findbugs-3.0.1"
 # less 
