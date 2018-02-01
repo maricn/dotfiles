@@ -75,7 +75,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip common-aliases docker capistrano globalias highlight)
+plugins=(git osx urltools web-search gradle mvn pip common-aliases docker capistrano globalias highlight wakatime)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -92,7 +92,7 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
 export RVM_HOME="$HOME/.rvm"
 export GOPATH="$HOME/go-workspace"
-export PATH="$HOME/.jenv/bin:$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/sbin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
+export PATH="$HOME/miniconda2/bin:$HOME/.jenv/bin:$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/sbin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 source $HOME/.auto1.zsh
@@ -114,6 +114,10 @@ stt_tab_current_project_if_in_workspace () { if [ "${PWD##/Users/nmaric/}" != "$
 
 chpwd_functions=(${chpwd_functions[@]} "stt_tab_current_project_if_in_workspace")
 
+## Vim stuff
+function vim_tmux() { tmux new -d "/usr/local/bin/vim $*" \; attach; }
+alias vim='vim_tmux'
+
 export FINDBUGS_HOME="/Users/nikola/workspaces/utils/findbugs-3.0.1"
 # less 
 # - if there is under one page, I don't need to press q to quit
@@ -134,4 +138,3 @@ ssh-add -A ~/.ssh/maricn
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Welcome message for login shells
-

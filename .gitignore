@@ -34,3 +34,7 @@
 # Nano syntax highlighting
 !.nano/
 !.nano/*.nanorc
+
+# Vim stuff
+!.vimrc
+!.vim/
