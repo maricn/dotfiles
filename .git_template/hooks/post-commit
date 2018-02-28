@@ -1,4 +1,4 @@
 #!/bin/sh
 ### lolcommits hook (begin) ###
-LANG="" && PATH="/Users/nmaric/.rvm/rubies/ruby-2.3.0/bin:/usr/local/bin:$PATH" && if [ ! -d "$GIT_DIR/rebase-merge" ] && [ "$LOLCOMMITS_CAPTURE_DISABLED" != "true" ]; then lolcommits --capture --delay 0 --animate 1 --fork; fi
+LANG="" && PATH="/usr/local/bin:/usr/local/bin:$PATH" && if [ ! -d "$GIT_DIR/rebase-merge" ] && [ "$LOLCOMMITS_CAPTURE_DISABLED" != "true" ]; then lolcommits --capture --delay 0 --animate 1 --fork; fi
 ###  lolcommits hook (end)  ###
