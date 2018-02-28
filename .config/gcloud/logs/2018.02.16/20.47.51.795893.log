@@ -1,0 +1,42 @@
+2018-02-16 20:47:51,806 DEBUG    root            Loaded Command Group: ['gcloud', 'info']
+2018-02-16 20:47:51,808 DEBUG    root            Running [gcloud.info] with arguments: []
+2018-02-16 20:47:51,851 INFO     root            Explicit Display.
+2018-02-16 20:47:51,851 INFO     ___FILE_ONLY___ Google Cloud SDK [189.0.0]
+
+Platform: [Mac OS X, x86_64] ('Darwin', 'Nikolas-MBP.fritz.box', '17.4.0', 'Darwin Kernel Version 17.4.0: Sun Dec 17 09:19:54 PST 2017; root:xnu-4570.41.2~1/RELEASE_X86_64', 'x86_64', 'i386')
+Python Version: [2.7.14 (default, Feb  6 2018, 20:04:00)  [GCC 4.2.1 Compatible Apple LLVM 9.0.0 (clang-900.0.39.2)]]
+Python Location: [/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python]
+Site Packages: [Disabled]
+
+Installation Root: [/Users/nikola/google-cloud-sdk]
+Installed Components:
+  core: [2018.02.12]
+  gsutil: [4.28]
+  bq: [2.0.29]
+System PATH: [/Users/nikola/.jenv/shims:/Users/nikola/google-cloud-sdk/bin:/Users/nikola/miniconda2/bin:/Users/nikola/.jenv/bin:/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/bin:/Users/nikola/.rvm/bin:/usr/local/sbin:/Users/nikola/.node/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin::::/usr/local/opt/go/libexec/bin:/Users/nikola/go-workspace/bin]
+Python PATH: [/Users/nikola/google-cloud-sdk/lib/third_party:/Users/nikola/google-cloud-sdk/lib:/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/lib/python27.zip:/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/lib/python2.7:/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-darwin:/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac:/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages:/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk:/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-old:/usr/local/Cellar/python/2.7.14_3/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-dynload]
+Cloud SDK on PATH: [True]
+Kubectl on PATH: [False]
+
+Installation Properties: [/Users/nikola/google-cloud-sdk/properties]
+User Config Directory: [/Users/nikola/.config/gcloud]
+Active Configuration Name: [default]
+Active Configuration Path: [/Users/nikola/.config/gcloud/configurations/config_default]
+
+Account: [nikola@another.ai]
+Project: [anotherproject1337]
+
+Current Properties:
+  [core]
+    project: [anotherproject1337]
+    account: [nikola@another.ai]
+    disable_usage_reporting: [True]
+
+Logs Directory: [/Users/nikola/.config/gcloud/logs]
+Last Log File: [/Users/nikola/.config/gcloud/logs/2018.02.16/20.47.46.293195.log]
+
+git: [git version 2.16.1]
+ssh: [OpenSSH_7.6p1, LibreSSL 2.6.2]
+
+
+

@@ -1,0 +1,4 @@
+2018-02-28 17:39:08,893 DEBUG    root            Loaded Command Group: ['gcloud', 'docker']
+2018-02-28 17:39:08,896 DEBUG    root            Running [gcloud.docker] with arguments: []
+2018-02-28 17:39:08,933 INFO     oauth2client.client Refreshing access_token
+2018-02-28 17:39:18,365 INFO     root            Display format "default".

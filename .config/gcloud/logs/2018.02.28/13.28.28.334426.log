@@ -1,0 +1,33 @@
+2018-02-28 13:28:28,336 DEBUG    root            Loaded Command Group: ['gcloud', 'version']
+2018-02-28 13:28:28,338 DEBUG    root            Running [gcloud.version] with arguments: []
+2018-02-28 13:28:28,348 INFO     root            Display format "flattened[no-pad,separator=" "]".
+2018-02-28 13:28:28,348 INFO     ___FILE_ONLY___ Google Cloud SDK
+2018-02-28 13:28:28,348 INFO     ___FILE_ONLY___  
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ 189.0.0
+
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ bq
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___  
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ 2.0.29
+
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ core
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___  
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ 2018.02.12
+
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ gsutil
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___  
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ 4.28
+
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ kubectl
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___  
+2018-02-28 13:28:28,349 INFO     ___FILE_ONLY___ 
+
+2018-02-28 13:28:28,358 DEBUG    root            Checking for updates...
+2018-02-28 13:28:28,795 DEBUG    root            Updating notification cache...
+2018-02-28 13:28:28,795 DEBUG    root            Activating notification: [default]
+2018-02-28 13:28:28,795 INFO     ___FILE_ONLY___ 
+
+Updates are available for some Cloud SDK components.  To install them,
+please run:
+  $ gcloud components update
+
+
