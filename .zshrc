@@ -17,10 +17,12 @@ alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd ~/Workspace/"
-alias cdcap="cd ~/Workspace/ops-deployment/capistrano/java_app/"
 alias pingg="ping 8.8.8.8"
 alias grepc="grep --color -E "
 alias trees="tree -shC"
+function whichla() { ls -la `which $@` }
+
+alias gbuild="gradle build"
 
 # Radio stations
 alias radio_ai_320ogg_gaming='mpv http://ai-radio.org/320.ogg'
@@ -75,27 +77,36 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip common-aliases docker capistrano globalias highlight wakatime)
+plugins=(git osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime kubectl kubectl-completion)
+# minikube
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
 export GIT_AUTHOR_NAME=Nikola\ Maric
-export GIT_AUTHOR_EMAIL=nikola.maric@auto1.com
+export GIT_AUTHOR_EMAIL=nikola@another.ai
 export DOCKER_HOST=unix:///var/run/docker.sock
 
-export EDITOR=nano
+export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0_162)
+export KIBANA_HOME="$HOME/Tools/kibana-6.2.2-darwin-x86_64"
 
 export RVM_HOME="$HOME/.rvm"
 export GOPATH="$HOME/go-workspace"
-export PATH="$HOME/miniconda2/bin:$HOME/.jenv/bin:$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/sbin:$HOME/.node/bin":$(brew --prefix homebrew/php/php55)/bin:"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
+export GOPATH_WORKSPACE="$GOPATH/src"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/nikola/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/nikola/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/completion.zsh.inc'; fi
+
+export PATH="$HOME/.gcloud/bin:$HOME/.kubectl/bin:$HOME/miniconda2/bin:$HOME/.jenv/bin:$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/opt/postgresql@9.6/bin:/usr/local/sbin:$HOME/.node/bin":"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
-source $HOME/.auto1.zsh
 source $HOME/.iterm2_shell_integration.zsh
 
 # $1 = type; 0 - both, 1 - tab, 2 - title
@@ -117,12 +128,16 @@ chpwd_functions=(${chpwd_functions[@]} "stt_tab_current_project_if_in_workspace"
 ## Vim stuff
 function vim_tmux() { tmux new -d "/usr/local/bin/vim $*" \; attach; }
 alias vim='vim_tmux'
+alias vvim='/usr/local/bin/vim'
 
-export FINDBUGS_HOME="/Users/nikola/workspaces/utils/findbugs-3.0.1"
+source "$HOME/.anotherairc"
+
 # less 
 # - if there is under one page, I don't need to press q to quit
 # R handle colors
 export LESS=-eFRX
+# make ls use pre-8.25 behavior (per https://unix.stackexchange.com/questions/258679/why-is-ls-suddenly-wrapping-items-with-spaces-in-single-quotes)
+export QUOTING_STYLE=literal
 
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
@@ -138,3 +153,5 @@ ssh-add -A ~/.ssh/maricn
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Welcome message for login shells
+
+

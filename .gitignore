@@ -11,9 +11,13 @@
 !*.py
 .pypirc
 
-!.config
-!.config/**
-!realwork.txt
+!/.config
+!/.config/**
+/.config/gcloud
+/.config/gcloud/**
+/.config/yarn/global/node_modules
+/.config/yarn/global/node_modules/**
+realwork.txt
 
 # iTerm2 settings
 !iTerm2/**

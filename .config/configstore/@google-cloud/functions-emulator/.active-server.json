@@ -1,0 +1,16 @@
+{
+	"host": "localhost",
+	"logFile": "/Users/nikola/.dotfiles/.config/yarn/global/node_modules/@google-cloud/functions-emulator/logs/cloud-functions-emulator.log",
+	"projectId": "anotherproject1337",
+	"region": "us-central1",
+	"restPort": 8008,
+	"started": 1524946140522,
+	"storage": "configstore",
+	"supervisorPort": 8010,
+	"tail": false,
+	"useMocks": false,
+	"verbose": false,
+	"version": "1.0.0-beta.4",
+	"stopped": 1528830628082,
+	"lastKnownPid": 44253
+}
