@@ -85,13 +85,13 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 export GIT_AUTHOR_NAME=Nikola\ Maric
-export GIT_AUTHOR_EMAIL=nikola@another.ai
+export GIT_AUTHOR_EMAIL=maricn@gmail.com
 export DOCKER_HOST=unix:///var/run/docker.sock
 
 export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0_162)
+export JAVA_HOME=$(/usr/libexec/java_home -v 10.0.1)
 export KIBANA_HOME="$HOME/Tools/kibana-6.2.2-darwin-x86_64"
 
 export RVM_HOME="$HOME/.rvm"
@@ -130,8 +130,6 @@ function vim_tmux() { tmux new -d "/usr/local/bin/vim $*" \; attach; }
 alias vim='vim_tmux'
 alias vvim='/usr/local/bin/vim'
 
-source "$HOME/.anotherairc"
-
 # less 
 # - if there is under one page, I don't need to press q to quit
 # R handle colors
@@ -139,13 +137,8 @@ export LESS=-eFRX
 # make ls use pre-8.25 behavior (per https://unix.stackexchange.com/questions/258679/why-is-ls-suddenly-wrapping-items-with-spaces-in-single-quotes)
 export QUOTING_STYLE=literal
 
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
-
 eval $(thefuck --alias)
 alias fuckyeah="fuck -y"
-
-eval "$(jenv init -)"
 
 #eval "$(ssh-agent -s)"
 ssh-add -A ~/.ssh/maricn
