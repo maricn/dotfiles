@@ -17,6 +17,7 @@ alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd ~/Workspace/"
+alias cdtf="cd ~/tensorflow/ && source ./bin/activate"
 alias pingg="ping 8.8.8.8"
 alias grepc="grep --color -E "
 alias trees="tree -shC"
@@ -91,7 +92,7 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 10.0.1)
+export JAVA_HOME=$(/usr/libexec/java_home -v 10.0.2)
 export KIBANA_HOME="$HOME/Tools/kibana-6.2.2-darwin-x86_64"
 
 export RVM_HOME="$HOME/.rvm"
@@ -148,3 +149,7 @@ source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Welcome message for login shells
 
 
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/nikola/.sdkman"
+[[ -s "/Users/nikola/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/nikola/.sdkman/bin/sdkman-init.sh"
