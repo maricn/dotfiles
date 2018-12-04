@@ -78,7 +78,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime kubectl kubectl-completion)
+plugins=(git osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime kubectl kubectl-completion zsh-nvm)
 # minikube
 
 source $ZSH/oh-my-zsh.sh
@@ -86,18 +86,18 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 export GIT_AUTHOR_NAME=Nikola\ Maric
-export GIT_AUTHOR_EMAIL=maricn@gmail.com
+export GIT_AUTHOR_EMAIL=nikola.maric@mimi.io
 export DOCKER_HOST=unix:///var/run/docker.sock
 
 export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 10.0.2)
-export KIBANA_HOME="$HOME/Tools/kibana-6.2.2-darwin-x86_64"
+# export JAVA_HOME=$(/usr/libexec/java_home -v 10.0.2)
+# export KIBANA_HOME="$HOME/Tools/kibana-6.2.2-darwin-x86_64"
 
-export RVM_HOME="$HOME/.rvm"
-export GOPATH="$HOME/go-workspace"
-export GOPATH_WORKSPACE="$GOPATH/src"
+# export RVM_HOME="$HOME/.rvm"
+# export GOPATH="$HOME/go-workspace"
+# export GOPATH_WORKSPACE="$GOPATH/src"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/nikola/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/path.zsh.inc'; fi
@@ -105,7 +105,7 @@ if [ -f '/Users/nikola/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/nik
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/nikola/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/completion.zsh.inc'; fi
 
-export PATH="$HOME/.gcloud/bin:$HOME/.kubectl/bin:$HOME/miniconda2/bin:$HOME/.jenv/bin:$JAVA_HOME/bin:$RVM_HOME/bin:/usr/local/opt/postgresql@9.6/bin:/usr/local/sbin:$HOME/.node/bin":"$PATH:$ANDROID_PLATFORM_TOOLS:$ANDROID_TOOLS:$ANDROID_HOME:/usr/local/opt/go/libexec/bin:$GOPATH/bin"
+export PATH="/usr/local/sbin:$HOME/.node/bin":$PATH
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 source $HOME/.iterm2_shell_integration.zsh
@@ -148,8 +148,14 @@ source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Welcome message for login shells
 
+source $HOME/.mimi
 
+# NVM - Node Version Manager
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion ] ]
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/nikola/.sdkman"
 [[ -s "/Users/nikola/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/nikola/.sdkman/bin/sdkman-init.sh"
+
