@@ -2,10 +2,10 @@
 ZSH=$HOME/.oh-my-zsh
 
 # Setting for the new UTF-8 terminal support in Lion
-LC_CTYPE=en_US.UTF-8
-LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 # Setting for nano to figure out I want it in English
-LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 ZSH_THEME="lukerandall2"
 
@@ -21,6 +21,7 @@ alias cdtf="cd ~/tensorflow/ && source ./bin/activate"
 alias pingg="ping 8.8.8.8"
 alias grepc="grep --color -E "
 alias trees="tree -shC"
+alias myip="curl https://ipinfo.io/ip"
 function whichla() { ls -la `which $@` }
 
 alias gbuild="gradle build"
@@ -78,7 +79,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime kubectl kubectl-completion zsh-nvm)
+plugins=(git osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime kubectl kubectl-completion zsh-nvm zsh-autosuggestions)
 # minikube
 
 source $ZSH/oh-my-zsh.sh
