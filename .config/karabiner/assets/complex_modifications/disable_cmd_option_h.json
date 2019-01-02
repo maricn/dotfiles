@@ -1,0 +1,28 @@
+{
+    "title": "Prevent unintended command-option-h hide window",
+    "rules": [
+    
+        {
+            "description": "Disable Cmd+Opt+H Hide",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "description": "",
+                    "from": {
+                        "key_code": "h",
+                        "modifiers": {
+                            "mandatory": [
+                                "command", "option"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "vk_none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
