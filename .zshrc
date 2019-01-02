@@ -79,8 +79,8 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime kubectl kubectl-completion zsh-nvm zsh-autosuggestions)
-# minikube
+plugins=(git osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime zsh-autosuggestions)
+# zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 
 source $ZSH/oh-my-zsh.sh
 
@@ -152,9 +152,32 @@ source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $HOME/.mimi
 
 # NVM - Node Version Manager
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion ] ]
+load_nvm() {
+    unset -f nvm node npm npx
+    export NVM_DIR=~/.nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+nvm() {
+    load_nvm
+    nvm "$@"
+}
+
+node() {
+    load_nvm
+    node "$@"
+}
+
+npm() {
+    load_nvm
+    npm "$@"
+}
+
+npx() {
+    load_nvm
+    npx "$@"
+}
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/nikola/.sdkman"

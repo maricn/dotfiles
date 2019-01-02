@@ -83,8 +83,8 @@
     "source": {
       "inline": "do shell script \"date +'%Y-%m-%d%n%H:%M'\""
     },
-    "action": "openUrl",
-    "url": "https://calendar.google.com/calendar/r/month",
+    // "action": "openUrl",
+    // "url": "https://calendar.google.com/calendar/r/month",
     "align": "right",
     "bordered": false,
     "width": 90
