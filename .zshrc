@@ -106,7 +106,7 @@ if [ -f '/Users/nikola/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/nik
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/nikola/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/completion.zsh.inc'; fi
 
-export PATH="/usr/local/sbin:$HOME/.node/bin":$PATH
+export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin":$PATH
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 source $HOME/.iterm2_shell_integration.zsh
@@ -157,6 +157,26 @@ load_nvm() {
     export NVM_DIR=~/.nvm
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+    # place this after nvm initialization!
+    autoload -U add-zsh-hook
+    load-nvmrc() {
+      local node_version="$(nvm version)"
+      local nvmrc_path="$(nvm_find_nvmrc)"
+
+      if [ -n "$nvmrc_path" ]; then
+        local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+ 
+        if [ "$nvmrc_node_version" != "N/A" ] && [ "$nvmrc_node_version" != "$node_version" ]; then
+          nvm use 
+        fi
+      elif [ "$node_version" != "$(nvm version default)" ]; then
+        echo "Reverting to nvm default version"
+        nvm use default
+      fi
+    }
+    add-zsh-hook chpwd load-nvmrc
+    load-nvmrc
 }
 
 nvm() {
