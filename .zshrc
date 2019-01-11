@@ -87,7 +87,13 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 export GIT_AUTHOR_NAME=Nikola\ Maric
-export GIT_AUTHOR_EMAIL=nikola.maric@mimi.io
+if [ "MacBook-Pro-Nikola.local" = "$(hostname)" ]; then
+  export GIT_AUTHOR_EMAIL=nikola.maric@mimi.io
+  source "$HOME/.mimi"
+else
+  export GIT_AUTHOR_EMAIL=maricn@gmail.com
+fi
+
 export DOCKER_HOST=unix:///var/run/docker.sock
 
 export EDITOR=vim
@@ -148,8 +154,6 @@ ssh-add -A ~/.ssh/maricn
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Welcome message for login shells
-
-source $HOME/.mimi
 
 # NVM - Node Version Manager
 load_nvm() {
