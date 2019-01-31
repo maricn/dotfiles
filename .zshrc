@@ -145,6 +145,7 @@ export LESS=-eFRX
 # make ls use pre-8.25 behavior (per https://unix.stackexchange.com/questions/258679/why-is-ls-suddenly-wrapping-items-with-spaces-in-single-quotes)
 export QUOTING_STYLE=literal
 
+export THEFUCK_RULES=DEFAULT_RULES:git_push_force
 eval $(thefuck --alias)
 alias fuckyeah="fuck -y"
 
