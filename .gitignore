@@ -17,6 +17,8 @@
 /.config/gcloud/**
 /.config/yarn/global/node_modules
 /.config/yarn/global/node_modules/**
+/.config/mpv/watch_later/
+/.config/thefuck/__pycache__/
 realwork.txt
 
 # iTerm2 settings
@@ -42,3 +44,11 @@ realwork.txt
 # Vim stuff
 !.vimrc
 !.vim/
+
+# Not important?
+.config/configstore/nodemon.json
+.config/configstore/update-notifier-npm.json
+.config/copyq/copyq_geometry.ini
+.config/copyq/copyq_tab_JmNsaXBib2FyZA==.dat
+.config/copyq/copyq_tabs.ini
+.config/thefuck/__pycache__/settings.cpython-37.pyc
