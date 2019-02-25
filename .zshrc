@@ -22,7 +22,9 @@ alias pingg="ping 8.8.8.8"
 alias grepc="grep --color -E "
 alias trees="tree -shC"
 alias myip="curl https://ipinfo.io/ip"
-function whichla() { ls -la `which $@` }
+alias weather="curl wttr.in"
+alias curl-weather="weather"
+function whichla() { local res; res=$(which $@) && ls -la $res }
 
 alias gbuild="gradle build"
 
@@ -79,7 +81,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime zsh-autosuggestions)
+plugins=(git git-extras osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime zsh-autosuggestions)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 
 source $ZSH/oh-my-zsh.sh
@@ -148,6 +150,9 @@ export QUOTING_STYLE=literal
 export THEFUCK_RULES=DEFAULT_RULES:git_push_force
 eval $(thefuck --alias)
 alias fuckyeah="fuck -y"
+
+# For opengl video codec with mpv @ 60fps
+export DYLD_INSERT_LIBRARIES='/System/Library/Frameworks/OpenGL.framework/Resources/GLEngine.bundle/GLEngine'
 
 #eval "$(ssh-agent -s)"
 ssh-add -A ~/.ssh/maricn
