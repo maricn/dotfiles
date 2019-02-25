@@ -32,10 +32,11 @@ realwork.txt
 # My Oh-My-Zsh fork
 !.oh-my-zsh
 
-# My git templates / hooks
+# My git templates / hooks / global gitignore
 !.git_template
 !.git_template/**
 .git_template/.*
+!.gitignore_global
 
 # Nano syntax highlighting
 !.nano/
@@ -51,4 +52,3 @@ realwork.txt
 .config/copyq/copyq_geometry.ini
 .config/copyq/copyq_tab_JmNsaXBib2FyZA==.dat
 .config/copyq/copyq_tabs.ini
-.config/thefuck/__pycache__/settings.cpython-37.pyc

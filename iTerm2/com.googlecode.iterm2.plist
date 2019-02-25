@@ -67,6 +67,27 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
+		<key>0xf700-0x320000</key>
+		<dict>
+			<key>Action</key>
+			<integer>7</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0xf701-0x220000</key>
+		<dict>
+			<key>Action</key>
+			<integer>8</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0xf701-0x320000</key>
+		<dict>
+			<key>Action</key>
+			<integer>6</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
 		<key>0xf702-0x300000</key>
 		<dict>
 			<key>Action</key>
@@ -227,11 +248,11 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>-1171 -234 606 469 -1440 -360 1440 877 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>1074 631 796 486 0 0 2560 1417 </string>
+	<string>1074 621 918 512 0 0 2560 1417 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>-1440 -67 592 584 -1440 -360 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 329 1440 548 0 0 1440 877 </string>
+	<string>0 0 2560 1418 0 0 2560 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
