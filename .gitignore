@@ -15,8 +15,7 @@
 !/.config/**
 /.config/gcloud
 /.config/gcloud/**
-/.config/yarn/global/node_modules
-/.config/yarn/global/node_modules/**
+/.config/yarn/
 /.config/mpv/watch_later/
 /.config/thefuck/__pycache__/
 realwork.txt
