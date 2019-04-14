@@ -81,7 +81,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime zsh-autosuggestions)
+plugins=(git git-extras osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers kubectl golang httpie iterm2 thefuck globalias highlight wakatime zsh-autosuggestions)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 
 source $ZSH/oh-my-zsh.sh
