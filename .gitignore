@@ -46,8 +46,8 @@ realwork.txt
 !.vim/
 
 # Not important?
-.config/configstore/nodemon.json
-.config/configstore/update-notifier-npm.json
+.config/configstore/
 .config/copyq/copyq_geometry.ini
 .config/copyq/copyq_tab_JmNsaXBib2FyZA==.dat
 .config/copyq/copyq_tabs.ini
+.config/karabiner/automatic_backups/
