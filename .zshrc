@@ -25,6 +25,8 @@ alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
 function whichla() { local res; res=$(which $@) && ls -la $res }
+function echobase64() { echo -n $@ | base64; }
+function echobase64decode() { echo -n $@ | base64 --decode; }
 
 alias gbuild="gradle build"
 
@@ -91,7 +93,7 @@ source $ZSH/oh-my-zsh.sh
 
 export GIT_AUTHOR_NAME=Nikola\ Maric
 ## Platform / Use case dependent
-if [ "MacBook-Pro-Nikola.local" = "$(hostname)" ]; then
+if [[ $(hostname) == *"-Nikola."* ]]; then
   ### Initialize ssh-agent
   if [ -z "$SSH_AUTH_SOCK" ] ; then
     eval `ssh-agent`
@@ -112,8 +114,8 @@ if [ "MacBook-Pro-Nikola.local" = "$(hostname)" ]; then
   ssh-add -A ~/.ssh/maricn
 else
   export GIT_AUTHOR_EMAIL=maricn@gmail.com
-  alias pbcopy='xclip -selection clipboard'
-  alias pbpaste='xclip -selection clipboard -o'
+  alias pbcopyx='xclip -selection clipboard'
+  alias pbpastex='xclip -selection clipboard -o'
 fi
 
 export DOCKER_HOST=unix:///var/run/docker.sock
