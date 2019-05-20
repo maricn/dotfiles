@@ -89,9 +89,26 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 export GIT_AUTHOR_NAME=Nikola\ Maric
+## Platform / Use case dependent
 if [ "MacBook-Pro-Nikola.local" = "$(hostname)" ]; then
+  ### Initialize ssh-agent
+  if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval `ssh-agent`
+    ssh-add
+  fi
+  
+  ### Work specific
   export GIT_AUTHOR_EMAIL=nikola.maric@mimi.io
   source "$HOME/.mimi"
+
+  ### Initialize iTerm2 shell integrations
+  source $HOME/.iterm2_shell_integration.zsh
+  
+  ## Vim stuff
+  function vim_tmux() { tmux new -d "/usr/local/bin/vim $*" \; attach; }
+  alias vim='vim_tmux'
+  alias vvim='/usr/local/bin/vim'
+  ssh-add -A ~/.ssh/maricn
 else
   export GIT_AUTHOR_EMAIL=maricn@gmail.com
 fi
@@ -115,9 +132,8 @@ if [ -f '/Users/nikola/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/nik
 if [ -f '/Users/nikola/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/completion.zsh.inc'; fi
 
 export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin":$PATH
-function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
-source $HOME/.iterm2_shell_integration.zsh
+function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 # $1 = type; 0 - both, 1 - tab, 2 - title
 # rest = text
@@ -135,11 +151,6 @@ stt_tab_current_project_if_in_workspace () { if [ "${PWD##/Users/nmaric/}" != "$
 
 chpwd_functions=(${chpwd_functions[@]} "stt_tab_current_project_if_in_workspace")
 
-## Vim stuff
-function vim_tmux() { tmux new -d "/usr/local/bin/vim $*" \; attach; }
-alias vim='vim_tmux'
-alias vvim='/usr/local/bin/vim'
-
 # less 
 # - if there is under one page, I don't need to press q to quit
 # R handle colors
@@ -153,9 +164,6 @@ alias fuckyeah="fuck -y"
 
 # For opengl video codec with mpv @ 60fps
 export DYLD_INSERT_LIBRARIES='/System/Library/Frameworks/OpenGL.framework/Resources/GLEngine.bundle/GLEngine'
-
-#eval "$(ssh-agent -s)"
-ssh-add -A ~/.ssh/maricn
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
