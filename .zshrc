@@ -18,32 +18,30 @@ alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd ~/Workspace/"
 alias cdtf="cd ~/tensorflow/ && source ./bin/activate"
-alias pingg="ping 8.8.8.8"
 alias grepc="grep --color -E "
 alias trees="tree -shC"
+alias pingg="ping 8.8.8.8"
 alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
 function whichla() { local res; res=$(which $@) && ls -la $res }
+function echobase64() { echo -n $@ | base64; }
+function echobase64decode() { echo -n $@ | base64 --decode; }
 
 alias gbuild="gradle build"
 
 # Radio stations
-alias radio_ai_320ogg_gaming='mpv http://ai-radio.org/320.ogg'
-alias radio_ai_flac_gaming='mpv http://ai-radio.org/44.flac'
-alias radio_cliqhoq_128aac_idm='mpv http://ice1.somafm.com/cliqhop-128-aac'
-alias radio_spacestation_128aac_ambient_midtempo_electronica='mpv http://ice1.somafm.com/spacestation-128-aac'
-alias radio_deepspaceone_128aac_deep_ambient_experimental_space='mpv http://ice1.somafm.com/deepspaceone-128-aac'
-alias radio_thetrip_128aac_prog_house_trance='mpv http://ice1.somafm.com/thetrip-128-aac'
-alias radio_beatblender_128aac_deep_house_downtempo_chill='mpv http://ice1.somafm.com/beatblender-128-aac'
-alias radio_earwaves_128aac_electro_experimental='mpv http://ice1.somafm.com/earwaves-128-aac'
-alias radio_paradise_320aac_rock_mixup='mpv http://stream-uk1.radioparadise.com/aac-320'
-alias radio_krawallradio_unknown_deutschrock='mpv http://yokote.streampanel.net:8124/stream'
-
-if [ -z "$SSH_AUTH_SOCK" ] ; then
-   eval `ssh-agent`
-   ssh-add
-fi
+alias radio='mpv --no-video --no-cache --no-audio-display --vo=none --no-resume-playback --no-config'
+alias radio_ai_320ogg_gaming='radio http://ai-radio.org/320.ogg'
+alias radio_ai_flac_gaming='radio http://ai-radio.org/44.flac'
+alias radio_cliqhoq_128aac_idm='radio http://ice1.somafm.com/cliqhop-128-aac'
+alias radio_spacestation_128aac_ambient_midtempo_electronica='radio http://ice1.somafm.com/spacestation-128-aac'
+alias radio_deepspaceone_128aac_deep_ambient_experimental_space='radio http://ice1.somafm.com/deepspaceone-128-aac'
+alias radio_thetrip_128aac_prog_house_trance='radio http://ice1.somafm.com/thetrip-128-aac'
+alias radio_beatblender_128aac_deep_house_downtempo_chill='radio http://ice1.somafm.com/beatblender-128-aac'
+alias radio_earwaves_128aac_electro_experimental='radio http://ice1.somafm.com/earwaves-128-aac'
+alias radio_paradise_320aac_rock_mixup='radio http://stream-uk1.radioparadise.com/aac-320'
+alias radio_krawallradio_unknown_deutschrock='radio http://yokote.streampanel.net:8124/stream'
 
 DISABLE_AUTO_UPDATE="true"
 
@@ -90,7 +88,7 @@ source $ZSH/oh-my-zsh.sh
 
 export GIT_AUTHOR_NAME=Nikola\ Maric
 ## Platform / Use case dependent
-if [ "MacBook-Pro-Nikola.local" = "$(hostname)" ]; then
+if [[ $(hostname) == *"-Nikola."* ]]; then
   ### Initialize ssh-agent
   if [ -z "$SSH_AUTH_SOCK" ] ; then
     eval `ssh-agent`
@@ -111,6 +109,8 @@ if [ "MacBook-Pro-Nikola.local" = "$(hostname)" ]; then
   ssh-add -A ~/.ssh/maricn
 else
   export GIT_AUTHOR_EMAIL=maricn@gmail.com
+  alias pbcopyx='xclip -selection clipboard'
+  alias pbpastex='xclip -selection clipboard -o'
 fi
 
 export DOCKER_HOST=unix:///var/run/docker.sock

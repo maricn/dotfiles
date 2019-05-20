@@ -1,1 +1,4 @@
 .netcat/
+.helpers/
+.DS_Store
+.vscode/
