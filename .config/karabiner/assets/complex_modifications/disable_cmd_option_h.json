@@ -13,7 +13,8 @@
                         "modifiers": {
                             "mandatory": [
                                 "command", "option"
-                            ]
+                            ],
+                            "optional": ["fn"]
                         }
                     },
                     "to": [
