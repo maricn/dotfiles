@@ -6,6 +6,7 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 # Setting for nano to figure out I want it in English
 export LANG=en_US.UTF-8
+export LC_TIME=en_DK.UTF-8
 
 ZSH_THEME="lukerandall2"
 
