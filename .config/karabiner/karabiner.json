@@ -38,6 +38,28 @@
                         ]
                     },
                     {
+                        "description": "Disable Cmd+M Minimize",
+                        "manipulators": [
+                            {
+                                "description": "",
+                                "from": {
+                                    "key_code": "m",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "vk_none"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Change (CL|Fn) + h/j/k/l to Arrows",
                         "manipulators": [
                             {
