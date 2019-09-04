@@ -88,6 +88,10 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git git-extras osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers iterm2 thefuck globalias highlight zsh-autosuggestions history-substring-search)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
+## history-substring-search plugin works with ↑ and ↓ keys;
+## use opt+k and opt+j keys for old history lookup
+bindkey '˚' history-beginning-search-backward
+bindkey '∆' history-beginning-search-forward
 
 source $ZSH/oh-my-zsh.sh
 
