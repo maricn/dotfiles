@@ -180,7 +180,7 @@ source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Welcome message for login shells
 
 # NVM - Node Version Manager
-load_nvm() {
+export load_nvm() {
     unset -f nvm node npm npx
     export NVM_DIR=~/.nvm
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -207,25 +207,35 @@ load_nvm() {
     load-nvmrc
 }
 
-nvm() {
+export nvm() {
     load_nvm
     nvm "$@"
 }
 
-node() {
+export node() {
     load_nvm
     node "$@"
 }
 
-npm() {
+export npm() {
     load_nvm
     npm "$@"
 }
 
-npx() {
+export npx() {
     load_nvm
     npx "$@"
 }
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/nikola/.sdkman"

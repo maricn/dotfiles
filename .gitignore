@@ -17,6 +17,9 @@
 /.config/gcloud/**
 /.config/yarn/
 /.config/mpv/watch_later/
+/.config/mps-youtube/play_history.m3u
+/.config/mps-youtube/input_history
+/.config/mps-youtube/cache*
 /.config/thefuck/__pycache__/
 /.config/dive/
 realwork.txt
