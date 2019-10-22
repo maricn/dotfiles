@@ -1,0 +1,49 @@
+{
+    "title": "Prevent unintended command-h hide window and command-m minimize window",
+    "rules": [
+        {
+            "description": "Disable Cmd+H Hide",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "description": "",
+                    "from": {
+                        "key_code": "h",
+                        "modifiers": {
+                            "mandatory": [
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "vk_none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "Disable Cmd+M Minimize",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "description": "",
+                    "from": {
+                        "key_code": "m",
+                        "modifiers": {
+                            "mandatory": [
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "vk_none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

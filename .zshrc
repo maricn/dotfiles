@@ -6,6 +6,7 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 # Setting for nano to figure out I want it in English
 export LANG=en_US.UTF-8
+export LC_TIME=en_DK.UTF-8
 
 ZSH_THEME="lukerandall2"
 
@@ -27,6 +28,7 @@ alias curl-weather="weather"
 function whichla() { local res; res=$(which $@) && ls -la $res }
 function echobase64() { echo -n $@ | base64; }
 function echobase64decode() { echo -n $@ | base64 --decode; }
+function datefromepoch() { date -j -f "%s" "$1"; }
 
 alias gbuild="gradle build"
 
@@ -79,8 +81,12 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers golang httpie iterm2 thefuck globalias highlight wakatime zsh-autosuggestions)
+plugins=(git git-extras osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers iterm2 thefuck globalias highlight zsh-autosuggestions history-substring-search)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
+## history-substring-search plugin works with ↑ and ↓ keys;
+## use opt+k and opt+j keys for old history lookup
+bindkey '˚' history-beginning-search-backward
+bindkey '∆' history-beginning-search-forward
 
 source $ZSH/oh-my-zsh.sh
 
@@ -122,14 +128,14 @@ export HTTPIE_BASE_URL=localhost:9000
 # export KIBANA_HOME="$HOME/Tools/kibana-6.2.2-darwin-x86_64"
 
 # export RVM_HOME="$HOME/.rvm"
-# export GOPATH="$HOME/go-workspace"
+export GOPATH="$HOME/go-workspace"
 # export GOPATH_WORKSPACE="$GOPATH/src"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/nikola/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/path.zsh.inc'; fi
+## The next line updates PATH for the Google Cloud SDK.
+# if [ -f '/Users/nikola/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/path.zsh.inc'; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/nikola/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/completion.zsh.inc'; fi
+## The next line enables shell command completion for gcloud.
+# if [ -f '/Users/nikola/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/completion.zsh.inc'; fi
 
 export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin":$PATH
 
@@ -140,7 +146,6 @@ function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 setTerminalText () {
     # echo works in bash & zsh
     local mode=$1 ; shift
-#    echo -ne "\033]$mode;$@\007"
     echo -ne "\e]$mode;$@\a"
 }
 stt_both () { setTerminalText 0 $@; } 
@@ -170,7 +175,7 @@ source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Welcome message for login shells
 
 # NVM - Node Version Manager
-load_nvm() {
+export load_nvm() {
     unset -f nvm node npm npx
     export NVM_DIR=~/.nvm
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -197,25 +202,35 @@ load_nvm() {
     load-nvmrc
 }
 
-nvm() {
+export nvm() {
     load_nvm
     nvm "$@"
 }
 
-node() {
+export node() {
     load_nvm
     node "$@"
 }
 
-npm() {
+export npm() {
     load_nvm
     npm "$@"
 }
 
-npx() {
+export npx() {
     load_nvm
     npx "$@"
 }
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/nikola/.sdkman"
