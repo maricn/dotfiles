@@ -2,6 +2,7 @@
 
 !.gitignore
 !.gitmodules
+!.Xmodmap
 
 # list of symbolic links in ~ directory
 !dotfile-symlinks

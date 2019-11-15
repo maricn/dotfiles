@@ -117,10 +117,11 @@ else
   export GIT_AUTHOR_EMAIL=maricn@gmail.com
   alias pbcopyx='xclip -selection clipboard'
   alias pbpastex='xclip -selection clipboard -o'
+  export QTDIR=/home/nikola/Qt/5.12.5/gcc_64
+  export Qt5WebEngineWidgets_DIR=/home/nikola/Qt/5.12.5/gcc_64/lib/cmake/Qt5WebEngineWidgets
 fi
 
 export DOCKER_HOST=unix:///var/run/docker.sock
-
 export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 

@@ -8,11 +8,15 @@
 # See https://github.com/nvbn/thefuck#settings for more information.
 #
 
-# env = {'GIT_TRACE': '1', 'LC_ALL': 'C', 'LANG': 'C'}
-# debug = False
-# no_colors = False
+# slow_commands = ['lein', 'react-native', 'gradle', './gradlew']
 # require_confirmation = True
-# priority = {}
+# wait_slow_command = 15
+# rules = [<const: All rules enabled>]
+# no_colors = False
+# alter_history = True
 # wait_command = 3
-# rules = [<object object at 0x10eec70a0>]
 # exclude_rules = []
+# priority = {}
+# history_limit = None
+# env = {'LANG': 'C', 'LC_ALL': 'C', 'GIT_TRACE': '1'}
+# debug = False
