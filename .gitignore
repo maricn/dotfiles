@@ -6,6 +6,9 @@
 # list of symbolic links in ~ directory
 !dotfile-symlinks
 
+# Linux keyboard map (init on startup, plus stuff in /usr/share/X11/xkb/symbols/us)
+!.Xmodmap
+
 !.*rc
 !*.sh
 !*.py
@@ -27,6 +30,9 @@ realwork.txt
 # iTerm2 settings
 !iTerm2/**
 !iTerm2/
+
+# Linux Xdefaults (urxvt) settings
+!.Xdefaults
 
 # IntelliJ IDEA Settings
 !Library/**
