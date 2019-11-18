@@ -1,17 +1,20 @@
-lrwxr-xr-x    1 nikola  staff    22B Oct 20  2014 .bash_history@ -> dotfiles/.bash_history
-lrwxr-xr-x    1 nikola  staff    22B Oct 20  2014 .bash_profile@ -> dotfiles/.bash_profile
-lrwxr-xr-x    1 nikola  staff    16B Oct 20  2014 .bashrc@ -> dotfiles/.bashrc
-lrwxr-xr-x    1 nikola  staff    16B Oct 20  2014 .config@ -> dotfiles/.config
-lrwxr-xr-x    1 nikola  staff    16B Oct 20  2014 .htoprc@ -> dotfiles/.htoprc
-lrwxr-xr-x    1 nikola  staff    17B Oct 20  2014 .mavenrc@ -> dotfiles/.mavenrc
-lrwxr-xr-x    1 nikola  staff    19B Dec 28 15:57 .oh-my-zsh@ -> dotfiles/.oh-my-zsh
-lrwxr-xr-x    1 nikola  staff    16B Oct 20  2014 .pypirc@ -> dotfiles/.pypirc
-lrwxr-xr-x    1 nikola  staff    20B Oct 20  2014 .zsh-update@ -> dotfiles/.zsh-update
-lrwxr-xr-x    1 nikola  staff    39B Oct 20  2014 .zsh_history.2014.06.02.backup@ -> dotfiles/.zsh_history.2014.06.02.backup
-lrwxr-xr-x    1 nikola  staff    39B Nov 24 15:18 .zsh_history.2015-11-24.backup@ -> dotfiles/.zsh_history.2015-11-24.backup
-lrwxr-xr-x    1 nikola  staff    15B Oct 20  2014 .zshrc@ -> dotfiles/.zshrc
+.bash_history@ -> dotfiles/.bash_history
+.bash_profile@ -> dotfiles/.bash_profile
+.bashrc@ -> dotfiles/.bashrc
+.config@ -> dotfiles/.config
+.htoprc@ -> dotfiles/.htoprc
+.mavenrc@ -> dotfiles/.mavenrc
+.oh-my-zsh@ -> dotfiles/.oh-my-zsh
+.pypirc@ -> dotfiles/.pypirc
+.zsh-update@ -> dotfiles/.zsh-update
+.zsh_history.2014.06.02.backup@ -> dotfiles/.zsh_history.2014.06.02.backup
+.zsh_history.2015-11-24.backup@ -> dotfiles/.zsh_history.2015-11-24.backup
+.zshrc@ -> dotfiles/.zshrc
+.Xmodmap@ -> dotfiles/.Xmodmap
+.Xdefaults@ -> dotfiles/.Xdefaults
+.urxvt-quake.sh -> dotfiles/urxvt-quake.sh
 
 # git config --global init.templatedir '~/.git_template' # http://stackoverflow.com/a/8842663/865499
 .git_template -> .dotfiles/.git_template 
-lrwxr-xr-x  1 nmaric  staff    55B Mar  9 12:10 en_US_wkda.aff@ -> /Users/nmaric/.dotfiles/Library/Spelling/en_US_wkda.aff
-lrwxr-xr-x  1 nmaric  staff    55B Mar  9 12:10 en_US_wkda.dic@ -> /Users/nmaric/.dotfiles/Library/Spelling/en_US_wkda.dic
+en_US_wkda.aff@ -> /Users/nmaric/.dotfiles/Library/Spelling/en_US_wkda.aff
+en_US_wkda.dic@ -> /Users/nmaric/.dotfiles/Library/Spelling/en_US_wkda.dic

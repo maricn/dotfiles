@@ -1,5 +1,3 @@
-*
-
 !.gitignore
 !.gitmodules
 
@@ -14,18 +12,16 @@
 !*.py
 .pypirc
 
-!/.config
-!/.config/**
-/.config/gcloud
-/.config/gcloud/**
-/.config/yarn/
-/.config/mpv/watch_later/
-/.config/mps-youtube/play_history.m3u
-/.config/mps-youtube/input_history
-/.config/mps-youtube/cache*
-/.config/thefuck/__pycache__/
-/.config/dive/
-realwork.txt
+.config/*
+!.config/iterm2/
+!.config/karabiner/
+!.config/mpv
+.config/mpv/*
+!.config/mpv/mpv.conf
+!.config/mps-youtube
+.config/mps-youtube/play_history.m3u
+.config/mps-youtube/input_history
+.config/mps-youtube/cache*
 
 # iTerm2 settings
 !iTerm2/**
