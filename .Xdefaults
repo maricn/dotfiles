@@ -76,7 +76,7 @@ URxvt.cursorColor: #AAAAAA
 URxvt.cursorBlink: 0
 
 URxvt*depth: 32
-URxvt*background: rgba:0000/0000/0000/9999
+URxvt*background: rgba:0000/0000/0000/bbbb
 URxvt.foreground: rgba:cccc/cccc/cccc/ffff
 
 !! Tango Colors
