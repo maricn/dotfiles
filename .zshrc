@@ -102,7 +102,7 @@ if [[ $(hostname) == *"-Nikola."* ]]; then
   fi
   
   ### Work specific
-  export GIT_AUTHOR_EMAIL=nikola.maric@mimi.io
+  export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
   source "$HOME/.mimi"
 
   ### Initialize iTerm2 shell integrations
@@ -114,7 +114,7 @@ if [[ $(hostname) == *"-Nikola."* ]]; then
   alias vvim='/usr/local/bin/vim'
   ssh-add -A ~/.ssh/maricn
 else
-  export GIT_AUTHOR_EMAIL=maricn@gmail.com
+  export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
   alias pbcopyx='xclip -selection clipboard'
   alias pbpastex='xclip -selection clipboard -o'
   export QTDIR=/home/nikola/Qt/5.12.5/gcc_64
@@ -138,7 +138,7 @@ export GOPATH="$HOME/go-workspace"
 ## The next line enables shell command completion for gcloud.
 # if [ -f '/Users/nikola/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/completion.zsh.inc'; fi
 
-export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin":$PATH
+export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin":$PATH
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
@@ -170,6 +170,10 @@ alias fuckyeah="fuck -y"
 
 # For opengl video codec with mpv @ 60fps
 export DYLD_INSERT_LIBRARIES='/System/Library/Frameworks/OpenGL.framework/Resources/GLEngine.bundle/GLEngine'
+
+export rmtar() {
+    tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
+}
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
