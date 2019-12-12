@@ -52,12 +52,12 @@ URxvt.keysym.C-KP_0: font-size:reset
 ! ============
 
 URxvt.internalBorder: 10
-*.font: xft:Iosevka Term SS03:style=Regular:size=14
-*.boldFont: xft:Iosevka Term SS03:size=14, Iosevka Term SS03 Medium:style=Medium,size=14
-*.italicFont: xft:Iosevka Term SS03:style=Italic,size=14
-*.boldItalicFont: xft:Iosevka Term SS03:size=14,style=Bold Italic ,Iosevka Term SS03 Bold Oblique:style=Bold Oblique,size=14
+*.font: xft:Iosevka Term SS03:style=Regular:size=15
+*.boldFont: xft:Iosevka Term SS03:size=14, Iosevka Term SS03 Medium:style=Medium,size=15
+*.italicFont: xft:Iosevka Term SS03:style=Italic,size=15
+*.boldItalicFont: xft:Iosevka Term SS03:size=14,style=Bold Italic ,Iosevka Term SS03 Bold Oblique:style=Bold Oblique,size=15
 URxvt.allow_bold: false
-URxvt.lineSpace: 5
+URxvt.lineSpace: 1
 URxvt.letterspace: 0
 
 ! URxvt*inheritPixmap: true
