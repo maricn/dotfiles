@@ -45,11 +45,6 @@ alias radio_earwaves_128aac_electro_experimental='radio http://ice1.somafm.com/e
 alias radio_paradise_320aac_rock_mixup='radio http://stream-uk1.radioparadise.com/aac-320'
 alias radio_krawallradio_unknown_deutschrock='radio http://yokote.streampanel.net:8124/stream'
 
-if [ -z "$SSH_AUTH_SOCK" ] ; then
-   eval `ssh-agent`
-   ssh-add
-fi
-
 DISABLE_AUTO_UPDATE="true"
 
 # Uncomment to change how often before auto-updates occur? (in days)
@@ -122,10 +117,11 @@ else
   export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
   alias pbcopyx='xclip -selection clipboard'
   alias pbpastex='xclip -selection clipboard -o'
+  export QTDIR=/home/nikola/Qt/5.12.5/gcc_64
+  export Qt5WebEngineWidgets_DIR=/home/nikola/Qt/5.12.5/gcc_64/lib/cmake/Qt5WebEngineWidgets
 fi
 
 export DOCKER_HOST=unix:///var/run/docker.sock
-
 export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 

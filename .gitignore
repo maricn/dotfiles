@@ -1,16 +1,15 @@
 !.gitignore
 !.gitmodules
 
-# list of symbolic links in ~ directory
-!dotfile-symlinks
-
 # Linux keyboard map (init on startup, plus stuff in /usr/share/X11/xkb/symbols/us)
 !.Xmodmap
+
+# list of symbolic links in ~ directory
+!dotfile-symlinks
 
 !.*rc
 !*.sh
 !*.py
-.pypirc
 
 .config/*
 !.config/iterm2/
@@ -57,3 +56,6 @@
 .config/copyq/copyq_tab_JmNsaXBib2FyZA==.dat
 .config/copyq/copyq_tabs.ini
 .config/karabiner/automatic_backups/
+
+# Sensitive plaintext
+.bash_history
