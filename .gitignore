@@ -21,6 +21,8 @@
 .config/mps-youtube/play_history.m3u
 .config/mps-youtube/input_history
 .config/mps-youtube/cache*
+!.config/i3/
+!.config/i3status/
 
 # iTerm2 settings
 !iTerm2/**
