@@ -1,10 +1,11 @@
 ! Perl extension config
-URxvt.perl-ext: tabbed
+! URxvt.perl-ext: tabbed
 
 URxvt.saveLines: 65536
 URxvt.scrollWithBuffer: true
 URxvt.scrollBar: false
 URxvt.scrollBar_right: true
+URxvt.scrollTtyOutput: false
 
 ! Key Bindings
 ! ============
@@ -15,8 +16,13 @@ URxvt.scrollBar_right: true
 URxvt.iso14755:        false
 URxvt.iso14755_52:     false
 ! Disable Ctrl-Alt-c & Ctrl-Alt-v bindings (optional)
-URxvt.keysym.C-M-c:    builtin-string:
-URxvt.keysym.C-M-v:    builtin-string:
+URxvt.keysym.C-M-c:     builtin-string:
+URxvt.keysym.C-M-v:     builtin-string:
+URxvt.keysym.Control-Left:   \033[1;5D
+URxvt.keysym.Control-Right:  \033[1;5C
+! URxvt.keysym.C-Left:    builtin-string:
+! URxvt.keysym.C-Right:   builtin-string:
+
 ! Bind Ctrl-Shift-c & Ctrl-Shift-v to copy and paste
 ! I dont know why, but I needed to use hex keysym values to get it to work
 URxvt.keysym.C-S-0x43: eval:selection_to_clipboard
@@ -35,9 +41,14 @@ URxvt.keysym.Control-k: command:\033c
 
 ! scroll single line
 URxvt.keysym.C-A-Up: command:\033]720;1\007
+URxvt.keysym.C-A-K: command:\033]720;1\007
+URxvt.keysym.Control-K: command:\000
+URxvt.keysym.C-S-Up: command:\033]720;1\007
 URxvt.keysym.C-Up: command:\033]720;10\007
 URxvt.keysym.C-Down: command:\033]721;10\007
 URxvt.keysym.C-A-Down: command:\033]721;1\007
+URxvt.keysym.C-A-J: command:\033]721;1\007
+URxvt.keysym.C-S-Down: command:\033]721;1\007
 ! URxvt.keysym.C-S-Down: perl:pagedown
 
 ! scale fonts
@@ -52,17 +63,17 @@ URxvt.keysym.C-KP_0: font-size:reset
 ! ============
 
 URxvt.internalBorder: 10
-*.font: xft:Iosevka Term SS03:style=Regular:size=15
-*.boldFont: xft:Iosevka Term SS03:size=14, Iosevka Term SS03 Medium:style=Medium,size=15
-*.italicFont: xft:Iosevka Term SS03:style=Italic,size=15
-*.boldItalicFont: xft:Iosevka Term SS03:size=14,style=Bold Italic ,Iosevka Term SS03 Bold Oblique:style=Bold Oblique,size=15
+*.font: xft:Iosevka Term SS03:style=Regular:size=14
+*.boldFont: xft:Iosevka Term SS03:size=14, Iosevka Term SS03 Medium:style=Medium,size=14
+*.italicFont: xft:Iosevka Term SS03:style=Italic,size=14
+*.boldItalicFont: xft:Iosevka Term SS03:size=14,style=Bold Italic ,Iosevka Term SS03 Bold Oblique:style=Bold Oblique,size=14
 URxvt.allow_bold: false
 URxvt.lineSpace: 1
 URxvt.letterspace: 0
 
-! URxvt*inheritPixmap: true
-! URxvt*transparent: true
-! URxvt*shading: 110
+URxvt*inheritPixmap: true
+URxvt*transparent: true
+URxvt*shading: 30
 
 Xft.dpi: 96
 Xft.antialias: true

@@ -2,4 +2,5 @@
 clear lock
 ! add ISO_Level3_Shift
 keycode 66 = ISO_Level3_Shift
-keycode 107 = Menu
+! keycode 107 = Menu
+keycode 107 = ISO_Level3_Shift

@@ -115,6 +115,7 @@ if [[ $(hostname) == *"-Nikola."* ]]; then
   ssh-add -A ~/.ssh/maricn
 else
   export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
+  alias gsed=sed
   alias pbcopyx='xclip -selection clipboard'
   alias pbpastex='xclip -selection clipboard -o'
   export QTDIR=/home/nikola/Qt/5.12.5/gcc_64
