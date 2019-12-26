@@ -34,6 +34,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
@@ -45,6 +46,7 @@ bindsym $mod+Tab    exec --no-startup-id rofi -show window
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
 
 # i3 uses jkl; instead of hjkl -- fix that
 bindsym $mod+h focus left
@@ -102,6 +104,7 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+###---Workspaces---###
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
@@ -139,6 +142,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -173,22 +177,19 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-  status_command i3status
-  font xft:Iosevka Term SS03:style=Regular
-  position bottom
-}
+bindsym $mod+Shift+y	        resize shrink width 5 px or 5 ppt
+bindsym $mod+Shift+u		resize shrink height 5 px or 5 ppt
+bindsym $mod+Shift+i		resize grow height 5 px or 5 ppt
+bindsym $mod+Shift+o		resize grow width 5 px or 5 ppt
+
 
 # Lock
 bindsym Control+Mod1+Delete exec xscreensaver-command -lock
 # bindsym Ctrl+Mod1+l exec xautolock -locknow
 # bindsym Ctrl+Mod1+l exec i3lock-fancy
 
-
 # Show calendar
-bindsym $mod+Shift+o exec orage --toggle
+bindsym $mod+Ctrl+o exec orage --toggle
 
 # System exit
 mode "exit: [l]ock, [r]eboot, [s]leep" {
@@ -204,6 +205,10 @@ bindsym $mod+x mode "exit: [l]ock, [r]eboot, [s]leep"
 # CopyQ float
 for_window [class="copyq"] floating enable, border normal
 for_window [class="Cadence"] floating enable, border normal
+for_window [class="Xscreensaver-demo"] floating enable, border normal
+for_window [class="Gdebi-gtk"] floating enable, border normal
+for_window [class="Gpick"] floating enable, border normal
+for_window [class="fontforge"] floating enable, border normal
 # new_window 1pixel
 # new_float normal
 
@@ -213,11 +218,14 @@ for_window [class="Cadence"] floating enable, border normal
 
 
 
-
 # i3-gaps
 smart_gaps on
 gaps inner 8
 gaps outer 2
+bindsym $mod+z              gaps outer current plus 1
+bindsym $mod+Shift+z        gaps outer current minus 1
+bindsym $mod+Mod1+z         gaps inner current plus 1
+bindsym $mod+Mod1+Shift+z   gaps inner current minus 1
 
 for_window [class=.*] border pixel 0
 focus_follows_mouse         no
@@ -227,13 +235,45 @@ default_floating_border     none
 # hide borders adjacent to the screen edges
 hide_edge_borders           none
 
-# class                 border  backgr. text    indicator child_border
-client.focused          #b36b00 #e68a00 #000000 #dddddd   #2b83a6
-client.focused_inactive #212121 #212121 #86888c #292d2e   #5a5a5a
-client.unfocused        #212121 #212121 #86888c #292d2e   #5a5a5a
-client.urgent           #d64e4e #d64e4e #ffffff #d64e4e   #d64e4e
-client.placeholder      #212121 #0c0c0c #ffffff #212121   #262626
+###---Colors---###
+
+set $bg-color 	         #b36b00
+set $inactive-bg-color   #212121
+set $text-color          #000000
+set $inactive-text-color #86888c
+set $urgent-bg-color     #d64e4e
+
+# window colors
+#                       border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $text-color          #00ff00
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+client.placeholder      $inactive-bg-color  #0c0c0c 	       #ffffff              #212121 #262626
 client.background       #212121
+# class                 border  backgr. text    indicator child_border
+#client.focused          #b36b00 #e68a00 #000000 #dddddd   #2b83a6
+#client.focused_inactive #212121 #212121 #86888c #292d2e   #5a5a5a
+#client.unfocused        #212121 #212121 #86888c #292d2e   #5a5a5a
+#client.urgent           #d64e4e #d64e4e #ffffff #d64e4e   #d64e4e
+
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+  status_command i3status
+  font xft:Iosevka Term SS03:style=Regular
+  position bottom
+  colors {
+	background #000000
+	separator #757575
+	#                  border             background         text
+	focused_workspace  $bg-color          $bg-color          $text-color
+	inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+	urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+	focused_workspace  $bg-color          $bg-color      	 $text-color
+  }
+}
 
 
 

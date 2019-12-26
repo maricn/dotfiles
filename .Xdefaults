@@ -62,18 +62,32 @@ URxvt.keysym.C-KP_0: font-size:reset
 ! Theme/Colors
 ! ============
 
+!#define font1         Inconsolata LGC
+!#define font1         Inconsolata Nerd Font Mono Regular
+#define font1         Iosevka Nerd Font 
+#define font2         Inconsolata Nerd Font
+#define font3         DejaVu Sans Mono Nerd Font
+#define font4         Noto Sans Mono CJK JP
+
+URxvt*letterSpace: 0
+URxvt*font:           xft:font1:pixelsize=16:minspace=False, xft:font2:pixelsize=14:minspace=False, xft:font3:pixelsize=14,xft:font4:pixelsize=14
+!XTerm.vt100.faceName:           xft:font1:pixelsize=16:minspace=False, xft:font2:pixelsize=14:minspace=False, xft:font3:pixelsize=14,xft:font4:pixelsize=14
+URxvt*boldFont:       xft:font1:bold:pixelsize=16:minspace=False, xft:font2:pixelsize=14:minspace=False,xft:font3:pixelsize=14,xft:font4:pixelsize=14
+URxvt*italicFont:     xft:font1:italic:pixelsize=16:minspace=False, xft:font2:pixelsize=14:minspace=False,xft:font3:pixelsize=14,xft:font4:pixelsize=14
+URxvt*boldItalicFont: xft:font1:bold:italic:pixelsize=16:minspace=False, xft:font2:pixelsize=14:minspace=False, xft:font3:pixelsize=14, xft:font4:pixelsize=14
+
 URxvt.internalBorder: 10
-*.font: xft:Iosevka Term SS03:style=Regular:size=14
-*.boldFont: xft:Iosevka Term SS03:size=14, Iosevka Term SS03 Medium:style=Medium,size=14
-*.italicFont: xft:Iosevka Term SS03:style=Italic,size=14
-*.boldItalicFont: xft:Iosevka Term SS03:size=14,style=Bold Italic ,Iosevka Term SS03 Bold Oblique:style=Bold Oblique,size=14
+!*.font: xft:Iosevka Nerd Font:size=16:minspace=False,xft:DejaVu Sans:pixelsize=12:minspace=False
+! *.font: xft:Iosevka Nerd Font Complete:style=Regular,size=14
+!*.boldFont: xft:Iosevka Term SS03:size=14, Iosevka Term SS03 Medium:style=Medium,size=14
+!*.italicFont: xft:Iosevka Term SS03:style=Italic,size=14
+!*.boldItalicFont: xft:Iosevka Term SS03:size=14,style=Bold Italic ,Iosevka Term SS03 Bold Oblique:style=Bold Oblique,size=14
 URxvt.allow_bold: false
 URxvt.lineSpace: 1
-URxvt.letterspace: 0
 
 URxvt*inheritPixmap: true
 URxvt*transparent: true
-URxvt*shading: 30
+URxvt*shading: 180
 
 Xft.dpi: 96
 Xft.antialias: true
