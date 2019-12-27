@@ -189,7 +189,8 @@ bindsym Control+Mod1+Delete exec xscreensaver-command -lock
 # bindsym Ctrl+Mod1+l exec i3lock-fancy
 
 # Show calendar
-bindsym $mod+Ctrl+o exec orage --toggle
+bindsym $mod+Control+o exec orage --toggle
+bindsym $mod+Control+c exec orage --toggle
 
 # System exit
 mode "exit: [l]ock, [r]eboot, [s]leep" {
@@ -308,3 +309,8 @@ set $volumestep 5
 bindsym XF86AudioRaiseVolume exec $volumepath -np -i $volumestep -t $statuscmd -u $statussig -e 500 -l
 bindsym XF86AudioLowerVolume exec $volumepath -np -d $volumestep -t $statuscmd -u $statussig -e 500 -l
 bindsym XF86AudioMute        exec $volumepath -mn -t $statuscmd -u $statussig -l
+
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
