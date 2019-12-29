@@ -51,6 +51,7 @@
 # Vim stuff
 !.vimrc
 !.vim/
+*.swp
 
 # Not important?
 .config/configstore/

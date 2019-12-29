@@ -194,9 +194,9 @@ bindsym $mod+Control+c exec orage --toggle
 
 # System exit
 mode "exit: [l]ock, [r]eboot, [s]leep" {
-  bindsym l exec xautolock -locknow
-  bindsym r exec sudo reboot
-  bindsym s exec sudo pm-suspend
+  bindsym l mode "default", exec xautolock -locknow
+  bindsym r mode "default", exec sudo reboot
+  bindsym s mode "default", exec sudo pm-suspend
   bindsym Escape mode "default"
   bindsym Return mode "default"
 }
@@ -228,7 +228,7 @@ bindsym $mod+Shift+z        gaps outer current minus 1
 bindsym $mod+Mod1+z         gaps inner current plus 1
 bindsym $mod+Mod1+Shift+z   gaps inner current minus 1
 
-for_window [class=.*] border pixel 0
+for_window [class=.*] border pixel 1
 focus_follows_mouse         no
 # window border settings
 default_border              none
