@@ -1,11 +1,14 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+## TODO: remove if no impact
 # Setting for the new UTF-8 terminal support in Lion
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+# export LC_CTYPE=en_US.UTF-8
+# export LC_ALL=en_US.UTF-8
+
 # Setting for nano to figure out I want it in English
 export LANG=en_US.UTF-8
+# ISO-8601 and I accept nothing else, please fuck off
 export LC_TIME=en_DK.UTF-8
 
 ZSH_THEME="lukerandall"
@@ -114,10 +117,22 @@ if [[ $(hostname) == *"-Nikola."* ]]; then
   alias vvim='/usr/local/bin/vim'
   ssh-add -A ~/.ssh/maricn
 else
+  ### Initialize ssh-agent
+  if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval `ssh-agent`
+  fi
+
+  ### Bind github "email" for my github account
   export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
+
+  ### Preserving legacy scripts compatibility
   alias gsed=sed
+  
+  ### Utility for pipe copy/pasting
   alias pbcopyx='xclip -selection clipboard'
   alias pbpastex='xclip -selection clipboard -o'
+
+  ### What do I use Qt for, again?
   export QTDIR=/home/nikola/Qt/5.12.5/gcc_64
   export Qt5WebEngineWidgets_DIR=/home/nikola/Qt/5.12.5/gcc_64/lib/cmake/Qt5WebEngineWidgets
 fi
@@ -126,37 +141,13 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 
-# export JAVA_HOME=$(/usr/libexec/java_home -v 10.0.2)
-# export KIBANA_HOME="$HOME/Tools/kibana-6.2.2-darwin-x86_64"
-
 # export RVM_HOME="$HOME/.rvm"
 export GOPATH="$HOME/go-workspace"
 # export GOPATH_WORKSPACE="$GOPATH/src"
 
-## The next line updates PATH for the Google Cloud SDK.
-# if [ -f '/Users/nikola/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/path.zsh.inc'; fi
-
-## The next line enables shell command completion for gcloud.
-# if [ -f '/Users/nikola/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/nikola/google-cloud-sdk/completion.zsh.inc'; fi
-
 export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin":$PATH
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
-
-# $1 = type; 0 - both, 1 - tab, 2 - title
-# rest = text
-setTerminalText () {
-    # echo works in bash & zsh
-    local mode=$1 ; shift
-    echo -ne "\e]$mode;$@\a"
-}
-stt_both () { setTerminalText 0 $@; } 
-stt_tab () { setTerminalText 1 $@; } 
-stt_title () { setTerminalText 2 $@; } 
-stt_tab_current_project () { stt_tab `basename $(pwd) | sad -r 's/\B[a-z]\s*//g' | sad -r 's/\-//g'` } 
-stt_tab_current_project_if_in_workspace () { if [ "${PWD##/Users/nmaric/}" != "${PWD}" ] ; then ; stt_tab_current_project ; fi }
-
-chpwd_functions=(${chpwd_functions[@]} "stt_tab_current_project_if_in_workspace")
 
 # less 
 # - if there is under one page, I don't need to press q to quit
@@ -169,16 +160,11 @@ export THEFUCK_RULES=DEFAULT_RULES:git_push_force
 eval $(thefuck --alias)
 alias fuckyeah="fuck -y"
 
-# For opengl video codec with mpv @ 60fps
-export DYLD_INSERT_LIBRARIES='/System/Library/Frameworks/OpenGL.framework/Resources/GLEngine.bundle/GLEngine'
-
 export rmtar() {
     tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
 }
 
 source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# Welcome message for login shells
 
 # NVM - Node Version Manager
 export load_nvm() {
@@ -237,8 +223,4 @@ export npx() {
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/nikola/.sdkman"
-[[ -s "/Users/nikola/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/nikola/.sdkman/bin/sdkman-init.sh"
 
