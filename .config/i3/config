@@ -185,6 +185,7 @@ bindsym $mod+Shift+o		resize grow width 5 px or 5 ppt
 
 # Lock
 bindsym Control+Mod1+Delete exec xscreensaver-command -lock
+bindsym Control+Mod1+l      exec xscreensaver-command -lock
 # bindsym Ctrl+Mod1+l exec xautolock -locknow
 # bindsym Ctrl+Mod1+l exec i3lock-fancy
 
@@ -314,3 +315,4 @@ bindsym XF86AudioMute        exec $volumepath -mn -t $statuscmd -u $statussig -l
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
