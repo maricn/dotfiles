@@ -1,10 +1,8 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
-## TODO: remove if no impact
-# Setting for the new UTF-8 terminal support in Lion
 # export LC_CTYPE=en_US.UTF-8
-# export LC_ALL=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Setting for nano to figure out I want it in English
 export LANG=en_US.UTF-8
@@ -14,8 +12,6 @@ export LC_TIME=en_DK.UTF-8
 ZSH_THEME="lukerandall"
 
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 alias sad=gsed
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
