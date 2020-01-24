@@ -80,7 +80,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras osx urltools web-search gradle mvn pip common-aliases docker docker-compose docker-machine docker-helpers iterm2 thefuck globalias highlight zsh-autosuggestions history-substring-search)
+plugins=(git git-extras urltools web-search pip common-aliases docker docker-compose docker-machine docker-helpers thefuck globalias highlight zsh-autosuggestions history-substring-search)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 ## history-substring-search plugin works with ↑ and ↓ keys;
 ## use opt+k and opt+j keys for old history lookup
@@ -89,49 +89,32 @@ bindkey '∆' history-beginning-search-forward
 
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
-
+## Git / GitHub
 export GIT_AUTHOR_NAME=Nikola\ Maric
+export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
+export GITHUB_USER=3995223+maricn@users.noreply.github.com
+
 ## Platform / Use case dependent
-if [[ $(hostname) == *"-Nikola."* ]]; then
-  ### Initialize ssh-agent
-  if [ -z "$SSH_AUTH_SOCK" ] ; then
-    eval `ssh-agent`
-    ssh-add
-  fi
-  
+if [[ $(hostname) == *"work-"* ]]; then
   ### Work specific
-  export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
   source "$HOME/.mimi"
-
-  ### Initialize iTerm2 shell integrations
-  source $HOME/.iterm2_shell_integration.zsh
-  
-  ## Vim stuff
-  function vim_tmux() { tmux new -d "/usr/local/bin/vim $*" \; attach; }
-  alias vim='vim_tmux'
-  alias vvim='/usr/local/bin/vim'
-  ssh-add -A ~/.ssh/maricn
-else
-  ### Initialize ssh-agent
-  if [ -z "$SSH_AUTH_SOCK" ] ; then
-    eval `ssh-agent`
-  fi
-
-  ### Bind github "email" for my github account
-  export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
-
-  ### Preserving legacy scripts compatibility
-  alias gsed=sed
-  
-  ### Utility for pipe copy/pasting
-  alias pbcopyx='xclip -selection clipboard'
-  alias pbpastex='xclip -selection clipboard -o'
-
-  ### What do I use Qt for, again?
-  export QTDIR=/home/nikola/Qt/5.12.5/gcc_64
-  export Qt5WebEngineWidgets_DIR=/home/nikola/Qt/5.12.5/gcc_64/lib/cmake/Qt5WebEngineWidgets
 fi
+
+### Initialize ssh-agent
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval `ssh-agent`
+fi
+
+### Preserving legacy scripts compatibility
+alias gsed=sed
+
+### Utility for pipe copy/pasting
+alias pbcopyx='xclip -selection clipboard'
+alias pbpastex='xclip -selection clipboard -o'
+
+### What do I use Qt for, again?
+export QTDIR=/home/nikola/Qt/5.12.5/gcc_64
+export Qt5WebEngineWidgets_DIR=/home/nikola/Qt/5.12.5/gcc_64/lib/cmake/Qt5WebEngineWidgets
 
 export DOCKER_HOST=unix:///var/run/docker.sock
 export EDITOR=vim
@@ -145,7 +128,7 @@ export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin":$PATH
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
-# less 
+# less
 # - if there is under one page, I don't need to press q to quit
 # R handle colors
 export LESS=-eFRX
@@ -156,6 +139,7 @@ export THEFUCK_RULES=DEFAULT_RULES:git_push_force
 eval $(thefuck --alias)
 alias fuckyeah="fuck -y"
 
+export TAGSEARCH_HOME="$HOME/Sync/notes/notes"
 export rmtar() {
     tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
 }
@@ -164,7 +148,7 @@ source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # NVM - Node Version Manager
 export load_nvm() {
-    unset -f nvm node npm npx
+    unset -f nvm node npm npx >/dev/null 2>&1
     export NVM_DIR=~/.nvm
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -177,9 +161,9 @@ export load_nvm() {
 
       if [ -n "$nvmrc_path" ]; then
         local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
- 
+
         if [ "$nvmrc_node_version" != "N/A" ] && [ "$nvmrc_node_version" != "$node_version" ]; then
-          nvm use 
+          nvm use
         fi
       elif [ "$node_version" != "$(nvm version default)" ]; then
         echo "Reverting to nvm default version"
@@ -209,6 +193,8 @@ export npx() {
     load_nvm
     npx "$@"
 }
+
+alias vim="load_nvm;vim"
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
