@@ -125,7 +125,7 @@ bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
 bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
+bindsym $mod+Mod2+5 workspace $ws5 # 🤷
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
@@ -207,6 +207,7 @@ mode "exit: [l]ock, [r]eboot, [s]leep" {
   bindsym s mode "default", exec sudo pm-suspend
   bindsym Escape mode "default"
   bindsym Return mode "default"
+  bindsym $mod+x mode "default"
 }
 bindsym $mod+x mode "exit: [l]ock, [r]eboot, [s]leep"
 
