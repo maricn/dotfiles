@@ -5,6 +5,10 @@
 # this file and re-run i3-config-wizard(1).
 #
 
+# exec_always --no-startup-id feh --bg-scale /usr/share/backgrounds/mx_loremipsum.jpg
+exec_always --no-startup-id setroot --blank-color "$bg-color"
+exec_always --no-startup-id flashfocus
+
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -30,7 +34,11 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Shift+Return exec i3-sensible-terminal
+bindsym $mod+Return exec ~/.config/i3/i3-plus layout_exec i3-sensible-terminal
+
+# center a floating window
+bindsym $mod+c exec "~/.config/i3/i3-plus smart_center 1500x1050,1800x1050,1920x1050"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -125,7 +133,8 @@ bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
 bindsym $mod+4 workspace $ws4
-bindsym $mod+Mod2+5 workspace $ws5 # 🤷
+# 🤷
+bindsym $mod+Mod2+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
@@ -153,7 +162,7 @@ bindsym $mod+Shift+Ctrl+l move container to workspace next
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Shift+r exec --no-startup-id autorandr --change, restart
 # exit i3 (logs you out of your X session)
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
@@ -196,6 +205,10 @@ bindsym Control+Mod1+l      exec xscreensaver-command -lock
 # bindsym Ctrl+Mod1+l exec xautolock -locknow
 # bindsym Ctrl+Mod1+l exec i3lock-fancy
 
+# Screenshot
+# full desktop screenshot
+bindsym $mod+Shift+P exec "~/.config/i3/i3-plus screenshot"
+
 # Show calendar
 bindsym $mod+Control+o exec orage --toggle
 bindsym $mod+Control+c exec orage --toggle
@@ -212,7 +225,7 @@ mode "exit: [l]ock, [r]eboot, [s]leep" {
 bindsym $mod+x mode "exit: [l]ock, [r]eboot, [s]leep"
 
 
-# CopyQ float
+# Some windows float
 for_window [class="copyq"] floating enable, border normal
 for_window [class="Cadence"] floating enable, border normal
 for_window [class="Xscreensaver-demo"] floating enable, border normal
@@ -238,6 +251,7 @@ bindsym $mod+Mod1+z         gaps inner current plus 1
 bindsym $mod+Mod1+Shift+z   gaps inner current minus 1
 
 for_window [class=.*] border pixel 1
+for_window [class="X-terminal-emulator"] border pixel 2
 focus_follows_mouse         no
 # window border settings
 default_border              none
@@ -247,11 +261,15 @@ hide_edge_borders           none
 
 ###---Colors---###
 
-set $bg-color 	         #b36b00
+## orange
+# set $bg-color 	         #b36b00
+## lila
+set $bg-color 	         #995588
 set $inactive-bg-color   #212121
 set $text-color          #000000
 set $inactive-text-color #86888c
-set $urgent-bg-color     #d64e4e
+# set $urgent-bg-color     #d64e4e
+set $urgent-bg-color     #f62e4e
 
 # window colors
 #                       border              background         text                 indicator
@@ -262,16 +280,12 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 client.placeholder      $inactive-bg-color  #0c0c0c 	       #ffffff              #212121 #262626
 client.background       #212121
 # class                 border  backgr. text    indicator child_border
-#client.focused          #b36b00 #e68a00 #000000 #dddddd   #2b83a6
-#client.focused_inactive #212121 #212121 #86888c #292d2e   #5a5a5a
-#client.unfocused        #212121 #212121 #86888c #292d2e   #5a5a5a
-#client.urgent           #d64e4e #d64e4e #ffffff #d64e4e   #d64e4e
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-  status_command i3status
+  status_command py3status
   font xft:Iosevka Term SS03:style=Regular
   position bottom
   colors {
