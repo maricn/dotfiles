@@ -6,8 +6,8 @@
 #
 
 # exec_always --no-startup-id feh --bg-scale /usr/share/backgrounds/mx_loremipsum.jpg
-exec_always --no-startup-id setroot --blank-color "$bg-color"
-exec_always --no-startup-id flashfocus
+# exec_always --no-startup-id setroot --blank-color "$bg-color"
+exec_always betterlockscreen -w blur
 
 # i3 config file (v4)
 #
@@ -215,9 +215,13 @@ bindsym $mod+Control+c exec orage --toggle
 
 # System exit
 mode "exit: [l]ock, [r]eboot, [s]leep" {
-  bindsym l mode "default", exec xautolock -locknow
+  bindsym l mode "default", exec xscreensaver-command -lock
   bindsym r mode "default", exec sudo reboot
-  bindsym s mode "default", exec sudo pm-suspend
+  # since xautolock uses very slow i3lock-fancy (due to imagemagick)
+  # we turn off the display and wait for three seconds to actually lock
+  # and only then go to suspend
+  bindsym s mode "default", exec --no-startup-id xautolock -locknow && sleep 1 && sudo pm-suspend 
+  # xautolock -locknow && xset dpms force off && sleep 3 && sudo pm-suspend
   bindsym Escape mode "default"
   bindsym Return mode "default"
   bindsym $mod+x mode "default"
@@ -235,7 +239,7 @@ for_window [class="fontforge"] floating enable, border normal
 # new_window 1pixel
 # new_float normal
 
-# Screensaver (check ~/.xsessionrc instead)
+# Screensaver (check ~/.xinitrc instead)
 # exec --no-startup-id xset dpms 600
 # exec --no-startup-id xautolock -time 10 -locker i3lock-fancy
 
@@ -250,8 +254,8 @@ bindsym $mod+Shift+z        gaps outer current minus 1
 bindsym $mod+Mod1+z         gaps inner current plus 1
 bindsym $mod+Mod1+Shift+z   gaps inner current minus 1
 
-for_window [class=.*] border pixel 1
-for_window [class="X-terminal-emulator"] border pixel 2
+for_window [class=.*] border pixel 2
+for_window [class="X-terminal-emulator"] border pixel 3
 focus_follows_mouse         no
 # window border settings
 default_border              none
