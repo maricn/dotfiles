@@ -94,10 +94,18 @@ export GIT_AUTHOR_NAME=Nikola\ Maric
 export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
 export GITHUB_USER=3995223+maricn@users.noreply.github.com
 
+export PATH_EXTRAS=""
 ## Platform / Use case dependent
 if [[ $(hostname) == *"work-"* ]]; then
   ### Work specific
   source "$HOME/.mimi"
+else
+  export PATH_EXTRAS="/home/nikola/Tools/F8331/android/platform-tools"
+
+  ### What do I use Qt for, again? -qtractor
+  export QTDIR=/home/nikola/Tools/Qt/5.14.1/gcc_64
+  export Qt5WebEngineWidgets_DIR=/home/nikola/Tools/Qt/5.14.1/gcc_64/lib/cmake/Qt5WebEngineWidgets
+  export QT_SELECT=qt5
 fi
 
 ### Initialize ssh-agent
@@ -112,19 +120,11 @@ alias gsed=sed
 alias pbcopyx='xclip -selection clipboard'
 alias pbpastex='xclip -selection clipboard -o'
 
-### What do I use Qt for, again?
-export QTDIR=/home/nikola/Qt/5.12.5/gcc_64
-export Qt5WebEngineWidgets_DIR=/home/nikola/Qt/5.12.5/gcc_64/lib/cmake/Qt5WebEngineWidgets
-
 export DOCKER_HOST=unix:///var/run/docker.sock
 export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 
-# export RVM_HOME="$HOME/.rvm"
-export GOPATH="$HOME/go-workspace"
-# export GOPATH_WORKSPACE="$GOPATH/src"
-
-export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin":$PATH
+export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin:${PATH_EXTRAS}":$PATH
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
