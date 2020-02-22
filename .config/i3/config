@@ -7,7 +7,7 @@
 
 # exec_always --no-startup-id feh --bg-scale /usr/share/backgrounds/mx_loremipsum.jpg
 # exec_always --no-startup-id setroot --blank-color "$bg-color"
-exec_always betterlockscreen -w blur
+exec_always --no-startup-id betterlockscreen -w
 
 # i3 config file (v4)
 #
@@ -220,7 +220,7 @@ mode "exit: [l]ock, [r]eboot, [s]leep" {
   # since xautolock uses very slow i3lock-fancy (due to imagemagick)
   # we turn off the display and wait for three seconds to actually lock
   # and only then go to suspend
-  bindsym s mode "default", exec --no-startup-id xautolock -locknow && sleep 1 && sudo pm-suspend 
+  bindsym s mode "default", exec --no-startup-id xautolock -detectsleep -locknow && sleep 1 && sudo pm-suspend
   # xautolock -locknow && xset dpms force off && sleep 3 && sudo pm-suspend
   bindsym Escape mode "default"
   bindsym Return mode "default"
@@ -266,14 +266,14 @@ hide_edge_borders           none
 ###---Colors---###
 
 ## orange
-# set $bg-color 	         #b36b00
+set $bg-color 	         #b36b00
+set $urgent-bg-color     #d64e4e
 ## lila
-set $bg-color 	         #995588
+# set $bg-color 	         #995588
+# set $urgent-bg-color     #f62e4e
 set $inactive-bg-color   #212121
 set $text-color          #000000
 set $inactive-text-color #86888c
-# set $urgent-bg-color     #d64e4e
-set $urgent-bg-color     #f62e4e
 
 # window colors
 #                       border              background         text                 indicator
