@@ -54,6 +54,9 @@
 !.vim/
 *.swp
 
+# Keyboard mappings
+!xkb/
+
 # Not important?
 .config/configstore/
 .config/copyq/copyq_geometry.ini

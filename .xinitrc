@@ -2,6 +2,7 @@
 
 # xfce4 leftovers - GTK theme & icons
 xfsettingsd
+# xfce4-session
 
 # natural scrolling??
 xinput set-prop 11 "Synaptics Scrolling Distance" -40, -40
@@ -11,7 +12,7 @@ xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4
 xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6
 
 # keyboard remappings
-xmodmap ~/.Xmodmap
+# use only xkb, not: xmodmap ~/.Xmodmap
 
 # keyboard repeat rate
 xset r rate 330 44
