@@ -8,8 +8,9 @@ xfsettingsd
 xinput set-prop 11 "Synaptics Scrolling Distance" -40, -40
 xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4
 
-# Thinkpad TrackPoint natural scroll
+# Natural scrolls
 xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6
+xinput set-prop 'Logitech USB Trackball' 293 7, 6, 5, 4
 
 # keyboard remappings
 # use only xkb, not: xmodmap ~/.Xmodmap
