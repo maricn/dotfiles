@@ -15,7 +15,7 @@ xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6 || echo "xinput fai
 # keyboard remappings
 # use only xkb, not: xmodmap ~/.Xmodmap
 # quick tap on caps generates escape
-xcape -t 150 -e 'ISO_Level3_Shift=Escape'
+xcape -t 150 -e 'ISO_Level3_Shift=Escape;Alt_R=Alt_R'
 
 # keyboard repeat rate
 xset r rate 330 44
