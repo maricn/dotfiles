@@ -1311,8 +1311,8 @@ xkb_keymap {
             type= "FOUR_LEVEL",
             symbols= [           slash,        question ]
         };
-        // key <RTSH> {         [         Shift_R ] };
-        key <RTSH> {         [         ISO_Group_Latch ] };
+        key <RTSH> {         [         Shift_R ] };
+        // key <RTSH> {         [         ISO_Group_Latch ] };
         key <KPMU> {
             type= "CTRL+ALT",
                 symbols[Group1]= [     KP_Multiply,     KP_Multiply,     KP_Multiply,     KP_Multiply,   XF86ClearGrab ]
@@ -1433,7 +1433,6 @@ xkb_keymap {
             type[group2]= "ONE_LEVEL",
             type[group3]= "ONE_LEVEL",
             type[group4]= "ONE_LEVEL",
-            // symbols[Group1]= [ ISO_Level3_Shift_Alt_R ],
             symbols[Group1]= [           Alt_R,          Meta_R ],
             symbols[Group2]= [ ISO_Level3_Shift ],
             symbols[Group3]= [ ISO_Level3_Shift ],

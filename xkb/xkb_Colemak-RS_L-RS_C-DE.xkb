@@ -455,7 +455,7 @@ xkb_keymap {
         };
         interpret Alt_R+AnyOf(all) {
             virtualModifier= Alt;
-            action= SetMods(modifiers=modMapMods,clearLocks);
+            action= SetMods(modifiers=LevelThree,clearLocks);
         };
         interpret Meta_L+AnyOf(all) {
             virtualModifier= Meta;
@@ -772,7 +772,7 @@ xkb_keymap {
             action= SetMods(modifiers=Alt,clearLocks);
         };
         interpret Alt_R+AnyOfOrNone(all) {
-            action= SetMods(modifiers=Alt,clearLocks);
+            action= SetMods(modifiers=LevelThree,clearLocks);
         };
         interpret Meta_L+AnyOfOrNone(all) {
             action= SetMods(modifiers=Meta,clearLocks);
@@ -1170,7 +1170,7 @@ xkb_keymap {
             type[group2]= "FOUR_LEVEL_SEMIALPHABETIC",
             type[group3]= "FOUR_LEVEL_SEMIALPHABETIC",
             type[group4]= "FOUR_LEVEL_SEMIALPHABETIC",
-            symbols[Group1]= [               e,               E,              Up,          Eacute ],
+            symbols[Group1]= [               e,               E,              Up,              Up ],
             symbols[Group2]= [               k,               K,              Up,              Up ],
             symbols[Group3]= [     Cyrillic_ka,     Cyrillic_KA,              Up,              Up ],
             symbols[Group4]= [               k,               K,              Up,              Up ]
@@ -1180,7 +1180,7 @@ xkb_keymap {
             type[group2]= "FOUR_LEVEL_SEMIALPHABETIC",
             type[group3]= "FOUR_LEVEL_SEMIALPHABETIC",
             type[group4]= "FOUR_LEVEL_SEMIALPHABETIC",
-            symbols[Group1]= [               i,               I,          iacute,          Iacute ],
+            symbols[Group1]= [               i,               I,           Right,           Right ],
             symbols[Group2]= [               l,               L,           Right,           Right ],
             symbols[Group3]= [     Cyrillic_el,     Cyrillic_EL,           Right,           Right ],
             symbols[Group4]= [               l,               L,           Right,           Right ]
@@ -1312,8 +1312,8 @@ xkb_keymap {
             type= "FOUR_LEVEL",
             symbols= [           slash,        question ]
         };
-        // key <RTSH> {         [         Shift_R ] };
-        key <RTSH> {         [         ISO_Group_Latch ] };
+        key <RTSH> {         [         Shift_R ] };
+        // key <RTSH> {         [         ISO_Group_Latch ] };
         key <KPMU> {
             type= "CTRL+ALT",
                 symbols[Group1]= [     KP_Multiply,     KP_Multiply,     KP_Multiply,     KP_Multiply,   XF86ClearGrab ]
