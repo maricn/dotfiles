@@ -33,6 +33,8 @@ font pango:monospace 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+bindsym $mod+Control+slash exec --no-startup-id "~/.config/i3/toggle-colemak"
+
 # start a terminal
 bindsym $mod+Shift+Return exec i3-sensible-terminal
 bindsym $mod+Return exec i3-sensible-terminal

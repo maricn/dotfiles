@@ -1,0 +1,10 @@
+#!/bin/bash
+
+LOCKFILE=".keyboard-layout.lockfile"
+if [[ $(< $LOCKFILE) != "Colemak" ]]; then
+    xkbcomp ~/.dotfiles/xkb/xkb_Colemak-RS_L-RS_C-DE.xkb $DISPLAY
+    echo "Colemak" > "$LOCKFILE"
+else
+    xkbcomp ~/.dotfiles/xkb/xkb_US-RSl-RSc-DE.xkb $DISPLAY
+    echo "QWERTY" > "$LOCKFILE"
+fi
