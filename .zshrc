@@ -11,7 +11,6 @@ export LC_TIME=en_DK.UTF-8
 
 ZSH_THEME="lukerandall"
 
-# Example aliases
 alias sad=gsed
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
@@ -19,17 +18,17 @@ alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd ~/Workspace/"
 alias cdtf="cd ~/tensorflow/ && source ./bin/activate"
 alias grepc="grep --color -E "
+alias clear='[ $[$RANDOM % 6] = 0 ] && timeout 3 cmatrix; clear || clear'
 alias trees="tree -shC"
 alias pingg="ping 8.8.8.8"
 alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
+alias bat='docker run -it --rm -e BAT_THEME -e BAT_STYLE -e BAT_TABS -v "$(pwd):/myapp" danlynn/bat'
 function whichla() { local res; res=$(which $@) && ls -la $res }
 function echobase64() { echo -n $@ | base64; }
 function echobase64decode() { echo -n $@ | base64 --decode; }
 function datefromepoch() { date -j -f "%s" "$1"; }
-
-alias gbuild="gradle build"
 
 # Radio stations
 alias radio='mpv --no-video --no-cache --no-audio-display --vo=none --no-resume-playback --no-config'
@@ -124,7 +123,7 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 export EDITOR=vim
 export HTTPIE_BASE_URL=localhost:9000
 
-export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin:${PATH_EXTRAS}":$PATH
+export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 

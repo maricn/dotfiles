@@ -4,38 +4,46 @@
 xfsettingsd
 # xfce4-session
 
+# inputs ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # natural scrolling??
-xinput set-prop 11 "Synaptics Scrolling Distance" -40, -40
-xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4
+xinput set-prop 11 "Synaptics Scrolling Distance" -40, -40 || echo "xinput failed in ~/.xinitrc"
+xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
 
-# Natural scrolls
-xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6
-xinput set-prop 'Logitech USB Trackball' 293 7, 6, 5, 4
+xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6 || echo "xinput failed in ~/.xinitrc"
+xinput set-prop 'Logitech USB Trackball' 293 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
+
+# disable touchpad
+xinput set-prop 11 "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
+synclient TouchpadOff=1
 
 # keyboard remappings
 # use only xkb, not: xmodmap ~/.Xmodmap
+# quick tap on caps generates escape
+xcape -t 150 -e 'ISO_Level3_Shift=Escape;Alt_R=Alt_R'
 
 # keyboard repeat rate
 xset r rate 330 44
 
-# disable touchpad
-xinput set-prop 11 "Device Enabled" 0
-synclient TouchpadOff=1
-
 # screensaving ~~~~~~~~~~~~~~~~~~~~~
 # for actual screensaver (look at ~/.Xdefaults for timeout setting)
-xscreensaver &
+# xscreensaver &
+
 # run the i3lock-fancy wrapper (go blank if no activity) on screen lock
 xss-lock -- ~/.config/i3/lock.sh &
+
 # for blacking out the screen
 # xset dpms 1800
+
 # this is just for setting up xautolock locker, it runs no timer for locking
 # xautolock -detectsleep -locker "i3lock-fancy -gp -f Iosevka-Term-Thin-Nerd-Font-Complete-Mono" &
 xautolock -detectsleep -locker "betterlockscreen -l blur &" &
 # xautolock -detectsleep -locker "i3lock -c 994488 --ignore-empty-password"
 
+# autostart apps ~~~~~~~~~~~~~~~~~~~
 # calendar
-# orage && orage --toggle && orage --toggle
+# THIS FAILS, don't know why: orage && orage --toggle && orage --toggle
+
+# eval $(ssh-agent)
 
 # network manager applet
 nm-applet &
@@ -44,7 +52,8 @@ nm-applet &
 keepassxc &
 
 # start cadence session (jack & pulse), no tray
-cadence-session-start -s
+# not using jack anymore: cadence-session-start -s
+pulseaudio &
 
 # notification daemon
 dunst &
@@ -52,10 +61,9 @@ dunst &
 # copyQ
 copyq &
 
+# visual stuff ~~~~~~~~~~~~~~~~~~~~~
 # f.lux - night mode applet
 #sh -c fluxgui
-
-# eval $(ssh-agent)
 
 # init ~/.Xresources
 xrdb -merge ~/.Xresources
@@ -63,6 +71,7 @@ xrdb -merge ~/.Xresources
 # exec --no-startup-id compton -cCGb --backend glx --vsync opengl
 compton -cCGb --backend glx --vsync opengl
 flashfocus &
+
 exec i3 # --shmlog-size=26214400 # -d all 2>&1 1>/home/nikola/i3.log
 # exec dbus-launch --exit-with-session /usr/bin/i3
 
