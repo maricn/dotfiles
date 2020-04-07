@@ -6,14 +6,15 @@ xfsettingsd
 
 # inputs ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # natural scrolling??
-xinput set-prop 11 "Synaptics Scrolling Distance" -40, -40 || echo "xinput failed in ~/.xinitrc"
+xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Synaptics Scrolling Distance" -40, -40 || echo "xinput failed in ~/.xinitrc"
 xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
 
 xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6 || echo "xinput failed in ~/.xinitrc"
 xinput set-prop 'Logitech USB Trackball' 293 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
 
 # disable touchpad
-xinput set-prop 11 "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
+xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
+xinput set-prop 'SYNA8004:00 06CB:CD8B Mouse' "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
 synclient TouchpadOff=1
 
 # keyboard remappings
@@ -28,7 +29,7 @@ xset r rate 330 44
 # for actual screensaver (look at ~/.Xdefaults for timeout setting)
 # xscreensaver &
 
-# run the i3lock-fancy wrapper (go blank if no activity) on screen lock
+# run the xautolock locker wrapper (go blank if no activity) while screen is locked
 xss-lock -- ~/.config/i3/lock.sh &
 
 # for blacking out the screen
@@ -36,7 +37,7 @@ xss-lock -- ~/.config/i3/lock.sh &
 
 # this is just for setting up xautolock locker, it runs no timer for locking
 # xautolock -detectsleep -locker "i3lock-fancy -gp -f Iosevka-Term-Thin-Nerd-Font-Complete-Mono" &
-xautolock -detectsleep -locker "betterlockscreen -l blur &" &
+xautolock -detectsleep -locker "betterlockscreen -l blur &" -corners -+0- -cornerdelay 1 -cornersize 12 &
 # xautolock -detectsleep -locker "i3lock -c 994488 --ignore-empty-password"
 
 # autostart apps ~~~~~~~~~~~~~~~~~~~
