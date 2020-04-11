@@ -5,10 +5,6 @@
 # this file and re-run i3-config-wizard(1).
 #
 
-# exec_always --no-startup-id feh --bg-scale /usr/share/backgrounds/mx_loremipsum.jpg
-# exec_always --no-startup-id setroot --blank-color "$bg-color"
-exec_always --no-startup-id betterlockscreen -w
-
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
