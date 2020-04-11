@@ -473,10 +473,16 @@ xkb_keymap {
             virtualModifier= Super;
             action= SetMods(modifiers=modMapMods,clearLocks);
         };
+        // note: used for space cadet
         interpret Hyper_L+AnyOf(all) {
-            virtualModifier= Hyper;
-            action= SetMods(modifiers=modMapMods,clearLocks);
+            virtualModifier= LevelThree;
+            useModMapMods=level1;
+            action= LockMods(modifiers=LevelThree);
         };
+        //interpret Hyper_L+AnyOf(all) {
+            //virtualModifier= Hyper;
+            //action= SetMods(modifiers=modMapMods,clearLocks);
+        //};
         interpret Hyper_R+AnyOf(all) {
             virtualModifier= Hyper;
             action= SetMods(modifiers=modMapMods,clearLocks);
@@ -786,9 +792,13 @@ xkb_keymap {
         interpret Super_R+AnyOfOrNone(all) {
             action= SetMods(modifiers=Super,clearLocks);
         };
+        // note: used for space cadet
         interpret Hyper_L+AnyOfOrNone(all) {
-            action= SetMods(modifiers=Hyper,clearLocks);
+            action= SetMods(modifiers=LevelThree,clearLocks);
         };
+        //interpret Hyper_L+AnyOfOrNone(all) {
+            //action= SetMods(modifiers=Hyper,clearLocks);
+        //};
         interpret Hyper_R+AnyOfOrNone(all) {
             action= SetMods(modifiers=Hyper,clearLocks);
         };
@@ -868,9 +878,10 @@ xkb_keymap {
         interpret ISO_Level5_Lock+AnyOfOrNone(all) {
             action= LockMods(modifiers=LevelFive);
         };
-        interpret Caps_Lock+AnyOfOrNone(all) {
-            action= LockMods(modifiers=Lock);
-        };
+        // note: removed so caps could behave as Control_L + escape with xcape
+        // interpret Caps_Lock+AnyOfOrNone(all) {
+            // action= LockMods(modifiers=Lock);
+        // };
         interpret Any+Exactly(Lock) {
             action= LockMods(modifiers=Lock);
         };
@@ -1093,7 +1104,7 @@ xkb_keymap {
         key <RTRN> {         [          Return ] };
         key <LCTL> {
             type= "PC_CONTROL_LEVEL2",
-            symbols[Group1]= [       Control_L,  ISO_Prev_Group ]
+            symbols= [       Control_L,  ISO_Prev_Group ]
         };
         key <AC01> {
             type[group1]= "ALPHABETIC",
@@ -1319,8 +1330,11 @@ xkb_keymap {
                 symbols[Group1]= [     KP_Multiply,     KP_Multiply,     KP_Multiply,     KP_Multiply,   XF86ClearGrab ]
         };
         key <LALT> {         [           Alt_L,          Meta_L ] };
-        key <SPCE> {         [           space ] };
-        key <CAPS> {         [ ISO_Level3_Shift ] };
+        // note: use xcape for space cadet
+        key <SPCE> {         [ Hyper_L ] };
+        //key <SPCE> {         [           space ] };
+        key <CAPS> {         [ Control_L ] };
+        //key <CAPS> {         [ ISO_Level3_Shift ] };
         key <FK01> {
             type= "CTRL+ALT",
                 symbols[Group1]= [              F1,              F1,              F1,              F1, XF86Switch_VT_1 ]
@@ -1581,6 +1595,8 @@ xkb_keymap {
         modifier_map Mod1 { <META> };
         modifier_map Mod4 { <SUPR> };
         modifier_map Mod4 { <HYPR> };
+        // note: necessary for setup with xcape
+        modifier_map Control { <CAPS> };
     };
 
 };

@@ -1,3 +1,4 @@
+*.orig
 !.gitignore
 !.gitmodules
 
@@ -53,6 +54,7 @@
 !.vimrc
 !.vim/
 *.swp
+*.swo
 
 # Keyboard mappings
 !xkb/

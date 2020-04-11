@@ -19,8 +19,9 @@ synclient TouchpadOff=1
 
 # keyboard remappings
 # use only xkb, not: xmodmap ~/.Xmodmap
-# quick tap on caps generates escape
-xcape -t 150 -e 'ISO_Level3_Shift=Escape;Alt_R=Alt_R'
+# quick tap on caps generates escape, quick tap on space generates space
+# otherwise caps is used as LCTL and space as ISO_Level3_Shift
+xcape -t 135 -e 'Control_L=Escape;Hyper_L=space'
 
 # keyboard repeat rate
 xset r rate 330 44
