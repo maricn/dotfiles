@@ -50,9 +50,6 @@ xautolock -detectsleep -locker "betterlockscreen -l blur -r 3840x2160 &" -corner
 
 # eval $(ssh-agent)
 
-# network manager applet
-nm-applet &
-
 # keepassxc to tray
 keepassxc &
 
@@ -66,6 +63,9 @@ dunst &
 # copyQ
 copyq &
 
+# network manager applet
+$(sleep 3 && nm-applet) &
+
 # visual stuff ~~~~~~~~~~~~~~~~~~~~~
 # f.lux - night mode applet
 #sh -c fluxgui
@@ -75,7 +75,7 @@ xrdb -merge ~/.Xresources
 
 # exec --no-startup-id compton -cCGb --backend glx --vsync opengl
 compton -cCGb --backend glx --vsync opengl
-flashfocus &
+$(sleep 3 && flashfocus) &
 
 exec i3 # --shmlog-size=26214400 # -d all 2>&1 1>/home/nikola/i3.log
 # exec dbus-launch --exit-with-session /usr/bin/i3
