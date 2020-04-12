@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# xfce4 leftovers - GTK theme & icons
+####### xfce4 leftovers - GTK theme & icons
 xfsettingsd
 # xfce4-session
 
-# inputs ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####### inputs ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # natural scrolling??
 xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Synaptics Scrolling Distance" -40, -40 || echo "xinput failed in ~/.xinitrc"
 xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
@@ -12,25 +12,26 @@ xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4 || echo "xinput faile
 xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6 || echo "xinput failed in ~/.xinitrc"
 xinput set-prop 'Logitech USB Trackball' 293 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
 
-# disable touchpad
+#### disable touchpad
 xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
 xinput set-prop 'SYNA8004:00 06CB:CD8B Mouse' "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
 synclient TouchpadOff=1
 
-# keyboard remappings
+#### keyboard remappings (order is imporant) ####
 # start with xkbcomp
 xkbcomp ~/.dotfiles/xkb/xkb_US-RSl-RSc-DE.xkb $DISPLAY
+# map anything to space & Caps_Lock so they stay functional
+xmodmap -e "keycode any = space"
+xmodmap -e "keycode any = Alt_R"
+xmodmap -e "keycode any = Caps_Lock"
 # quick tap on caps generates escape, quick tap on space generates space
 # otherwise caps is used as LCTL and space as ISO_Level3_Shift
 xcape -t 135 -e 'Control_L=Escape;Hyper_L=space'
-# map anything to space & Caps_Lock so they stay functional
-xmodmap -e "keycode any = space"
-xmodmap -e "keycode any = Caps_Lock"
 
 # keyboard repeat rate
 xset r rate 330 44
 
-# screensaving ~~~~~~~~~~~~~~~~~~~~~
+####### screen(saving) ~~~~~~~~~~~~~~~~~~~
 # for actual screensaver (look at ~/.Xdefaults for timeout setting)
 # xscreensaver &
 
@@ -48,9 +49,10 @@ betterlockscreen -w
 xautolock -detectsleep -locker "betterlockscreen -l blur -r 3840x2160 &" -corners -+0- -cornerdelay 1 -cornersize 12 &
 # xautolock -detectsleep -locker "i3lock -c 994488 --ignore-empty-password"
 
-# autostart apps ~~~~~~~~~~~~~~~~~~~
-# calendar
+####### autostart apps ~~~~~~~~~~~~~~~~~~~
+# FIXME: calendar
 # THIS FAILS, don't know why: orage && orage --toggle && orage --toggle
+# also need to solve duplicates of events
 
 # eval $(ssh-agent)
 
@@ -70,7 +72,7 @@ copyq &
 # network manager applet
 $(sleep 3 && nm-applet) &
 
-# visual stuff ~~~~~~~~~~~~~~~~~~~~~
+####### visual stuff ~~~~~~~~~~~~~~~~~~~~~
 # f.lux - night mode applet
 #sh -c fluxgui
 
