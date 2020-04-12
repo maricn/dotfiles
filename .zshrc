@@ -15,8 +15,8 @@ alias sad=gsed
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
-alias cdws="cd ~/Workspace/"
-alias cdtf="cd ~/tensorflow/ && source ./bin/activate"
+alias cdws="cd $HOME/Workspace/"
+alias cdtf="cd $HOME/tensorflow/ && source ./bin/activate"
 alias grepc="grep --color -E "
 alias clear='[ $[$RANDOM % 6] = 0 ] && timeout 3 cmatrix; clear || clear'
 alias trees="tree -shC"
@@ -121,7 +121,6 @@ alias pbpastex='xclip -selection clipboard -o'
 
 export DOCKER_HOST=unix:///var/run/docker.sock
 export EDITOR=vim
-export HTTPIE_BASE_URL=localhost:9000
 
 export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
 
@@ -143,12 +142,12 @@ export rmtar() {
     tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
 }
 
-source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # NVM - Node Version Manager
 export load_nvm() {
     unset -f nvm node npm npx >/dev/null 2>&1
-    export NVM_DIR=~/.nvm
+    export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
