@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 ####### xfce4 leftovers - GTK theme & icons
 xfsettingsd
@@ -18,15 +18,20 @@ xinput set-prop 'SYNA8004:00 06CB:CD8B Mouse' "Device Enabled" 0 || echo "xinput
 synclient TouchpadOff=1
 
 #### keyboard remappings (order is imporant) ####
-# start with xkbcomp
-xkbcomp ~/.dotfiles/xkb/xkb_US-RSl-RSc-DE.xkb $DISPLAY
-# map anything to space & Caps_Lock so they stay functional
-xmodmap -e "keycode any = space"
-xmodmap -e "keycode any = Alt_R"
-xmodmap -e "keycode any = Caps_Lock"
-# quick tap on caps generates escape, quick tap on space generates space
-# otherwise caps is used as LCTL and space as ISO_Level3_Shift
-xcape -t 135 -e 'Control_L=Escape;Hyper_L=space'
+function remap_keyboard_keys() {
+    echo 'remapping keyboard keys...'
+    # start with xkbcomp
+    xkbcomp ~/.dotfiles/xkb/xkb_US-RSl-RSc-DE.xkb "${DISPLAY%%.*}" && \
+    # map anything to space & Caps_Lock so they stay functional
+    xmodmap -e "keycode any = space" && \
+    xmodmap -e "keycode any = Alt_R" && \
+    xmodmap -e "keycode any = Caps_Lock" && \
+    # quick tap on caps generates escape, quick tap on space generates space
+    # otherwise caps is used as LCTL and space as ISO_Level3_Shift
+    xcape -t 135 -e 'Control_L=Escape;Hyper_L=space'
+    echo 'done remapping keyboard keys!'
+}
+$(sleep 2 && remap_keyboard_keys) &
 
 # keyboard repeat rate
 xset r rate 330 44
