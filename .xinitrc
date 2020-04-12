@@ -18,10 +18,14 @@ xinput set-prop 'SYNA8004:00 06CB:CD8B Mouse' "Device Enabled" 0 || echo "xinput
 synclient TouchpadOff=1
 
 # keyboard remappings
-# use only xkb, not: xmodmap ~/.Xmodmap
+# start with xkbcomp
+xkbcomp ~/.dotfiles/xkb/xkb_US-RSl-RSc-DE.xkb $DISPLAY
 # quick tap on caps generates escape, quick tap on space generates space
 # otherwise caps is used as LCTL and space as ISO_Level3_Shift
 xcape -t 135 -e 'Control_L=Escape;Hyper_L=space'
+# map anything to space & Caps_Lock so they stay functional
+xmodmap -e "keycode any = space"
+xmodmap -e "keycode any = Caps_Lock"
 
 # keyboard repeat rate
 xset r rate 330 44
