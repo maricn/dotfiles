@@ -1,17 +1,41 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
-
-# export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-# Setting for nano to figure out I want it in English
-export LANG=en_US.UTF-8
-# ISO-8601 and I accept nothing else, please fuck off
-export LC_TIME=en_DK.UTF-8
-
 ZSH_THEME="lukerandall"
 
-alias sad=gsed
+# Exports and autoloading {{{
+  # export LC_CTYPE=en_US.UTF-8
+  export LC_ALL=en_US.UTF-8
+  # Setting for nano to figure out I want it in English
+  export LANG=en_US.UTF-8
+  # ISO-8601 and I accept nothing else, please fuck off
+  export LC_TIME=en_DK.UTF-8
+
+  # set autoload path
+  fpath=($HOME/.zsh "${fpath[@]}")
+
+  # load `kp`(ps|fzf)
+  autoload -Uz kp
+
+  # every time we load .zshrc, ditch duplicate path entries
+  typeset -U PATH fpath
+# }}}
+
+# Utilities {{{
+  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}"'
+  alias fzfi='rg --files --hidden --follow --no-ignore-vcs -g "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}" | fzf'
+  alias vifi='vim $(fzfi)'
+
+  alias sad=gsed
+
+  # Do I really use thefuck anymore?
+  export THEFUCK_RULES=DEFAULT_RULES:git_push_force:ssh_known_hosts
+  eval $(thefuck --alias)
+  alias fuckyeah="fuck -y"
+
+
+
+# }}}
+
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
@@ -25,6 +49,7 @@ alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
 alias bat='docker run -it --rm -e BAT_THEME -e BAT_STYLE -e BAT_TABS -v "$(pwd):/myapp" danlynn/bat'
+alias sudoe='sudo -E PATH=$PATH'
 function whichla() { local res; res=$(which $@) && ls -la $res }
 function echobase64() { echo -n $@ | base64; }
 function echobase64decode() { echo -n $@ | base64 --decode; }
@@ -120,9 +145,17 @@ alias pbcopyx='xclip -selection clipboard'
 alias pbpastex='xclip -selection clipboard -o'
 
 export DOCKER_HOST=unix:///var/run/docker.sock
-export EDITOR=vim
+if [ -x "$(command -v nvim)" ]; then
 
-export PATH="/usr/local/sbin:$HOME/.node/bin:$HOME/bin:$HOME/.local/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
+  export VISUAL=nvim
+  export EDITOR=nvim
+else
+  export VISUAL=vim
+  export EDITOR=vim
+fi
+
+
+export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/.node/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
@@ -133,23 +166,21 @@ export LESS=-eFRX
 # make ls use pre-8.25 behavior (per https://unix.stackexchange.com/questions/258679/why-is-ls-suddenly-wrapping-items-with-spaces-in-single-quotes)
 export QUOTING_STYLE=literal
 
-export THEFUCK_RULES=DEFAULT_RULES:git_push_force
-eval $(thefuck --alias)
-alias fuckyeah="fuck -y"
-
 export TAGSEARCH_HOME="$HOME/Sync/notes/notes"
 export rmtar() {
-    tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
+  tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
 }
 
 source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-# NVM - Node Version Manager
-export load_nvm() {
+# Software Development (Node.JS) {{{
+  # NVM - Node Version Manager
+  export load_nvm() {
     unset -f nvm node npm npx >/dev/null 2>&1
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
 
     # place this after nvm initialization!
     autoload -U add-zsh-hook
@@ -157,8 +188,12 @@ export load_nvm() {
       local node_version="$(nvm version)"
       local nvmrc_path="$(nvm_find_nvmrc)"
 
+
+
       if [ -n "$nvmrc_path" ]; then
         local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+
 
         if [ "$nvmrc_node_version" != "N/A" ] && [ "$nvmrc_node_version" != "$node_version" ]; then
           nvm use
@@ -170,29 +205,44 @@ export load_nvm() {
     }
     add-zsh-hook chpwd load-nvmrc
     load-nvmrc
-}
+  }
 
-export nvm() {
+
+
+  export nvm() {
     load_nvm
     nvm "$@"
-}
+  }
 
-export node() {
+
+
+  export node() {
     load_nvm
     node "$@"
-}
+  }
 
-export npm() {
+
+
+  export npm() {
     load_nvm
     npm "$@"
-}
+  }
 
-export npx() {
-    load_nvm
-    npx "$@"
-}
 
-alias vim="load_nvm;vim"
+
+  export npx() {
+      load_nvm
+      npx "$@"
+  }
+
+  alias vim="load_nvm;vim"
+  alias nvim="load_nvm;nvim"
+
+  alias npmt-appv2="docker run -t --mount type=bind,src=/home/nikola/Workspace/CoreV2,dst=/usr/src/app appv2-test:ci-10.20.1-jessie"
+
+# }}}
+
+
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
@@ -203,4 +253,3 @@ alias vim="load_nvm;vim"
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
-
