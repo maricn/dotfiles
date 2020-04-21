@@ -77,6 +77,9 @@ copyq &
 # network manager applet
 $(sleep 3 && nm-applet) &
 
+# volume / audio mixer applet
+$(sleep 3 && volumeicon) &
+
 ####### visual stuff ~~~~~~~~~~~~~~~~~~~~~
 # f.lux - night mode applet
 #sh -c fluxgui
@@ -86,6 +89,7 @@ xrdb -merge ~/.Xresources
 
 # exec --no-startup-id compton -cCGb --backend glx --vsync opengl
 compton -cCGb --backend glx --vsync opengl
+# flash window on focus (wait for compton)
 $(sleep 3 && flashfocus) &
 
 exec i3 # --shmlog-size=26214400 # -d all 2>&1 1>/home/nikola/i3.log

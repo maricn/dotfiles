@@ -15,10 +15,11 @@ order += "ipv6"
 order += "wireless _first_"
 order += "ethernet _first_"
 order += "disk /"
+order += "disk /var"
 order += "disk /home"
 order += "battery_level"
 order += "sysdata"
-order += "volume_status"
+# order += "volume_status"
 order += "lm_sensors"
 order += "tztime local"
 
@@ -51,6 +52,10 @@ tztime local {
 
 disk "/" {
     format = "/ %avail"
+}
+
+disk "/var" {
+    format = "/var %avail"
 }
 
 disk "/home" {
