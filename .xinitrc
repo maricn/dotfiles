@@ -33,12 +33,12 @@ xss-lock -- ~/.config/i3/lock.sh &
 # for blacking out the screen
 # xset dpms 1800
 
-# desktop wallpaper
-betterlockscreen -w
+# desktop wallpaper (wait for compton)
+$(sleep 3 && betterlockscreen -r 2560x1440 -w)
 
 # this is just for setting up xautolock locker, it runs no timer for locking
 # xautolock -detectsleep -locker "i3lock-fancy -gp -f Iosevka-Term-Thin-Nerd-Font-Complete-Mono" &
-xautolock -detectsleep -locker "betterlockscreen -l blur -r 3840x2160 &" -corners -+0- -cornerdelay 1 -cornersize 12 &
+xautolock -detectsleep -locker "betterlockscreen -l blur -r 2560x1440 &" -corners -+0- -cornerdelay 1 -cornersize 12 &
 # xautolock -detectsleep -locker "i3lock -c 994488 --ignore-empty-password"
 
 ####### autostart apps ~~~~~~~~~~~~~~~~~~~
