@@ -26,14 +26,6 @@ ZSH_THEME="lukerandall"
   alias vifi='vim $(fzfi)'
 
   alias sad=gsed
-
-  # Do I really use thefuck anymore?
-  export THEFUCK_RULES=DEFAULT_RULES:git_push_force:ssh_known_hosts
-  eval $(thefuck --alias)
-  alias fuckyeah="fuck -y"
-
-
-
 # }}}
 
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
@@ -155,7 +147,7 @@ else
 fi
 
 
-export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/.node/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
+export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/.node/bin:$HOME/go/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
