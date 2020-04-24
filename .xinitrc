@@ -1,27 +1,31 @@
 #!/bin/zsh
 
-####### xfce4 leftovers - GTK theme & icons
-xfsettingsd
-# xfce4-session
+# xfce4 leftovers - GTK theme & icons {{{
+  xfsettingsd
+  # xfce4-session
+# }}}
 
-####### inputs ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# natural scrolling??
-xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Synaptics Scrolling Distance" -40, -40 || echo "xinput failed in ~/.xinitrc"
-xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
+# inputs {{{
+  # natural scrolling {{{
+    xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Synaptics Scrolling Distance" -40, -40 || echo "xinput failed in ~/.xinitrc"
+    xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
 
-xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6 || echo "xinput failed in ~/.xinitrc"
-xinput set-prop 'Logitech USB Trackball' 293 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
+    xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6 || echo "xinput failed in ~/.xinitrc"
+    xinput set-prop 'Logitech USB Trackball' 293 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
+  # }}}
 
-#### disable touchpad
-xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
-xinput set-prop 'SYNA8004:00 06CB:CD8B Mouse' "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
-synclient TouchpadOff=1
+  # disable touchpad {{{
+    xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
+    xinput set-prop 'SYNA8004:00 06CB:CD8B Mouse' "Device Enabled" 0 || echo "xinput failed in ~/.xinitrc"
+    synclient TouchpadOff=1
+  # }}}
 
-# remap keyboard keys CAPS = (ESC, CTRL), SPACE = (SPACE, FN). (wait for X)
-$(sleep 3 && ~/.xinitrc-keyboard-remap) &
+  # remap keyboard keys CAPS = (ESC, CTRL), SPACE = (SPACE, FN). (wait for X)
+  $(sleep 3 && ~/.xinitrc-keyboard-remap) &
 
-# keyboard repeat rate
-xset r rate 330 44
+  # keyboard repeat rate
+  xset r rate 330 44
+# }}}
 
 ####### screen(saving) ~~~~~~~~~~~~~~~~~~~
 # for actual screensaver (look at ~/.Xdefaults for timeout setting)
