@@ -311,6 +311,14 @@ bar {
   status_command py3status
   font xft:Iosevka Term SS03:style=Regular
   position bottom
+  # Hide? {{{
+    mode dock   # hide
+    hidden_state hide
+    modifier $mod
+  #}}}
+  output primary
+  output eDP1
+  tray_output primary
   colors {
 	background #000000
 	separator #757575
@@ -342,6 +350,7 @@ set $statussig SIGUSR1
   
   # Amount to increase/decrease volume as a percentage
   set $volumestep 5
+  set $volumemax 100
   
   # pulseaudio-utils settings
   #
@@ -352,7 +361,7 @@ set $statussig SIGUSR1
   # set $sinkname jack_out
   
   # Using pulseaudio-utils (append "-s $sinkname" without quotes to override default sink)
-  bindsym XF86AudioRaiseVolume exec $volumepath -np -i $volumestep -t $statuscmd -u $statussig -e 500 -l
+  bindsym XF86AudioRaiseVolume exec $volumepath -np -i $volumestep -t $statuscmd -u $statussig -e 500 -M $volumemax -l
   bindsym XF86AudioLowerVolume exec $volumepath -np -d $volumestep -t $statuscmd -u $statussig -e 500 -l
   bindsym XF86AudioMute        exec $volumepath -mn -t $statuscmd -u $statussig -l
 ## }}}

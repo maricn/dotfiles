@@ -64,8 +64,11 @@ copyq &
 # network manager applet
 $(sleep 3 && nm-applet) &
 
+# bluetooth manager applet
+$(sleep 3 && blueman-applet) &
+
 # volume / audio mixer applet
-$(sleep 3 && volumeicon) &
+$(sleep 3 && pasystray --volume-max 100 --volume-inc 3 --notify all) &
 
 ####### visual stuff ~~~~~~~~~~~~~~~~~~~~~
 # f.lux - night mode applet
