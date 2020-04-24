@@ -17,6 +17,7 @@ order += "ethernet _first_"
 order += "disk /"
 order += "disk /var"
 order += "disk /home"
+# order += "xrandr"
 order += "battery_level"
 order += "sysdata"
 # order += "volume_status"
@@ -96,4 +97,10 @@ lm_sensors {
     sensors = ["core_0"]
     format_chip = '🌡 {format_sensor}'
     format_sensor = '[\?color=auto.input&show {input}°]'
+}
+
+xrandr {
+    #force_on_change = ["eDP1+HDMI1", "eDP1"]
+    #command = "betterlockscreen -w"
+    fallback = True
 }
