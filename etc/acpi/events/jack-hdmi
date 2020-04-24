@@ -1,0 +1,2 @@
+event=jack[ /]videoout
+action=/etc/acpi/jack-hdmi.sh %e

@@ -1,0 +1,2 @@
+event=jack[ /](lineout|videoout|headphone|microphone)
+action=/etc/acpi/jack-hdmi-headphone.sh
