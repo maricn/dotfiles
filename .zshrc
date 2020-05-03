@@ -40,7 +40,6 @@ alias pingg="ping 8.8.8.8"
 alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
-alias bat='docker run -it --rm -e BAT_THEME -e BAT_STYLE -e BAT_TABS -v "$(pwd):/myapp" danlynn/bat'
 alias sudoe='sudo -E PATH=$PATH'
 function whichla() { local res; res=$(which $@) && ls -la $res }
 function echobase64() { echo -n $@ | base64; }
