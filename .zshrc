@@ -146,7 +146,7 @@ else
 fi
 
 
-export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/.node/bin:$HOME/go/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
+export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
@@ -228,6 +228,7 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
   alias vim="load_nvm;vim"
   alias nvim="load_nvm;nvim"
+  alias nv="load_nvm;nvim"
 
   alias npmt-appv2="docker run -t --mount type=bind,src=/home/nikola/Workspace/CoreV2,dst=/usr/src/app appv2-test:ci-10.20.1-jessie"
 

@@ -1,0 +1,10 @@
+[user]
+    email = 3995223+maricn@users.noreply.github.com
+    name = Nikola Marić
+[hub]
+    protocol = https
+[core]
+    editor = nvim
+    pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
+[interactive]
+    diffFilter = delta --color-only
