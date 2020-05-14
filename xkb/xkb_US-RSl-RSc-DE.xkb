@@ -1100,7 +1100,8 @@ xkb_keymap {
             symbols[Group3]= [     Serbian_dje,     Serbian_DJE,        multiply,        NoSymbol ],
             symbols[Group4]= [            plus,        asterisk,      asciitilde,          macron ]
         };
-        key <RTRN> {         [          Return ] };
+        key <RTRN> {         [          Control_R ] };
+        // key <RTRN> {         [          Return ] };
         key <LCTL> {
             type= "PC_CONTROL_LEVEL2",
             symbols= [       Control_L,  ISO_Prev_Group ]
@@ -1596,6 +1597,7 @@ xkb_keymap {
         modifier_map Mod4 { <HYPR> };
         // note: necessary for setup with xcape
         modifier_map Control { <CAPS> };
+        modifier_map Control { <RTRN> };
     };
 
 };
