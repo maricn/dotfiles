@@ -1,6 +1,7 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="lukerandall"
+#ZSH_THEME="lukerandall"
+ZSH_THEME="maricn"
 
 # Exports and autoloading {{{
   # export LC_CTYPE=en_US.UTF-8
@@ -20,14 +21,6 @@ ZSH_THEME="lukerandall"
   typeset -U PATH fpath
 # }}}
 
-# Utilities {{{
-  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}"'
-  alias fzfi='rg --files --hidden --follow --no-ignore-vcs -g "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}" | fzf'
-  alias vifi='vim $(fzfi)'
-
-  alias sad=gsed
-# }}}
-
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
@@ -41,6 +34,7 @@ alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
 alias sudoe='sudo -E PATH=$PATH'
+alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
 function whichla() { local res; res=$(which $@) && ls -la $res }
 function echobase64() { echo -n $@ | base64; }
 function echobase64decode() { echo -n $@ | base64 --decode; }
@@ -95,7 +89,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras urltools web-search pip common-aliases docker docker-compose docker-machine docker-helpers thefuck globalias highlight zsh-autosuggestions history-substring-search)
+plugins=(git git-extras urltools web-search pip common-aliases docker docker-compose docker-machine docker-helpers globalias highlight zsh-autosuggestions history-substring-search shrink-path)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 ## history-substring-search plugin works with ↑ and ↓ keys;
 ## use opt+k and opt+j keys for old history lookup
@@ -145,10 +139,17 @@ else
   export EDITOR=vim
 fi
 
+export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:${PATH_EXTRAS}:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
 
-export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:${PATH_EXTRAS}":$PATH
+# Utilities {{{
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
+  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}"'
+  alias fzfi='rg --files --hidden --follow --no-ignore-vcs -g "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}" | fzf'
+  alias vifi='vim $(fzfi)'
+
+  function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
+# }}}
 
 # less
 # - if there is under one page, I don't need to press q to quit
@@ -245,3 +246,4 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
+
