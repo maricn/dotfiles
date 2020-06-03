@@ -74,6 +74,9 @@ $(sleep 3 && blueman-applet) &
 # volume / audio mixer applet
 $(sleep 3 && pasystray --volume-max 100 --volume-inc 3 --notify all) &
 
+# screenshot tool
+$(sleep 3 && XDG_CURRENT_DESKTOP=gnome dbus-launch /usr/bin/flameshot) &
+
 ####### visual stuff ~~~~~~~~~~~~~~~~~~~~~
 # f.lux - night mode applet
 #sh -c fluxgui
@@ -86,6 +89,6 @@ compton -cCGb --backend glx --vsync opengl
 # flash window on focus (wait for compton)
 $(sleep 3 && flashfocus) &
 
-exec i3 # --shmlog-size=26214400 # -d all 2>&1 1>/home/nikola/i3.log
+exec dbus-launch --exit-with-session i3 # --shmlog-size=26214400 # -d all 2>&1 1>/home/nikola/i3.log
 # exec dbus-launch --exit-with-session /usr/bin/i3
 
