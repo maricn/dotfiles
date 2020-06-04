@@ -221,10 +221,12 @@ bindsym Control+Mod1+l      exec xscreensaver-command -lock
 # Screenshot
 # full desktop screenshot
 # bindsym $mod+Shift+P exec "~/.config/i3/i3-plus screenshot"
-bindsym $mod+P --release exec "scrot -s ~/Pictures/screenshots/desktop-$(date +'%Y-%m-%dT%H:%M:%S%z').png -q 95 -e 'xclip -selection c -t image/png < $f'"
-bindsym $mod+Shift+P exec "scrot ~/Pictures/screenshots/desktop-$(date +'%Y-%m-%dT%H:%M:%S%z').png -q 95 -e 'xclip -selection c -t image/png < $f'"
-bindsym Print --release exec "scrot -q 95 -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
-bindsym Shift+Print exec "scrot -q 95 /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+bindsym $mod+P --release exec "flameshot full -c"
+bindsym $mod+Shift+P exec "flameshot full -d 2000 -c"
+# bindsym $mod+P --release exec "scrot -s ~/Pictures/screenshots/desktop-$(date +'%Y-%m-%dT%H:%M:%S%z').png -q 95 -e 'xclip -selection c -t image/png < $f'"
+# bindsym $mod+Shift+P exec "scrot ~/Pictures/screenshots/desktop-$(date +'%Y-%m-%dT%H:%M:%S%z').png -q 95 -e 'xclip -selection c -t image/png < $f'"
+# bindsym Print --release exec "scrot -q 95 -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+# bindsym Shift+Print exec "scrot -q 95 /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
 
 # Show calendar
 bindsym $mod+Control+o exec orage --toggle
@@ -255,6 +257,19 @@ for_window [class="Gpick"] floating enable, border normal
 for_window [class="fontforge"] floating enable, border normal
 for_window [class="Pavucontrol"] floating enable, border normal
 for_window [class="Blueman-manager"] floating enable, border normal
+# More windows float
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+
+# Some windows are assigned to workspaces
+assign [class="Slack"] 1
+assign [class="Signal"] 1
+assign [class="KeePassXC"] 1
+assign [class="Firefox Developer Edition"] 2
+assign [class="Chromium"] 6
 # new_window 1pixel
 # new_float normal
 
@@ -276,6 +291,10 @@ bindsym $mod+Mod1+Shift+z   gaps inner current minus 1
 for_window [class=.*] border pixel 2
 for_window [class="X-terminal-emulator"] border pixel 3
 focus_follows_mouse         no
+# don't steal focus if window is a pop-up
+no_focus [window_role="pop-up"]
+# don't steal focus when a window activates, just mark it as urgent [default: smart]
+focus_on_window_activation urgent
 # window border settings
 default_border              none
 default_floating_border     none
@@ -369,3 +388,6 @@ set $statussig SIGUSR1
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
+
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/nikola/.config/i3/layouts/work/ws1.jsonc'"
