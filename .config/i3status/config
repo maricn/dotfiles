@@ -13,7 +13,7 @@ general {
 
 order += "ipv6"
 order += "wireless _first_"
-order += "ethernet _first_"
+# order += "ethernet _first_"
 order += "disk /"
 order += "disk /var"
 order += "disk /home"
@@ -69,9 +69,10 @@ battery_level {
 }
 
 sysdata {
-    #format = '[\?color=cpu_used_percent CPU [\?max_length=4 {cpu_used_percent}]%]'
-    #format += ' [\?color=mem_used_percent MEM [\?max_length=3 {mem_used}]G]'
-    format_cpu = "[\?max_length=1 [\?color=#FF0000 {used_percent:.0f}%]]"
+    # cpus = ['cpu']
+    format = '[\?color=used_percent 🎛 [\?max_length=4 {cpu_used_percent}]%]'
+    format += ' [\?color=mem_used_percent 🎚 [\?max_length=3 {mem_used}/{mem_total}]G]'
+    # format_cpu = '{name} [\?max_length=1 [\?color=#FF0000 {used_percent:.0f}%]]'
     cache_timeout = 3
     thresholds = [(0, "good"), (60, "degraded"), (80, "bad")]
 }

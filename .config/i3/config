@@ -269,6 +269,7 @@ assign [class="Slack"] 1
 assign [class="Signal"] 1
 assign [class="KeePassXC"] 1
 assign [class="Firefox Developer Edition"] 2
+assign [class="Steam"] 5
 assign [class="Chromium"] 6
 # new_window 1pixel
 # new_float normal
