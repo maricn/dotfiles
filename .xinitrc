@@ -52,8 +52,14 @@ xautolock -detectsleep -locker "betterlockscreen -l blur -r 2560x1440 &" -corner
 
 # eval $(ssh-agent)
 
-# keepassxc to tray
-keepassxc &
+# keepassxc (sleep to load i3wm layout)
+$(sleep 3 && keepassxc) &
+
+# signal messenger (sleep to load i3wm layout)
+$(sleep 3 && signal-desktop) &
+
+# Slack firefox (sleep to load i3wm layout)
+# $(sleep 4 && ~/.local/share/applications/Slack\ \[Firefox\].desktop) &
 
 # start cadence session (jack & pulse), no tray
 # not using jack anymore: cadence-session-start -s
