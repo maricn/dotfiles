@@ -1,0 +1,41 @@
+font:
+  normal:
+    family: Iosevka Nerd Font
+    style: Regular
+  bold:
+    family: Iosevka Nerd Font
+    style: Bold
+  italic:
+    family: Iosevka Nerd Font
+    style: Italic
+  bold_italic:
+    family: Iosevka Nerd Font
+    style: Bold Italic
+  size: 11
+env:
+  TERM: xterm-256color
+background_opacity: 0.8
+live_config_reload: true
+
+key_bindings:
+  - { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
+  - { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
+  - { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
+  - { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
+# non-default bindings:
+  - { key: Up,        mods: Shift,   action: ScrollLineUp,   mode: ~Alt       }
+  - { key: Down,      mods: Shift,   action: ScrollLineDown, mode: ~Alt       }
+
+colors:
+  # Normal colors
+  normal:
+    black:   '#000000'
+    red:     '#d54e53'
+#  red:     '#d54e53'
+    green:   '#a9ca2a'
+    yellow:  '#e6c547'
+    blue:    '#7aa6fa'
+#  blue:    '#7aa6da'
+    magenta: '#c397d8'
+    cyan:    '#70c0ba'
+    white:   '#eaeaea'
