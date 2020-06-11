@@ -75,7 +75,7 @@ copyq &
 $(sleep 3 && nm-applet) &
 
 # bluetooth manager applet
-$(sleep 3 && blueman-applet) &
+$(sleep 3 && XDG_CURRENT_DESKTOP=gnome dbus-launch /usr/bin/blueman-applet) &
 
 # volume / audio mixer applet
 $(sleep 3 && pasystray --volume-max 100 --volume-inc 3 --notify all) &
