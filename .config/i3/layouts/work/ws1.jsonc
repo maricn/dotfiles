@@ -6,25 +6,6 @@
   "type": "con",
   "nodes": [
     {
-      "border": "pixel",
-      "current_border_width": 2,
-      "floating": "auto_off",
-      "geometry": {
-        "height": 1388,
-        "width": 1262,
-        "x": 0,
-        "y": 0
-      },
-      "percent": 0.6,
-      "swallows": [
-        {
-          "class": "^Slack",
-          "window_role": "^browser$"
-        }
-      ],
-      "type": "con"
-    },
-    {
       "border": "none",
       "floating": "auto_off",
       "layout": "stacked",

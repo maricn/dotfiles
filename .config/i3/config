@@ -250,6 +250,7 @@ bindsym $mod+x mode "exit: [l]ock, [r]eboot, [s]leep"
 
 # Some windows float
 for_window [class="copyq"] floating enable, border normal
+for_window [class="mpv"] floating enable, border normal
 for_window [class="Cadence"] floating enable, border normal
 for_window [class="Xscreensaver-demo"] floating enable, border normal
 for_window [class="Gdebi-gtk"] floating enable, border normal
@@ -263,6 +264,8 @@ for_window [window_role="bubble"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [window_type="dialog"] floating enable
+# Some windows float over all workspaces
+for_window [class="mpv"] sticky enable
 
 # Some windows are assigned to workspaces
 assign [class="Slack"] 1
@@ -389,6 +392,5 @@ set $statussig SIGUSR1
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
-
 
 exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/nikola/.config/i3/layouts/work/ws1.jsonc'"
