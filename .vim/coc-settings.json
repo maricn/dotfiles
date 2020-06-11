@@ -1,0 +1,25 @@
+{
+  "prettier.tslintIntegration": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "ts",
+    "js",
+    "css",
+    "javascript",
+    "typescript",
+    "json",
+    "jsonc"
+  ],
+  "coc.preferences.colorSupport": false,
+  "diagnostic.hintSign": ">>",
+  "diagnostic.infoSign": "ℹ️",
+  "diagnostic.warningSign": "⚠️",
+  "diagnostic.errorSign": "💣",
+  "diagnostic.enableHighlightLineNumber": true,
+  "diagnostic-languageserver.filetypes": {
+    "vim": "vint",
+    "email": "languagetool",
+    "markdown": ["write-good", "markdownlint"],
+    "sh": "shellcheck"
+  },
+  "typescript.preferences.importModuleSpecifier": "relative"
+}
