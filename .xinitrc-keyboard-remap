@@ -17,8 +17,14 @@ function remap_keyboard_keys() {
     # otherwise caps is used as LCTL and space as ISO_Level3_Shift
     killall xcape
     xcape -t 135 -e 'Control_L=Escape;Hyper_L=space;Control_R=Return'
+    while [[ "$(ps -ef x | grep xcape | grep nikola | grep -v grep | wc -l)" != "1" ]]; do
+      echo 'restarting xcape...'
+      killall xcape
+      xcape -t 135 -e 'Control_L=Escape;Hyper_L=space;Control_R=Return'
+    done;
 
     echo 'done remapping keyboard keys!'
+
 }
 
 # remap keyboard keys CAPS = (ESC, CTRL), SPACE = (SPACE, FN), RETURN = (RETURN, CTRL). (wait for X)

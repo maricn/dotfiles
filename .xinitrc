@@ -6,11 +6,18 @@
 # }}}
 
 # inputs {{{
+  # use TrackPoint for scrolling together with middle button {{{
+    xinput set-prop "TPPS/2 Elan TrackPoint" "Evdev Wheel Emulation" 1
+    xinput set-prop "TPPS/2 Elan TrackPoint" "Evdev Wheel Emulation Button" 2
+  # }}}
+
   # natural scrolling {{{
     xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Synaptics Scrolling Distance" -40, -40 || echo "xinput failed in ~/.xinitrc"
     xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
 
     xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6 || echo "xinput failed in ~/.xinitrc"
+    # yes, this one is outlier - 7 6 4 5 🤷 don't know why
+    xinput set-prop "TPPS/2 Elan TrackPoint" "Evdev Wheel Emulation Axes" 7 6 4 5
     xinput set-prop 'Logitech USB Trackball' 293 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
   # }}}
 
@@ -22,6 +29,8 @@
 
   # remap keyboard keys CAPS = (ESC, CTRL), SPACE = (SPACE, FN). (wait for X)
   $(sleep 3 && ~/.xinitrc-keyboard-remap) &
+  # monitor plugging in new keyboards and reapply remapping on such events
+  $(sleep 3 && inputplug -d -c ~/Tools/on-new-kbd.sh) &
 
   # keyboard repeat rate
   xset r rate 330 44
