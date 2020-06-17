@@ -25,6 +25,7 @@
 !.config/i3/
 !.config/i3status/
 .config/i3status/config.backup
+!.config/alacritty/
 
 # iTerm2 settings
 !iTerm2/**
@@ -53,6 +54,10 @@
 # Vim stuff
 !.vimrc
 !.vim/
+.vim/autoload/plug.vim
+.vim/bundle/
+.vim/plugged/
+.vim/view/
 *.swp
 *.swo
 
