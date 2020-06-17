@@ -63,12 +63,14 @@ Plug 'mhinz/vim-startify'               " Start screen for vim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'
 Plug 'eliba2/vim-node-inspect'          " NodeJS interactive debugger
+Plug 'stevearc/vim-arduino'             " Arduino build and upload sketch
 
 " Appearance
 Plug 'camspiers/animate.vim'
 Plug 'camspiers/lens.vim'
 Plug 'unblevable/quick-scope'         " Highlight jump characters - slows (unless only on f/F trigger)
 " down vim considerably
+Plug 'godlygeek/csapprox'             " make gvim-only colorschemes work in terminal vim
 Plug 'joshdick/onedark.vim'           " Colorscheme onedark
 Plug 'morhetz/gruvbox'                " Colorscheme gruvbox (can be light)
 Plug 'breuckelen/vim-resize'          " Use Ctrl+arrows to resize splits
@@ -126,8 +128,14 @@ xnoremap p "_dP
   
   " themes {{{
     " autocmd vimenter * colorscheme onedark
-    autocmd vimenter * colorscheme gruvbox
-    set background=dark
+
+    " gruvbox {{{
+      autocmd vimenter * colorscheme gruvbox
+      set background=dark
+      let g:gruvbox_contrast_dark = 'medium'
+      let g:gruvbox_contrast_light = 'hard'
+    " }}}
+
     " fix for Coc diagnostic signs color mismatch
     autocmd ColorScheme * 
             \ hi CocErrorSign  ctermfg=Red guifg=#ff0000 | 
@@ -239,6 +247,8 @@ set shortmess+=c
 " diagnostics appear/become resolved.
 set signcolumn=yes
 
+let g:coc_disable_transparent_cursor = 1
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -265,9 +275,11 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gd :call CocAction('jumpDefinition', v:false)<CR>
+" nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gi :call CocAction('jumpImplementation', v:false)<CR>
+" nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
@@ -559,6 +571,11 @@ au InsertLeave * hi statusline guibg=#8fbfdc ctermbg=cyan
       return map(files, "{'line': v:val, 'path': v:val}")
   endfunction
   
+  " autoload session if the dir contains Session.vim
+  let g:startify_session_autoload = 1
+  " specify bookmarks
+  let g:startify_bookmarks = [ {'c': '~/.vimrc'}, {'z': '~/.zshrc'} ]
+  " list of stuff to show on startup
   let g:startify_lists = [
           \ { 'type': 'sessions',  'header': ['   Sessions']       },
           \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
