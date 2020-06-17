@@ -30,7 +30,7 @@
   # remap keyboard keys CAPS = (ESC, CTRL), SPACE = (SPACE, FN). (wait for X)
   $(sleep 3 && ~/.xinitrc-keyboard-remap) &
   # monitor plugging in new keyboards and reapply remapping on such events
-  $(sleep 3 && inputplug -d -c ~/Tools/on-new-kbd.sh) &
+  $(sleep 3 && inputplug -c ~/Tools/on-new-kbd.sh)
 
   # keyboard repeat rate
   xset r rate 330 44
