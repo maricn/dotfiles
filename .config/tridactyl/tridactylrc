@@ -1,0 +1,36 @@
+sanitise tridactyllocal tridactylsync
+
+" General Settings
+set configversion 1.9
+set update.lastchecktime 1592561460698
+set theme base16-gruvbox-dark-hard
+set colours base16-gruvbox-dark-hard
+set smoothscroll true
+set modeindicatorshowkeys true
+set modeindicator false
+
+" Binds
+unbind <F1>
+unbind <C-f>
+unbind <C-a>
+unbind .
+unbind s
+unbind S
+unbind D
+unbind U
+bind x tabclose
+bind d scrollpage 0.6
+bind u scrollpage -0.6
+bind <C-d> scrollpage 0.6
+bind <C-[> back
+bind <C-]> forward
+bind J tabnext
+bind K tabprev
+bind i mode ignore
+bind t tabnew
+bind --mode=ignore <escape> mode normal
+bind --mode=ignore ^ tab #
+bind --mode=ex <ArrowRight> ex.insert_completion
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
