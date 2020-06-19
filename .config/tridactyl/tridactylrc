@@ -18,18 +18,29 @@ unbind s
 unbind S
 unbind D
 unbind U
-bind x tabclose
-bind d scrollpage 0.6
-bind u scrollpage -0.6
-bind <C-d> scrollpage 0.6
+
+bind d scrollpage 0.5
+bind u scrollpage -0.5
+bind <C-d> scrollpage 0.7
+bind <C-u> scrollpage -0.7
+
 bind <C-[> back
 bind <C-]> forward
+
+bind i mode ignore
+bind --mode=ignore <escape> mode normal
+
+bind t tabnew
 bind J tabnext
 bind K tabprev
-bind i mode ignore
-bind t tabnew
-bind --mode=ignore <escape> mode normal
+bind x tabclose
 bind --mode=ignore ^ tab #
+
+bind / fillcmdline find
+bind n findnext
+bind N findnext -1
+bind <Escape> composite mode normal ; hidecmdline ; nohlsearch
+
 bind --mode=ex <ArrowRight> ex.insert_completion
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
