@@ -3,8 +3,8 @@ sanitise tridactyllocal tridactylsync
 " General Settings
 set configversion 1.9
 set update.lastchecktime 1592561460698
-set theme base16-gruvbox-dark-hard
-set colours base16-gruvbox-dark-hard
+set theme maricn-base16-gruvbox-dark-hard
+set colours maricn-base16-gruvbox-dark-hard
 set smoothscroll true
 set modeindicatorshowkeys true
 set modeindicator false
@@ -14,6 +14,7 @@ unbind <F1>
 unbind <C-f>
 unbind <C-a>
 unbind .
+unbind p
 unbind s
 unbind S
 unbind D
