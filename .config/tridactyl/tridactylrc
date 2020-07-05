@@ -16,6 +16,8 @@ colourscheme maricn-base16-gruvbox-dark-hard
 unbind <F1>
 unbind <C-f>
 unbind <C-a>
+unbind <C-d>
+unbind <C-u>
 unbind .
 unbind p
 unbind s
@@ -25,8 +27,10 @@ unbind U
 
 bind d scrollpage 0.5
 bind u scrollpage -0.5
-bind <C-d> scrollpage 0.7
-bind <C-u> scrollpage -0.7
+
+" conflicts with <C-d> as "Bookmark this page"
+" bind <C-d> scrollpage 0.7
+" bind <C-u> scrollpage -0.7
 
 bind <C-[> back
 bind <C-]> forward
