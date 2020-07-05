@@ -42,7 +42,7 @@ Plug 'stefandtw/quickfix-reflector.vim' " Edit the quickfix list (find and repla
 Plug 'matze/vim-move'                   " Move lines up and down
 Plug 'ConradIrwin/vim-bracketed-paste'  " Detect clipboard paste (auto :set paste!)
 Plug 'jremmen/vim-ripgrep'              " Use ripgrep for search
-Plug 'mhinz/vim-grepper'               " grep using your fav grepper
+Plug 'mhinz/vim-grepper'                " grep using your fav grepper
 Plug 'majutsushi/tagbar'                " Tagbar (right side thing to show functions)
 Plug 'bkad/CamelCaseMotion'
 Plug 'tpope/vim-commentary'             " :Commentary to comment out a line or block
@@ -51,7 +51,7 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'tpope/vim-sensible'
 Plug 'sukima/xmledit'
 Plug 'mboughaba/i3config.vim'
-Plug 'SidOfc/mkdx'                      " Markdown plugin
+" Plug 'SidOfc/mkdx'                      " Markdown plugin
 Plug 'sulibo/vim-jekyll'                " Jekyll plugin
 Plug 'junegunn/vim-peekaboo'            " sneak peak preview of registers on @ and "
 Plug 'mhinz/vim-startify'               " Start screen for vim
@@ -59,9 +59,16 @@ Plug 'mhinz/vim-startify'               " Start screen for vim
 " Plug 'svermeulen/vim-yoink'             " clipboard history manager (buffer yankring)
 " Plug 'svermeulen/ncm2-yoink'            " clipboard history manager ncm2 completion
 
+
+" Network
+Plug 'diepm/vim-rest-console'           " Use vim as postman
+" Integration
+" Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
 " Programming
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'leafgarland/typescript-vim'
+" Plug 'neomake/neomake'                  " asynchronously run programs (autolint)
+Plug 'leafgarland/typescript-vim'       " typescript syntax and indenting for vim
 Plug 'eliba2/vim-node-inspect'          " NodeJS interactive debugger
 Plug 'stevearc/vim-arduino'             " Arduino build and upload sketch
 
@@ -200,6 +207,9 @@ vmap <c-d> y'>p
       Git blame
     endif
   endfunction
+
+nmap <silent> <C-B> :call <SID>BlameToggle()<CR>
+let g:fugitive_summary_format = '%s (%cr) <%an>'
 " }}}
 
 " peekaboo {{{
@@ -228,158 +238,156 @@ endfunction
 let g:peekaboo_window="call CreateCenteredFloatingWindow()"
 " }}}
 
-nmap <silent> <C-B> :call <SID>BlameToggle()<CR>
-let g:fugitive_summary_format = '%s (%cr) <%an>'
-"""" coc.nvim
-nnoremap <leader>c :CocAction<CR>
-
-" Give more space for displaying messages.
-set cmdheight=2
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=250
-
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-set signcolumn=yes
-
-let g:coc_disable_transparent_cursor = 1
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if has('patch8.1.1068')
-  " Use `complete_info` if your (Neo)Vim version supports it.
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd :call CocAction('jumpDefinition', v:false)<CR>
-" nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi :call CocAction('jumpImplementation', v:false)<CR>
-" nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
+" coc.nvim {{{
+  nnoremap <leader>c :CocAction<CR>
+  
+  " Give more space for displaying messages.
+  set cmdheight=2
+  
+  " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+  " delays and poor user experience.
+  set updatetime=250
+  
+  " Don't pass messages to |ins-completion-menu|.
+  set shortmess+=c
+  
+  " Always show the signcolumn, otherwise it would shift the text each time
+  " diagnostics appear/become resolved.
+  set signcolumn=yes
+  
+  let g:coc_disable_transparent_cursor = 1
+  
+  " Use tab for trigger completion with characters ahead and navigate.
+  " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+  " other plugin before putting this into your config.
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  
+  " Use <c-space> to trigger completion.
+  " inoremap <silent><expr> <c-space> coc#refresh()
+  
+  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+  " position. Coc only does snippet and additional edit on confirm.
+  if has('patch8.1.1068')
+    " Use `complete_info` if your (Neo)Vim version supports it.
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
   else
-    call CocAction('doHover')
+    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   endif
-endfunction
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  :Format<CR>
-nmap <leader>f  :Format<CR>
-" nmap <leader>f <Plug>(coc-format-selected)
-" xmap <leader>f <Plug>(coc-format-selected)
-" vmap <leader>f <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json,jsonc setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-" Disabled to make <leader>q (smart delete buffer) work faster
-" nmap <leader>qf  <Plug>(coc-fix-current)
-
-"""" Enter just selects the item in the autocomplete menu
-"""" http://vim.wikia.com/wiki/VimTip1386
-:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-""" Map Ctrl+Space to autocomplete
-""" https://coderwall.com/p/cl6cpq/vim-ctrl-space-omni-keyword-completion
-" inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
-"             \ "\<lt>C-n>" :
-"             \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
-"             \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
-"             \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
-" hm, what's this for: imap <C-@> <C-Space>
-
-" Use <TAB> for selections ranges.
-" NOTE: Requires 'textDocument/selectionRange' support from the language server.
-" coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-
-" Remove coc selection extension (coc-range-select) on Ctrl+I
-" Because it overrides default vim C-O / C-I jump behavior
-autocmd VimEnter * :unmap <C-I>
-autocmd VimEnter * :unmap <leader>ge
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-" not enabled because it doesn't respect tsconfig ordering of imports
-" autocmd BufWritePre typescript :OR
-
-" Mappings using CoCList:
-" Show all diagnostics.
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
+  
+  " Use `[g` and `]g` to navigate diagnostics
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
+  
+  " GoTo code navigation.
+  nmap <silent> gd :call CocAction('jumpDefinition', v:false)<CR>
+  " nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi :call CocAction('jumpImplementation', v:false)<CR>
+  " nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+  
+  " Use K to show documentation in preview window.
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+  
+  " Highlight the symbol and its references when holding the cursor.
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  
+  " Symbol renaming.
+  nmap <leader>rn <Plug>(coc-rename)
+  
+  " Formatting selected code.
+  xmap <leader>f  :Format<CR>
+  nmap <leader>f  :Format<CR>
+  " nmap <leader>f <Plug>(coc-format-selected)
+  " xmap <leader>f <Plug>(coc-format-selected)
+  " vmap <leader>f <Plug>(coc-format-selected)
+  
+  augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json,jsonc setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  augroup end
+  
+  " Applying codeAction to the selected region.
+  " Example: `<leader>aap` for current paragraph
+  xmap <leader>a  <Plug>(coc-codeaction-selected)
+  nmap <leader>a  <Plug>(coc-codeaction-selected)
+  
+  " Remap keys for applying codeAction to the current line.
+  nmap <leader>ac  <Plug>(coc-codeaction)
+  " Apply AutoFix to problem on the current line.
+  " Disabled to make <leader>q (smart delete buffer) work faster
+  " nmap <leader>qf  <Plug>(coc-fix-current)
+  
+  """" Enter just selects the item in the autocomplete menu
+  """" http://vim.wikia.com/wiki/VimTip1386
+  :inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  """ Map Ctrl+Space to autocomplete
+  """ https://coderwall.com/p/cl6cpq/vim-ctrl-space-omni-keyword-completion
+  " inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
+  "             \ "\<lt>C-n>" :
+  "             \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
+  "             \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
+  "             \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
+  " hm, what's this for: imap <C-@> <C-Space>
+  
+  " Use <TAB> for selections ranges.
+  " NOTE: Requires 'textDocument/selectionRange' support from the language server.
+  " coc-tsserver, coc-python are the examples of servers that support it.
+  nmap <silent> <TAB> <Plug>(coc-range-select)
+  xmap <silent> <TAB> <Plug>(coc-range-select)
+  
+  " Remove coc selection extension (coc-range-select) on Ctrl+I
+  " Because it overrides default vim C-O / C-I jump behavior
+  autocmd VimEnter * :unmap <C-I>
+  autocmd VimEnter * :unmap <leader>ge
+  
+  " Add `:Format` command to format current buffer.
+  command! -nargs=0 Format :call CocAction('format')
+  
+  " Add `:Fold` command to fold current buffer.
+  command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+  
+  " Add `:OR` command for organize imports of the current buffer.
+  command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+  " not enabled because it doesn't respect tsconfig ordering of imports
+  " autocmd BufWritePre typescript :OR
+  
+  " Mappings using CoCList:
+  " Show all diagnostics.
+  nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+  " Manage extensions.
+  nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+  " Show commands.
+  nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+  " Find symbol of current document.
+  nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+  " Search workspace symbols.
+  nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+  " Do default action for next item.
+  nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+  " Do default action for previous item.
+  nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+  " Resume latest coc list.
+  nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" }}}
 
 """" CamelCase motion
 let g:camelcasemotion_key = '<leader>'
@@ -712,6 +720,9 @@ autocmd Filetype tsc setlocal ts=2 sts=2 sw=2
 autocmd Filetype ts setlocal ts=2 sts=2 sw=2
 autocmd Filetype typescript setlocal ts=2 sts=2 sw=2
 
+""" Enable wrapping in textual files
+autocmd Filetype txt,md,markdown set wrap
+
 
 """ Autoload changes in .vimrc
 " autocmd BufWritePost .vimrc source $MYVIMRC
@@ -721,6 +732,9 @@ autocmd Filetype typescript setlocal ts=2 sts=2 sw=2
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 " Folding {{{
+  """ Folding in rc files
+  autocmd Filetype vim set foldmethod=fold-marker
+
   function! VimFolds(lnum)
       " get content of current line and the line below
       let l:cur_line = getline(a:lnum)
@@ -737,8 +751,8 @@ autocmd filetype crontab setlocal nobackup nowritebackup
       endif
   endfunction
 
-  "set foldmethod=expr
-  "set foldexpr=VimFolds(v:lnum)
+  " autocmd FileType vim set foldmethod=expr
+  " set foldexpr=VimFolds(v:lnum)
 
   " Autosave folding on exit and load on open
   augroup remember_folds

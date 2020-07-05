@@ -21,5 +21,11 @@
     "markdown": ["write-good", "markdownlint"],
     "sh": "shellcheck"
   },
-  "typescript.preferences.importModuleSpecifier": "relative"
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "markdownlint.config": {
+    "line-length": false,
+    "MD022": false,
+    "MD032": false,
+    "MD025": { "front_matter_title": "" }
+  }
 }
