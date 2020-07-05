@@ -27,6 +27,7 @@
 .config/i3status/config.backup
 !.config/alacritty/
 !.config/tridactyl/
+!.config/nvim/
 
 # iTerm2 settings
 !iTerm2/**

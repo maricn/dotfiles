@@ -33,8 +33,12 @@ alias pingg="ping 8.8.8.8"
 alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
-alias sudoe='sudo -E PATH=$PATH'
+alias psauxgrep='ps aux | grep'
 alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
+
+# Use sudoedit instead, it's safer
+# alias sudoe='sudo -E PATH=$PATH'
+
 function whichla() { local res; res=$(which $@) && ls -la $res }
 function echobase64() { echo -n $@ | base64; }
 function echobase64decode() { echo -n $@ | base64 --decode; }
