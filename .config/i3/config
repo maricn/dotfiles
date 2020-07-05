@@ -30,9 +30,10 @@ font pango:monospace 8
 floating_modifier $mod
 
 bindsym $mod+Control+slash exec --no-startup-id "~/.config/i3/toggle-colemak"
+bindsym $mod+Control+k exec --no-startup-id "~/.xinitrc-keyboard-remap"
 
 # start a terminal
-bindsym $mod+Shift+Return exec i3-sensible-terminal
+bindsym $mod+Shift+Return exec ~/.config/i3/i3-plus layout_exec i3-sensible-terminal
 bindsym $mod+Return exec i3-sensible-terminal
 # bindsym $mod+Return exec ~/.config/i3/i3-plus layout_exec i3-sensible-terminal
 
@@ -258,6 +259,7 @@ for_window [class="Gpick"] floating enable, border normal
 for_window [class="fontforge"] floating enable, border normal
 for_window [class="Pavucontrol"] floating enable, border normal
 for_window [class="Blueman-manager"] floating enable, border normal
+for_window [class="Orage"] floating enable, border normal
 # More windows float
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
