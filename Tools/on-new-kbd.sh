@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This file needs to be referenced from ~/.xinitrc with `inputplug -c on-new-kbd.sh`
+
 echo >&2 "inputplug $@"
 # #!/bin/bash necessary for ${@:4}
 event=$1 id=$2 type=$3 name="${@:4}"
