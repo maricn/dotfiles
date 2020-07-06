@@ -30,6 +30,7 @@
 !.config/nvim/
 !.config/flashfocus/
 !.config/wofi/
+!.config/waybar/
 
 # iTerm2 settings
 !iTerm2/**
