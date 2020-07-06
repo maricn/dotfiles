@@ -107,13 +107,12 @@ export GIT_AUTHOR_NAME=Nikola\ Maric
 export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
 export GITHUB_USER=3995223+maricn@users.noreply.github.com
 
-export PATH_EXTRAS=""
 ## Platform / Use case dependent
 if [[ $(hostname) == *"work-"* ]]; then
   ### Work specific
   source "$HOME/.mimi"
 else
-  export PATH_EXTRAS="/home/nikola/Tools/F8331/android/platform-tools"
+  export PATH="$PATH:/home/nikola/Tools/F8331/android/platform-tools"
 
   ### What do I use Qt for, again? -qtractor
   export QTDIR=/home/nikola/Tools/Qt/5.14.1/gcc_64
@@ -143,7 +142,7 @@ else
   export EDITOR=vim
 fi
 
-export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:${PATH_EXTRAS}:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
+export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
 
 # Utilities {{{
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
