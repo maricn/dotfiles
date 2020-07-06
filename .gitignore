@@ -29,6 +29,7 @@
 !.config/tridactyl/
 !.config/nvim/
 !.config/flashfocus/
+!.config/wofi/
 
 # iTerm2 settings
 !iTerm2/**
