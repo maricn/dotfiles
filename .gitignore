@@ -28,6 +28,7 @@
 !.config/alacritty/
 !.config/tridactyl/
 !.config/nvim/
+!.config/flashfocus/
 
 # iTerm2 settings
 !iTerm2/**
