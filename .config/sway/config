@@ -52,6 +52,7 @@ set $menu_cmd dmenu_path | wofi --show run --allow-images --term ="alacritty" | 
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 output "*" background "~/.cache/wallpaper" fill
 output eDP-1 scale 1
+output HDMI-A-1 res 2560x1440
 #
 # Example configuration:
 #
@@ -91,7 +92,19 @@ input type:keyboard {
     repeat_rate 33
     # EN, RS_lat, RS_cyr, DE and no xkb based cadets
     # (use interception tools like caps2esc for cadets)
-    xkb_file ~/.dotfiles/xkb/xkb_arch.xkb
+    #xkb_file ~/.dotfiles/xkb/xkb_arch.xkb
+}
+
+input "21569:1:TADA_TADA68_Mouse" {
+    natural_scroll enabled
+}
+
+input "1739:52619:SYNA8004:00_06CB:CD8B_Mouse" {
+    natural_scroll enabled
+}
+
+input "7119:5:USB_Optical_Mouse" {
+    natural_scroll enabled
 }
 
 input "2:10:TPPS/2_Elan_TrackPoint" {
@@ -138,7 +151,7 @@ assign [class="Chromium"] 6
 # new_float normal
 
 
-### Key bindings
+### Key bindings {{{
 #
 # Basics:
 #
@@ -165,7 +178,7 @@ assign [class="Chromium"] 6
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+x exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    # bindsym $mod+Shift+x exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
     # Input shortcuts
     bindsym $mod+Control+slash exec --no-startup-id "~/.config/i3/toggle-colemak"
@@ -316,7 +329,7 @@ bindsym $mod+Shift+i		resize grow height 5 px or 5 ppt
 bindsym $mod+Shift+o		resize grow width 5 px or 5 ppt
 
 # Lock
-bindsym Control+Mod1+l      exec swaylock
+bindsym Control+Mod1+l exec swaylock -f -c "#000000"
 
 # Screenshot
 bindsym $mod+P --release exec "flameshot full -c"
@@ -331,26 +344,25 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # System exit
-mode "exit: [l]ock, [r]eboot, [s]leep" {
-  bindsym l mode "default", exec xscreensaver-command -lock
-  bindsym r mode "default", exec sudo reboot
-  # since xautolock uses very slow i3lock-fancy (due to imagemagick)
-  # we turn off the display and wait for three seconds to actually lock
-  # and only then go to suspend
-  bindsym s mode "default", exec --no-startup-id xautolock -detectsleep -locknow && sleep 2 && sudo pm-suspend
-  # xautolock -locknow && xset dpms force off && sleep 3 && sudo pm-suspend
+mode "exit: [x]sway, [l]ock, [s]leep, [r]eboot, [p]oweroff" {
+  bindsym x mode "default", exec swaymsg exit
+  bindsym l mode "default", exec swaylock -f -c "#000000"
+  bindsym r mode "default", exec systemctl reboot
+  bindsym s mode "default", exec systemctl suspend
+  bindsym p mode "default", exec shutdown --poweroff now
   bindsym Escape mode "default"
   bindsym Return mode "default"
   bindsym $mod+x mode "default"
 }
-bindsym $mod+x mode "exit: [l]ock, [r]eboot, [s]leep"
+bindsym $mod+x mode "exit: [x]sway, [l]ock, [s]leep, [r]eboot, [p]oweroff"
+
+# Key Bindings END }}}
 
 #
-# Status Bar:
+# Status Bar: {{{
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position bottom
     swaybar_command waybar
 
     font xft:Iosevka Term SS03:style=Regular
@@ -358,44 +370,34 @@ bar {
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
-
-    # colors {
-    #     statusline #ffffff
-    #     background #323232
-    #     inactive_workspace #32323200 #32323200 #5c5c5c
-    # }
-  colors {
-	background #000000
-	separator #757575
-	#                  border             background         text
-	focused_workspace  $bg-color          $bg-color          $text-color
-	inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-	urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-	focused_workspace  $bg-color          $bg-color      	 $text-color
-  }
 }
 
-# i3-gaps
-smart_gaps on
-gaps inner 6
-gaps outer 2
-bindsym $mod+z              gaps outer current plus 1
-bindsym $mod+Shift+z        gaps outer current minus 1
-bindsym $mod+Mod1+z         gaps inner current plus 1
-bindsym $mod+Mod1+Shift+z   gaps inner current minus 1
+# }}} Status Bar
 
-for_window [class=.*] border pixel 2
-for_window [class="X-terminal-emulator"] border pixel 3
-for_window [app_id="Alacritty"] border pixel 3
-focus_follows_mouse         no
-# don't steal focus if window is a pop-up
-no_focus [window_role="pop-up"]
-# don't steal focus when a window activates, just mark it as urgent [default: smart]
-focus_on_window_activation urgent
-# window border settings
-default_border              normal
-default_floating_border     none
-# hide borders adjacent to the screen edges
-hide_edge_borders           none
+# i3-gaps {{{
+    smart_gaps on
+    gaps inner 6
+    gaps outer 2
+    bindsym $mod+z              gaps outer current plus 1
+    bindsym $mod+Shift+z        gaps outer current minus 1
+    bindsym $mod+Mod1+z         gaps inner current plus 1
+    bindsym $mod+Mod1+Shift+z   gaps inner current minus 1
+    
+    for_window [class=.*] border pixel 2
+    for_window [class="X-terminal-emulator"] border pixel 3
+    for_window [app_id="Alacritty"] border pixel 3
+    focus_follows_mouse         no
+    # don't steal focus if window is a pop-up
+    no_focus [window_role="pop-up"]
+    # don't steal focus when a window activates, just mark it as urgent [default: smart]
+    focus_on_window_activation urgent
+    # window border settings
+    default_border              none
+    default_floating_border     none
+    # hide borders adjacent to the screen edges
+    hide_edge_borders           none
+# }}} i3-gaps
 
 include /etc/sway/config.d/*
+include ~/.config/sway/config.d/*
+

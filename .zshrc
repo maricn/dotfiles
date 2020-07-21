@@ -11,6 +11,9 @@ ZSH_THEME="maricn"
   # ISO-8601 and I accept nothing else, please fuck off
   export LC_TIME=en_DK.UTF-8
 
+  export XDG_CONFIG_HOME="$HOME/.config"
+  export XDG_PICTURES_DIR="$HOME/Pictures"
+
   # set autoload path
   fpath=($HOME/.zsh "${fpath[@]}")
 
@@ -121,8 +124,10 @@ else
 fi
 
 ### Initialize ssh-agent
-if [ -z "$SSH_AUTH_SOCK" ] ; then
-    eval `ssh-agent`
+if [ -x "$(command -v keychain)" ]; then
+  eval $(keychain --eval --quiet "$HOME/.ssh/id_me_maricn_nikola_2019" "$HOME/.ssh/id_mimi_nikola_maric")
+else
+  eval $(ssh-agent -s)
 fi
 
 ### Preserving legacy scripts compatibility
@@ -134,7 +139,6 @@ alias pbpastex='xclip -selection clipboard -o'
 
 export DOCKER_HOST=unix:///var/run/docker.sock
 if [ -x "$(command -v nvim)" ]; then
-
   export VISUAL=nvim
   export EDITOR=nvim
 else

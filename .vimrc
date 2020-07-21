@@ -582,7 +582,7 @@ au InsertLeave * hi statusline guibg=#8fbfdc ctermbg=cyan
   " autoload session if the dir contains Session.vim
   let g:startify_session_autoload = 1
   " specify bookmarks
-  let g:startify_bookmarks = [ {'c': '~/.vimrc'}, {'z': '~/.zshrc'} ]
+  let g:startify_bookmarks = [ {'c': '~/.vimrc'}, {'z': '~/.zshrc'}, {'s': '~/.config/sway/config'} ]
   " list of stuff to show on startup
   let g:startify_lists = [
           \ { 'type': 'sessions',  'header': ['   Sessions']       },
