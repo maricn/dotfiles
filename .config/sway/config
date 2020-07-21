@@ -236,18 +236,18 @@ assign [class="Chromium"] 6
     # We just use 1-10 as the default.
     
     # multi monitor setup
-    workspace 1 output HDMI1 eDP1
-    workspace 2 output HDMI1 eDP1
-    workspace 3 output HDMI1 eDP1
-    workspace 4 output HDMI1 eDP1
-    workspace 5 output HDMI1 eDP1
-    workspace 6 output eDP1 HDMI1
-    workspace 7 output eDP1 HDMI1
-    workspace 8 output eDP1 HDMI1
-    workspace 9 output eDP1 HDMI1
-    workspace 10 output eDP1 HDMI1
-    bindsym $mod+Mod1+h move workspace to output HDMI1
-    bindsym $mod+Mod1+e move workspace to output eDP1
+    workspace 1 output HDMI-A-1 eDP-1
+    workspace 2 output HDMI-A-1 eDP-1
+    workspace 3 output HDMI-A-1 eDP-1
+    workspace 4 output HDMI-A-1 eDP-1
+    workspace 5 output HDMI-A-1 eDP-1
+    workspace 6 output eDP-1 HDMI-A-1
+    workspace 7 output eDP-1 HDMI-A-1
+    workspace 8 output eDP-1 HDMI-A-1
+    workspace 9 output eDP-1 HDMI-A-1
+    workspace 10 output eDP-1 HDMI-A-1
+    bindsym $mod+Mod1+h move workspace to output HDMI-A-1
+    bindsym $mod+Mod1+e move workspace to output eDP-1
 
     # Move around workspaces relative to the current one
     bindsym $mod+Ctrl+h workspace prev
