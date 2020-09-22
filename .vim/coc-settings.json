@@ -1,8 +1,6 @@
 {
   "prettier.tslintIntegration": true,
   "coc.preferences.formatOnSaveFiletypes": [
-    "ts",
-    "js",
     "css",
     "javascript",
     "typescript",
@@ -26,6 +24,23 @@
     "line-length": false,
     "MD022": false,
     "MD032": false,
+    "MD034": false,
     "MD025": { "front_matter_title": "" }
-  }
+  },
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": [".ccls-root", "compile_commands.json"],
+      "initializationOptions": {
+        "cache": {
+          "directory": ".ccls-cache"
+        },
+        "client": {
+          "snippetSupport": true
+        }
+      }
+    }
+  },
+  "explorer.icon.enableNerdfont": true
 }

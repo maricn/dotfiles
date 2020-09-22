@@ -25,7 +25,8 @@ Plug 'qpkorr/vim-bufkill'
 " NERDTree
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
+Plug 'lambdalisue/nerdfont.vim'
+" Plug 'ryanoasis/vim-devicons'         " removed in favor of nerdfont.vim which is lighter
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Git related
@@ -72,9 +73,15 @@ Plug 'leafgarland/typescript-vim'       " typescript syntax and indenting for vi
 Plug 'eliba2/vim-node-inspect'          " NodeJS interactive debugger
 Plug 'stevearc/vim-arduino'             " Arduino build and upload sketch
 
+" Programming - coc.nvim
+" Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'} " TSC
+
+" DevOps
+Plug 'danihodovic/vim-ansible-vault'    " AnsibleVault encrypt/decrypt file
+
 " Appearance
 Plug 'camspiers/animate.vim'
-Plug 'camspiers/lens.vim'
+" Plug 'camspiers/lens.vim'
 Plug 'unblevable/quick-scope'         " Highlight jump characters - slows (unless only on f/F trigger)
 " down vim considerably
 Plug 'godlygeek/csapprox'             " make gvim-only colorschemes work in terminal vim
@@ -111,6 +118,8 @@ set ruler
 set nospell
 set rnu
 set updatetime=300
+set cursorline
+set cursorcolumn
 " let's try fixing colors on nvim
 if !has('nvim')
   set termguicolors!
@@ -130,8 +139,8 @@ xnoremap p "_dP
   " Sakura supports TRUECOLOR, so no need to revert to 256
   " set t_Co=256
   " set t_ut=
-  set guicursor=i:ver1      " insert mode: vertical bar
-  set guicursor+=a:blinkon1 " all modes: turn on blinking
+  set guicursor=a:ver1-blinkon0   " insert mode: vertical bar
+  set guicursor+=i:hor1-blinkon0  " all modes: turn on blinking
   
   " themes {{{
     " autocmd vimenter * colorscheme onedark
@@ -154,16 +163,9 @@ xnoremap p "_dP
     hi QuickFixLine cterm=None ctermbg=black guibg=#ffff00
   " }}}
   
-  " lens.vim {{{
-    let g:lens#disabled = 1
-    " 120 + 4 for gutter
-    let g:lens#width_resize_max = 124
-    " git commit, nerdtree
-    let g:lens#disabled_filetypes = ['nerdtree', 'fzf']
-  " }}}
-
 "" Key remaps -----------------
-noremap <silent> <expr> <F2> g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+" noremap <silent> <expr> <F2> g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+noremap <silent> <F2> :CocCommand explorer<CR>
 :nnoremap <F5> "=strftime("%FT%T%z")<CR>P
 :inoremap <F5> <C-R>=strftime("%FT%T%z")<CR>
 
@@ -396,7 +398,7 @@ let g:camelcasemotion_key = '<leader>'
 " CtrlP - go to definition {{{
   let g:ctrlp_map = '<C-p>'
   let g:ctrlp_cmd = 'CtrlP'
-  let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lib|vendor|coverage|researchtag|webBasedPortal)|(\.(swp|ico|git|svn))$'
+  let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lib|vendor|coverage|lcov-report|researchtag|webBasedPortal)|(\.(swp|ico|git|svn))$'
 "  noremap <leader>pp <ESC>:CtrlPRoot<CR>
 "  noremap <leader>pb <ESC>:CtrlPBuffer<CR>
 "  noremap <leader>pt <ESC>:CtrlPMRUFiles<CR>
@@ -424,12 +426,12 @@ let g:camelcasemotion_key = '<leader>'
   " Ctrl+F find in current file
   nnoremap <silent> <C-F>l :Lines<CR>
   nnoremap <silent> <C-F>b :BLines<CR>
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings -S --no-ignore --hidden --follow --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings -S --no-ignore-vcs --hidden --follow --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib,**/coverage,**/lcov-report}" --color "always" '.shellescape(<q-args>), 1, <bang>0)
   nnoremap <C-F>f :Find<CR>
 " }}}
 
 " ripgrep {{{
-  let g:rg_command = 'rg --vimgrep -S'
+  let g:rg_command = 'rg --vimgrep -S --no-ignore-vcs --hidden --glob "!{**/__pycache__,**/.git,**/*.pyc,**/venv/lib,**/coverage,**/lcov-report}"'
   let g:rg_highlight = 'true'
   let g:rg_derive_root = 'false' " it will use getcwd() (startup dir or `chdir`)
   nnoremap <C-F>g :Rg
@@ -442,7 +444,7 @@ let g:camelcasemotion_key = '<leader>'
   let g:grepper.rg = {}
   runtime plugin/grepper.vim
   " override rg query
-  let g:grepper.rg.grepprg = 'rg --follow --smart-case --with-filename --no-heading --vimgrep --hidden --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}"'
+  let g:grepper.rg.grepprg = 'rg --follow --smart-case --with-filename --no-heading --vimgrep --hidden --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib,**/coverage,**/lcov-report}"'
   " highlight searches
   let g:grepper.searchreg = 1
   let g:grepper.highlight = 1
@@ -677,6 +679,7 @@ if &term =~ '^screen'
 endif
 " Close tmux when exiting vim
 autocmd VimLeave * silent !tmux kill-session -t $VIM_SESSION
+autocmd VimLeave * set guicursor=a:block-blinkon0
 
 """ Custom file types
 au BufRead,BufNewFile *.md set filetype=markdown
@@ -719,6 +722,7 @@ autocmd Filetype jsx setlocal ts=2 sts=2 sw=2
 autocmd Filetype tsc setlocal ts=2 sts=2 sw=2
 autocmd Filetype ts setlocal ts=2 sts=2 sw=2
 autocmd Filetype typescript setlocal ts=2 sts=2 sw=2
+autocmd Filetype c,cpp,h,hpp setlocal ts=2 sts=2 sw=2
 
 """ Enable wrapping in textual files
 autocmd Filetype txt,md,markdown set wrap
@@ -763,10 +767,10 @@ autocmd filetype crontab setlocal nobackup nowritebackup
 "}}}
 
 " run ncat
-map <c-y>l :! eval $(cat ~/.netcat/localhost.env); envsubst < % \| sed '1,/Content-Length/d;/,0/,$d' \| tail -n+2 \| wc -c \| read NC_MM_CONTENT_LENGTH; export NC_MM_CONTENT_LENGTH; envsubst < % \| tee /dev/tty \| ~/.netcat/ncat-wrapper.sh localhost <CR>
-map <c-y>s :! eval $(cat ~/.netcat/staging.env); expr `envsubst < % \| sed '1,/Content-Length/d;/,0/,$d' \| tail -n+2 \| wc -c` - 1 \| read NC_MM_CONTENT_LENGTH; export NC_MM_CONTENT_LENGTH; envsubst < % \| tee /dev/tty \| ~/.netcat/ncat-wrapper.sh staging \| tee -a ~/.netcat/logs/staging.log \| tee /dev/tty \| grep '^{.*}$' \| jq -r '.accessToken' > ~/.netcat/tokens/staging.token <CR>
-map <c-y>p :! eval $(cat ~/.netcat/production.env); expr `envsubst < % \| sed '1,/Content-Length/d;/,0/,$d' \| tail -n+2 \| wc -c` - 1 \| read NC_MM_CONTENT_LENGTH; export NC_MM_CONTENT_LENGTH; envsubst < % \| tee /dev/tty \| ~/.netcat/ncat-wrapper.sh production \| tee -a ~/.netcat/logs/production.log \| tee /dev/tty \| grep '^{.*}$' \| jq -r '.accessToken' > ~/.netcat/tokens/production.token <CR>
-
-if exists("g:loaded_webdevicons")
-  call webdevicons#refresh()
-endif
+" map <c-y>l :! eval $(cat ~/.netcat/localhost.env); envsubst < % \| sed '1,/Content-Length/d;/,0/,$d' \| tail -n+2 \| wc -c \| read NC_MM_CONTENT_LENGTH; export NC_MM_CONTENT_LENGTH; envsubst < % \| tee /dev/tty \| ~/.netcat/ncat-wrapper.sh localhost <CR>
+" map <c-y>s :! eval $(cat ~/.netcat/staging.env); expr `envsubst < % \| sed '1,/Content-Length/d;/,0/,$d' \| tail -n+2 \| wc -c` - 1 \| read NC_MM_CONTENT_LENGTH; export NC_MM_CONTENT_LENGTH; envsubst < % \| tee /dev/tty \| ~/.netcat/ncat-wrapper.sh staging \| tee -a ~/.netcat/logs/staging.log \| tee /dev/tty \| grep '^{.*}$' \| jq -r '.accessToken' > ~/.netcat/tokens/staging.token <CR>
+" map <c-y>p :! eval $(cat ~/.netcat/production.env); expr `envsubst < % \| sed '1,/Content-Length/d;/,0/,$d' \| tail -n+2 \| wc -c` - 1 \| read NC_MM_CONTENT_LENGTH; export NC_MM_CONTENT_LENGTH; envsubst < % \| tee /dev/tty \| ~/.netcat/ncat-wrapper.sh production \| tee -a ~/.netcat/logs/production.log \| tee /dev/tty \| grep '^{.*}$' \| jq -r '.accessToken' > ~/.netcat/tokens/production.token <CR>
+" 
+" if exists("g:loaded_webdevicons")
+"   call webdevicons#refresh()
+" endif
