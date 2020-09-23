@@ -169,6 +169,9 @@ export TAGSEARCH_HOME="$HOME/Sync/notes/notes"
 export rmtar() {
   tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
 }
+export rmzip() {
+  unzip -l $1 | head -n -2 | tail -n +4 | awk '{print $4}' | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
+}
 
 source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # Software Development (Node.JS) {{{
