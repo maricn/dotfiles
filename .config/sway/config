@@ -44,7 +44,8 @@ set $term alacritty
 # on the original workspace that the command was run on.
 #set $menu wofi
 set $menu dmenu_path | wofi --show drun --allow-images | xargs swaymsg exec --
-set $menu_cmd dmenu_path | wofi --show run --allow-images --term ="alacritty" | xargs swaymsg exec --
+set $menu_cmd dmenu_path | wofi --show run --allow-images --term="alacritty" | xargs swaymsg exec --
+set $menu_emojis ~/Tools/charpicker/charpicker.sh
 
 ### Output configuration
 #
@@ -64,11 +65,13 @@ output HDMI-A-1 res 2560x1440
 #
 # Example configuration:
 #
-exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
+exec --no-startup-id swayidle -w \
+         timeout 300 "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2'" \
          timeout 600 'swaymsg "output * dpms off"' \
-              resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f -c 000000'
+         resume 'swaymsg "output * dpms on"' \
+         before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2'" &
+         #before-sleep $lock_cmd
+         #before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator'" &
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -118,7 +121,11 @@ input "1739:52619:SYNA8004:00_06CB:CD8B_Touchpad" {
     pointer_accel 0.5
 }
 
-# Some windows float
+input "1133:16500:Logitech_G305" {
+    natural_scroll enabled
+}
+
+# Some windows float by class
 for_window [class="copyq"] floating enable, border normal
 for_window [class="mpv"] floating enable, border normal
 for_window [class="Cadence"] floating enable, border normal
@@ -129,18 +136,26 @@ for_window [class="fontforge"] floating enable, border normal
 for_window [class="Pavucontrol"] floating enable, border normal
 for_window [class="Blueman-manager"] floating enable, border normal
 for_window [class="Orage"] floating enable, border normal
-# More windows float
+# Some windows float by app_id
+for_window [app_id="blueman-manager"] floating enable, border normal
+for_window [app_id="pavucontrol"] floating enable, border normal
+for_window [app_id="mpv"] floating enable, border normal
+# More windows float by their window_role
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [window_type="dialog"] floating enable
+# Some but not all app windows float cherry-picked
+for_window [class="Ripcord" title="((Search Messages|Channels|Files|Members|Threads Overview|Mentions) - .*|Bookmarks|Add Emoji Reaction|Start Thread|Preferences)"] floating enable
 # Some windows float over all workspaces
 for_window [class="mpv"] sticky enable
+for_window [app_id="mpv"] sticky enable
 
 # Some windows are assigned to workspaces
 assign [class="Slack"] 1
 assign [class="Signal"] 1
+assign [class="Signal Beta"] 1
 assign [class="tutanota"] 1
 assign [class="KeePassXC"] 1
 assign [class="Firefox Developer Edition"] 2
@@ -164,7 +179,8 @@ assign [class="Chromium"] 6
 
     # Start your launcher
     bindsym $mod+d exec $menu
-    bindsym $mod+Shift+d exec $menu_cmd
+    bindsym $mod+Shift+d exec $menu_emojis
+    #bindsym $mod+Shift+d exec $menu_cmd
     bindsym $mod+Tab exec --no-startup-id $menu -show window
 
     # Drag floating windows by holding down $mod and left mouse button.
@@ -182,7 +198,7 @@ assign [class="Chromium"] 6
 
     # Input shortcuts
     bindsym $mod+Control+slash exec --no-startup-id "~/.config/i3/toggle-colemak"
-    bindsym $mod+Control+k exec --no-startup-id "~/.xinitrc-keyboard-remap"
+    # bindsym $mod+Control+k exec --no-startup-id "~/.xinitrc-keyboard-remap"
 #
 # Moving around:
 #
@@ -236,16 +252,16 @@ assign [class="Chromium"] 6
     # We just use 1-10 as the default.
     
     # multi monitor setup
-    workspace 1 output HDMI-A-1 eDP-1
-    workspace 2 output HDMI-A-1 eDP-1
-    workspace 3 output HDMI-A-1 eDP-1
-    workspace 4 output HDMI-A-1 eDP-1
-    workspace 5 output HDMI-A-1 eDP-1
-    workspace 6 output eDP-1 HDMI-A-1
-    workspace 7 output eDP-1 HDMI-A-1
-    workspace 8 output eDP-1 HDMI-A-1
-    workspace 9 output eDP-1 HDMI-A-1
-    workspace 10 output eDP-1 HDMI-A-1
+    workspace 1 output HDMI-A-1 DP-2 eDP-1
+    workspace 2 output HDMI-A-1 DP-2 eDP-1
+    workspace 3 output HDMI-A-1 DP-2 eDP-1
+    workspace 4 output HDMI-A-1 DP-2 eDP-1
+    workspace 5 output HDMI-A-1 DP-2 eDP-1
+    workspace 6 output eDP-1 DP-2 HDMI-A-1
+    workspace 7 output eDP-1 DP-2 HDMI-A-1
+    workspace 8 output eDP-1 DP-2 HDMI-A-1
+    workspace 9 output eDP-1 DP-2 HDMI-A-1
+    workspace 10 output eDP-1 DP-2 HDMI-A-1
     bindsym $mod+Mod1+h move workspace to output HDMI-A-1
     bindsym $mod+Mod1+e move workspace to output eDP-1
 
@@ -329,11 +345,16 @@ bindsym $mod+Shift+i		resize grow height 5 px or 5 ppt
 bindsym $mod+Shift+o		resize grow width 5 px or 5 ppt
 
 # Lock
-bindsym Control+Mod1+l exec swaylock -f -c "#000000"
+bindsym Control+Mod1+l exec $lock_cmd
 
 # Screenshot
-bindsym $mod+P --release exec "flameshot full -c"
-bindsym $mod+Shift+P exec "flameshot full -d 2000 -c"
+#bindsym $mod+P --release exec "flameshot full -c"
+#bindsym $mod+Shift+P exec "flameshot full -d 2000 -c"
+for_window [title="imv.*screenshot"] floating enable
+for_window [title="imv.*screenshot"] fullscreen on
+bindsym $mod+P --release exec "grim screen -"
+bindsym $mod+Shift+P exec 'geo="$(slurp)" && sleep 2 && grim -g "$geo" - | wl-copy -t image/png'
+#bindsym $mod+Shift+P exec "~/Tools/screenshot.sh 2>&1 >~/log"
 
 # Media keys
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
@@ -346,7 +367,7 @@ bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 # System exit
 mode "exit: [x]sway, [l]ock, [s]leep, [r]eboot, [p]oweroff" {
   bindsym x mode "default", exec swaymsg exit
-  bindsym l mode "default", exec swaylock -f -c "#000000"
+  bindsym l mode "default", exec $lock_cmd
   bindsym r mode "default", exec systemctl reboot
   bindsym s mode "default", exec systemctl suspend
   bindsym p mode "default", exec shutdown --poweroff now
