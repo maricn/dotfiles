@@ -1,0 +1,10 @@
+[Unit]
+Description=User resume actions
+After=suspend.target
+
+[Service]
+Type=simple
+ExecStart=brightnessctl --device='tpacpi::kbd_backlight' s 1
+
+[Install]
+WantedBy=suspend.target
