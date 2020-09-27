@@ -1,4 +1,5 @@
-sanitise tridactyllocal tridactylsync
+" don't sanitize https://github.com/tridactyl/tridactyl/issues/1409
+" sanitise tridactyllocal tridactylsync
 
 " General Settings
 set configversion 1.9
@@ -14,15 +15,25 @@ colourscheme maricn-base16-gruvbox-dark-hard
 
 " Binds
 unbind <F1>
-unbind <C-f>
+" url increment/decrement
 unbind <C-a>
+unbind <C-x>
+" scrolls
 unbind <C-d>
 unbind <C-u>
-unbind .
+" unbind firefox shortcuts, but use default tridactyl
+unbind <C-f> --mode=browser
+unbind <C-b> --mode=browser
+" clipboard tabopen
 unbind p
-unbind s
-unbind S
-unbind D
+unbind P
+" repeat
+unbind .
+" unbind s
+" unbind S
+" unbind d
+" unbind D
+unbind u
 unbind U
 
 bind d scrollpage 0.5
