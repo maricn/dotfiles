@@ -1,4 +1,6 @@
 *.orig
+node_modules/
+
 !.gitignore
 !.gitmodules
 
@@ -12,26 +14,37 @@
 !*.sh
 !*.py
 
+# Ignore ccls cache
+.ccls-cache/
+
 .config/*
+!.config/alacritty/
+!.config/coc/
+.config/coc/*
+!.config/coc/extensions/
+.config/coc/extensions/*
+!.config/coc/extensions/package.json
+!.config/flashfocus/
+!.config/i3/
+!.config/i3status/
+.config/i3status/config.backup
 !.config/iterm2/
+!.config/imv/
+!.config/kanshi/
 !.config/karabiner/
-!.config/mpv
-.config/mpv/*
-!.config/mpv/mpv.conf
 !.config/mps-youtube
 .config/mps-youtube/play_history.m3u
 .config/mps-youtube/input_history
 .config/mps-youtube/cache*
-!.config/i3/
-!.config/i3status/
-.config/i3status/config.backup
-!.config/alacritty/
-!.config/tridactyl/
+!.config/mpv
+.config/mpv/*
+!.config/mpv/mpv.conf
 !.config/nvim/
-!.config/flashfocus/
+!.config/sway/
+!.config/tridactyl/
 !.config/wofi/
 !.config/waybar/
-!.config/sway/
+!.config/yay/
 
 # iTerm2 settings
 !iTerm2/**
