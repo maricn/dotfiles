@@ -22,10 +22,10 @@ Plug 'tweekmonster/fzf-filemru'
 Plug 'pbogut/fzf-mru.vim'
 Plug 'qpkorr/vim-bufkill'
 
-" NERDTree
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'lambdalisue/nerdfont.vim'
+" NERDTree (switched to coc-explorer)
+" Plug 'scrooloose/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'lambdalisue/nerdfont.vim'
 " Plug 'ryanoasis/vim-devicons'         " removed in favor of nerdfont.vim which is lighter
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
@@ -64,7 +64,7 @@ Plug 'mhinz/vim-startify'               " Start screen for vim
 " Network
 Plug 'diepm/vim-rest-console'           " Use vim as postman
 " Integration
-" Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 " Programming
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -89,6 +89,7 @@ Plug 'joshdick/onedark.vim'           " Colorscheme onedark
 Plug 'morhetz/gruvbox'                " Colorscheme gruvbox (can be light)
 Plug 'breuckelen/vim-resize'          " Use Ctrl+arrows to resize splits
 Plug 'chrisbra/Colorizer'             " Show hex codes as colours
+" Plug 'vheon/vim-cursormode'           " Color cursor based on the mode - working only on iTerm2
 " Plug 'Townk/vim-autoclose' " perhaps is conflicting when closing
 " Plug 'udalov/kotlin-vim'
 " Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -112,11 +113,10 @@ set smartcase
 set mouse=a
 set hidden
 set wildmode=list:longest
-set number
+set number relativenumber
 set title
 set ruler
 set nospell
-set rnu
 set updatetime=300
 set cursorline
 set cursorcolumn
@@ -139,9 +139,6 @@ xnoremap p "_dP
   " Sakura supports TRUECOLOR, so no need to revert to 256
   " set t_Co=256
   " set t_ut=
-  set guicursor=a:ver1-blinkon0   " insert mode: vertical bar
-  set guicursor+=i:hor1-blinkon0  " all modes: turn on blinking
-  
   " themes {{{
     " autocmd vimenter * colorscheme onedark
 
@@ -161,6 +158,18 @@ xnoremap p "_dP
             \ hi CocUnderline  cterm=underline gui=underline
     " highlight quickfix line
     hi QuickFixLine cterm=None ctermbg=black guibg=#ffff00
+ 
+    " set guicursor=a:blinkon0        " insert mode: vertical block
+    " set guicursor+=i:hor1-blinkon0  " all modes: turn on blinking
+
+    " mode aware cursors
+    set gcr=a:blinkon1
+    set gcr+=o:hor50-Cursor
+    set gcr+=n:Cursor
+    set gcr+=i-ci-sm:InsertCursor-ver1
+    set gcr+=r-cr:ReplaceCursor-hor20
+    set gcr+=c:CommandCursor
+    set gcr+=v-ve:VisualCursor-ver1
   " }}}
   
 "" Key remaps -----------------
@@ -519,45 +528,6 @@ nnoremap <leader><leader>w :w<CR>
 " :w!! sudo saves the file
 cmap w!! w !sudo tee % >/dev/null
 
-" NERDTree options
-let NERDTreeAutoCenter = 1
-let NERDTreeCaseSensitiveSort = 1
-let NERDTreeHighlightCursorline = 1
-let NERDTreeMouseMode = 1
-let NERDTreeQuitOnOpen = 1
-"let NERDTreeDirArrows = 1
-let NERDTreeIgnore=['.*\.o$']
-let NERDTreeIgnore+=['.*\~$']
-let NERDTreeIgnore+=['.*\.out$']
-let NERDTreeIgnore+=['.*\.so$', '.*\.a$']
-let NERDTreeIgnore+=['.*\.pyc$']
-let NERDTreeIgnore+=['.*\.class$']
-" NERDTrees File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', 'black')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', 'black')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', 'black')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', 'black')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', 'black')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', 'black')
-call NERDTreeHighlightFile('jsonc', 'yellow', 'none', 'yellow', 'black')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', 'black')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', 'black')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', 'black')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', 'black')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', 'black')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', 'black')
-call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', 'black')
-call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', 'black')
-call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', 'black')
-call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', 'black')
-call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', 'black')
-call NERDTreeHighlightFile('ts', 'green', 'none', 'green', 'black')
-call NERDTreeHighlightFile('py', 'green', 'none', 'green', 'black')
-
 " status bar colors
 hi statusline guibg=#8fbfdc ctermbg=cyan
 au InsertEnter * hi statusline guibg=#d7afff ctermbg=magenta
@@ -567,6 +537,7 @@ au InsertLeave * hi statusline guibg=#8fbfdc ctermbg=cyan
 " hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
 
 " vim-startify {{{
+if (!exists('g:started_by_firenvim'))
   " returns all modified files of the current git repo
   " `2>/dev/null` makes the command fail quietly, so that when we are not
   " in a git repo, the list will be empty
@@ -596,10 +567,8 @@ au InsertLeave * hi statusline guibg=#8fbfdc ctermbg=cyan
           \ { 'type': 'commands',  'header': ['   Commands']       },
           \ ]
   autocmd User Startified setlocal cursorline
+endif
 " }}}
-
-" Status line
-" default: set statusline=%f\ %h%w%m%r\ %=%(%l,%c%V\ %=\ %P%)
 
 " Status Line Custom
 let g:currentmode={
@@ -624,8 +593,8 @@ let g:currentmode={
     \ 't'  : 'Terminal'
     \}
 
-set laststatus=2
 set noshowmode
+set laststatus=2
 set statusline=
 set statusline+=%0*\ %n\                                 " Buffer number
 set statusline+=%0*\ %<%f%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
@@ -645,13 +614,58 @@ set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 
-" hi Directory guifg=#FF0000 ctermfg=red
-" hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
-" hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
-" hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
-" hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
 hi PMenu guibg=#666666
 hi PMenuSel guibg=#777777
+
+" {{{ Firenvim plugin
+if (exists('g:started_by_firenvim'))
+  nnoremap <C-z> :call firenvim#hide_frame()<CR>
+
+  let g:firenvim_config = { 
+      \ 'globalSettings': {
+          \ 'alt': 'all',
+      \  },
+      \ 'localSettings': {
+          \ '.*': {
+              \ 'priority': 0,
+              \ 'selector': 'textarea',
+              \ 'takeover': 'never',
+          \ },
+      \ }
+  \ }
+
+  function! s:IsFirenvimActive(event) abort
+    if !exists('*nvim_get_chan_info')
+      return 0
+    endif
+    let l:ui = nvim_get_chan_info(a:event.chan)
+    return has_key(l:ui, 'client') && has_key(l:ui.client, 'name') &&
+        \ l:ui.client.name =~? 'Firenvim'
+  endfunction
+  
+  function! OnUIEnter(event) abort
+    if s:IsFirenvimActive(a:event)
+      " configure font size
+  		set guifont=Iosevka:h12
+      " extend the textarea
+      set lines=14 columns=80
+      " disable the statusline
+      set laststatus=0
+      set statusline=
+      " extend the gutter line
+      set nuw=3
+      " disable git gutter
+      GitGutterDisable
+      " color the cursor
+      hi Cursor ctermbg=black ctermfg=gray guibg=black guifg=#e9d6b6
+      " quit on ,,q (not only buffer, but whole thing)
+      nnoremap <leader><leader>q :quit<CR>
+    endif
+  endfunction
+
+  autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
+endif
+" }}}
 
 " Markdown plugin
 let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
