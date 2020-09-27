@@ -66,10 +66,6 @@ node_modules/
 .git_template/.*
 !.gitignore_global
 
-# Nano syntax highlighting
-!.nano/
-!.nano/*.nanorc
-
 # Vim stuff
 !.vimrc
 !.vim/
