@@ -32,6 +32,7 @@ node_modules/
 !.config/imv/
 !.config/kanshi/
 !.config/karabiner/
+!.config/libinput-gestures.conf
 !.config/mps-youtube
 .config/mps-youtube/play_history.m3u
 .config/mps-youtube/input_history
