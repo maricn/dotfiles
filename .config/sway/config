@@ -277,13 +277,13 @@ assign [class="Chromium"] 6
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
-    bindsym $mod+backslash  split horizontal
-    bindsym $mod+bar        split horizontal
-    bindsym $mod+percent    split horizontal
-    bindsym $mod+apostrophe split vertical
-    bindsym $mod+quotedbl   split vertical
+    # bindsym $mod+b splith
+    # bindsym $mod+v splitv
+    # bindsym $mod+backslash  split horizontal
+    # bindsym $mod+bar        split horizontal
+    # bindsym $mod+percent    split horizontal
+    # bindsym $mod+apostrophe split vertical
+    # bindsym $mod+quotedbl   split vertical
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
