@@ -7,6 +7,16 @@ profile "solo" {
     output eDP-1 enable scale 1 position 0,0
 }
 
+profile "clara" {
+    output eDP-1 enable scale 1 position 0,1080
+    output "Unknown Qumi Q38 0x00000001" enable mode 1920x1080 position 0,0
+}
+
+profile "sabrina" {
+    output eDP-1 enable scale 1 position 0,720
+    output "Acer Technologies ACER H5382BD JNQ110015900" enable mode 1280x720 position 0,0
+}
+
 profile "home" {
     output eDP-1 enable scale 1 position 2560,1200
     output HDMI-A-1 enable mode 2560x1440 position 0,0
