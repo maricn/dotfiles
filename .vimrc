@@ -53,6 +53,8 @@ Plug 'tpope/vim-sensible'
 Plug 'sukima/xmledit'
 Plug 'mboughaba/i3config.vim'
 " Plug 'SidOfc/mkdx'                      " Markdown plugin
+Plug 'chmp/mdnav'                     " Follow markdown links
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'sulibo/vim-jekyll'                " Jekyll plugin
 Plug 'junegunn/vim-peekaboo'            " sneak peak preview of registers on @ and "
 Plug 'mhinz/vim-startify'               " Start screen for vim

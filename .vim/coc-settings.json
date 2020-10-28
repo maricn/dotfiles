@@ -24,6 +24,7 @@
     "line-length": false,
     "MD022": false,
     "MD032": false,
+    "MD033": false, // inline HTML shouldn't be forbidden (<a name="asdf"></a>...[goto](#asdf))
     "MD034": false,
     "MD025": { "front_matter_title": "" }
   },
