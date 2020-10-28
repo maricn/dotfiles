@@ -1,11 +1,13 @@
 exec pulseaudio --start
 exec kanshi &
-exec flashfocus &
 exec gammastep &
 exec brightnessctl --device='tpacpi::kbd_backlight' s 1
 
-exec sleep 1 && unset QT_QPA_PLATFORMTHEME && env WAYLAND_DEBUG=1 chromium &
+exec sleep 1 && flashfocus &
+exec libinput-gestures-setup stop; \
+    sleep 1 && dex ~/.config/autostart/libinput-gestures.desktop
 
+exec sleep 2 && unset QT_QPA_PLATFORMTHEME && env WAYLAND_DEBUG=1 chromium &
 exec sleep 2 && unset QT_QPA_PLATFORMTHEME && env WAYLAND_DEBUG=1 firefox &
 
 exec sleep 3 && unset QT_QPA_PLATFORMTHEME && env WAYLAND_DEBUG=1 QT_QPA_PLATFORM=xcb copyq &
