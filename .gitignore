@@ -1,4 +1,6 @@
 *.orig
+node_modules/
+
 !.gitignore
 !.gitmodules
 
@@ -12,20 +14,38 @@
 !*.sh
 !*.py
 
+# Ignore ccls cache
+.ccls-cache/
+
 .config/*
+!.config/alacritty/
+!.config/coc/
+.config/coc/*
+!.config/coc/extensions/
+.config/coc/extensions/*
+!.config/coc/extensions/package.json
+!.config/flashfocus/
+!.config/i3/
+!.config/i3status/
+.config/i3status/config.backup
 !.config/iterm2/
+!.config/imv/
+!.config/kanshi/
 !.config/karabiner/
-!.config/mpv
-.config/mpv/*
-!.config/mpv/mpv.conf
+!.config/libinput-gestures.conf
 !.config/mps-youtube
 .config/mps-youtube/play_history.m3u
 .config/mps-youtube/input_history
 .config/mps-youtube/cache*
-!.config/i3/
-!.config/i3status/
-.config/i3status/config.backup
-!.config/alacritty/
+!.config/mpv
+.config/mpv/*
+!.config/mpv/mpv.conf
+!.config/nvim/
+!.config/sway/
+!.config/tridactyl/
+!.config/wofi/
+!.config/waybar/
+!.config/yay/
 
 # iTerm2 settings
 !iTerm2/**
@@ -46,10 +66,6 @@
 !.git_template/**
 .git_template/.*
 !.gitignore_global
-
-# Nano syntax highlighting
-!.nano/
-!.nano/*.nanorc
 
 # Vim stuff
 !.vimrc

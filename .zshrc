@@ -11,6 +11,9 @@ ZSH_THEME="maricn"
   # ISO-8601 and I accept nothing else, please fuck off
   export LC_TIME=en_DK.UTF-8
 
+  export XDG_CONFIG_HOME="$HOME/.config"
+  export XDG_PICTURES_DIR="$HOME/Pictures"
+
   # set autoload path
   fpath=($HOME/.zsh "${fpath[@]}")
 
@@ -25,7 +28,8 @@ alias datetime="date +'%Y-%m-%d %H:%M:%S'"
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd $HOME/Workspace/"
-alias cdtf="cd $HOME/tensorflow/ && source ./bin/activate"
+alias light="sed -i 's/colors: \*dark/colors: *light/' ~/.config/alacritty/alacritty.yml"
+alias  dark="sed -i 's/colors: \*light/colors: *dark/' ~/.config/alacritty/alacritty.yml"
 alias grepc="grep --color -E "
 alias clear='[ $[$RANDOM % 6] = 0 ] && timeout 3 cmatrix; clear || clear'
 alias trees="tree -shC"
@@ -33,8 +37,12 @@ alias pingg="ping 8.8.8.8"
 alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
-alias sudoe='sudo -E PATH=$PATH'
+alias psauxgrep='ps aux | grep'
 alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
+
+# Use sudoedit instead, it's safer
+# alias sudoe='sudo -E PATH=$PATH'
+
 function whichla() { local res; res=$(which $@) && ls -la $res }
 function echobase64() { echo -n $@ | base64; }
 function echobase64decode() { echo -n $@ | base64 --decode; }
@@ -103,13 +111,12 @@ export GIT_AUTHOR_NAME=Nikola\ Maric
 export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
 export GITHUB_USER=3995223+maricn@users.noreply.github.com
 
-export PATH_EXTRAS=""
 ## Platform / Use case dependent
 if [[ $(hostname) == *"work-"* ]]; then
   ### Work specific
   source "$HOME/.mimi"
 else
-  export PATH_EXTRAS="/home/nikola/Tools/F8331/android/platform-tools"
+  export PATH="$PATH:/home/nikola/Tools/F8331/android/platform-tools"
 
   ### What do I use Qt for, again? -qtractor
   export QTDIR=/home/nikola/Tools/Qt/5.14.1/gcc_64
@@ -118,8 +125,10 @@ else
 fi
 
 ### Initialize ssh-agent
-if [ -z "$SSH_AUTH_SOCK" ] ; then
-    eval `ssh-agent`
+if [ -x "$(command -v keychain)" ]; then
+  eval $(keychain --eval --quiet "$HOME/.ssh/id_me_maricn_nikola_2019" "$HOME/.ssh/id_mimi_nikola_maric")
+else
+  eval $(ssh-agent -s)
 fi
 
 ### Preserving legacy scripts compatibility
@@ -131,7 +140,6 @@ alias pbpastex='xclip -selection clipboard -o'
 
 export DOCKER_HOST=unix:///var/run/docker.sock
 if [ -x "$(command -v nvim)" ]; then
-
   export VISUAL=nvim
   export EDITOR=nvim
 else
@@ -139,7 +147,7 @@ else
   export EDITOR=vim
 fi
 
-export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:${PATH_EXTRAS}:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
+export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
 
 # Utilities {{{
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -161,6 +169,9 @@ export QUOTING_STYLE=literal
 export TAGSEARCH_HOME="$HOME/Sync/notes/notes"
 export rmtar() {
   tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
+}
+export rmzip() {
+  unzip -l $1 | head -n -2 | tail -n +4 | awk '{print $4}' | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
 }
 
 source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

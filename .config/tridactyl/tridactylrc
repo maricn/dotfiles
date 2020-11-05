@@ -1,0 +1,66 @@
+" don't sanitize https://github.com/tridactyl/tridactyl/issues/1409
+" sanitise tridactyllocal tridactylsync
+
+" General Settings
+set configversion 1.9
+set update.lastchecktime 1593077346454
+set smoothscroll true
+set modeindicatorshowkeys true
+set modeindicator false
+
+" Theme
+" set theme maricn-base16-gruvbox-dark-hard
+" set colours maricn-base16-gruvbox-dark-hard
+colourscheme maricn-base16-gruvbox-dark-hard
+
+" Binds
+unbind <F1>
+" url increment/decrement
+unbind <C-a>
+unbind <C-x>
+" scrolls
+unbind <C-d>
+unbind <C-u>
+" unbind firefox shortcuts, but use default tridactyl
+unbind <C-f> --mode=browser
+unbind <C-b> --mode=browser
+" clipboard tabopen
+unbind p
+unbind P
+" repeat
+unbind .
+" unbind s
+" unbind S
+" unbind d
+" unbind D
+unbind u
+unbind U
+
+bind d scrollpage 0.5
+bind u scrollpage -0.5
+
+" conflicts with <C-d> as "Bookmark this page"
+" bind <C-d> scrollpage 0.7
+" bind <C-u> scrollpage -0.7
+
+bind <C-[> back
+bind <C-]> forward
+
+bind i mode ignore
+bind --mode=ignore <escape> mode normal
+
+bind t tabnew
+bind J tabnext
+bind K tabprev
+bind x tabclose
+bind --mode=ignore ^ tab #
+
+bind / fillcmdline find
+bind n findnext
+bind N findnext -1
+bind <Escape> composite mode normal ; hidecmdline ; nohlsearch
+
+bind --mode=ex <ArrowRight> ex.insert_completion
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl

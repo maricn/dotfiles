@@ -1,0 +1,1 @@
+/home/nikola/.vimrc

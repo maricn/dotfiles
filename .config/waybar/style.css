@@ -1,0 +1,130 @@
+* {
+  border: none;
+  border-radius: 0;
+  /* `otf-font-awesome` is required to be installed for icons */
+}
+
+window#waybar {
+  background-color: #3c3836;
+  color: #bdae93;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+#workspaces button {
+  padding: 0 4px;
+  background-color: #282828;
+  color: #665c54;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+  background: #7c6f64;
+  color: #282828;
+  box-shadow: inherit;
+  text-shadow: inherit;
+}
+
+#workspaces button.focused {
+  background-color: #504945;
+  color: #ebdbb2;
+}
+
+#workspaces button.urgent {
+  background-color: #cc241d;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#disk,
+#mpd {
+  padding: 0 12px;
+  color: #bdae93;
+  border-left: 2px solid #504945;
+}
+
+#battery.charging {
+  color: #689d6a;
+}
+
+@keyframes blink {
+  to {
+    color: #504945;
+  }
+}
+.blinking, #temperature.critical, #battery.critical:not(.charging) {
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#battery.critical:not(.charging) {
+  background-color: #cc241d;
+}
+
+#network.disconnected {
+  color: #7c6f64;
+}
+
+#pulseaudio.muted {
+  color: #7c6f64;
+}
+
+#custom-media {
+  min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+  color: #689d6a;
+}
+
+#custom-media.custom-vlc {
+  color: #d79921;
+}
+
+#temperature.critical {
+  color: #fb4934;
+}
+
+#idle_inhibitor {
+  color: #7c6f64;
+}
+
+#idle_inhibitor.activated {
+  color: #98971a;
+}
+
+#mpd {
+  background-color: #3c3836;
+  color: #689d6a;
+}
+
+#mpd.disconnected {
+  background-color: #3c3836;
+  color: #cc241d;
+}
+
+#mpd.stopped {
+  background-color: #3c3836;
+  color: #7c6f64;
+}
+
+#mpd.paused {
+  background-color: #3c3836;
+}

@@ -3,5 +3,9 @@
   Xft.hinting:   true
   Xft.rgba:      rgb
   Xft.hintstyle: hintfull
-  Xft.dpi:       104
+! Xft.dpi:       104
+! }}}
+
+! HiDPI workaround for Wayland {{{
+  Xft.dpi: 96
 ! }}}
