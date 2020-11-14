@@ -15,6 +15,9 @@
     xinput set-prop 'SYNA8004:00 06CB:CD8B Touchpad' "Synaptics Scrolling Distance" -40, -40 || echo "xinput failed in ~/.xinitrc"
     xinput set-prop 13 "Evdev Wheel Emulation Axes" 7, 6, 5, 4 || echo "xinput failed in ~/.xinitrc"
 
+    xinput set-prop "Nikola's Trackpad" "Synaptics Edge Scrolling" 0, 0, 0 || echo "xinput(Nikola's Trackpad) failed in ~/.xinitrc"
+    xinput set-prop "Nikola's Trackpad" "Synaptics Scrolling Distance" -157, -157 || echo "xinput(Nikola's Trackpad) failed in ~/.xinitrc"
+
     xinput set-button-map "TPPS/2 Elan TrackPoint" 1 0 3 5 4 7 6 || echo "xinput failed in ~/.xinitrc"
     # yes, this one is outlier - 7 6 4 5 🤷 don't know why
     xinput set-prop "TPPS/2 Elan TrackPoint" "Evdev Wheel Emulation Axes" 7 6 4 5
