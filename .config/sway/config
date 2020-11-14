@@ -43,8 +43,7 @@ set $term alacritty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu wofi
-set $menu dmenu_path | wofi --show drun --allow-images | xargs swaymsg exec --
-set $menu_cmd dmenu_path | wofi --show run --allow-images --term="alacritty" | xargs swaymsg exec --
+set $menu dmenu_path | rofi -show run | xargs swaymsg exec --
 set $menu_emojis ~/Tools/charpicker/charpicker.sh
 
 ### Output configuration
@@ -52,14 +51,11 @@ set $menu_emojis ~/Tools/charpicker/charpicker.sh
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 output "*" background "~/.cache/wallpaper" fill
+
+# check out kanshi and ~/.config/kanshi/config for dynamic output configuration
 output eDP-1 scale 1
 output HDMI-A-1 res 2560x1440
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
+
 
 ### Idle configuration
 #
@@ -158,10 +154,10 @@ assign [class="Signal"] 1
 assign [class="Signal Beta"] 1
 assign [class="tutanota"] 1
 assign [class="KeePassXC"] 1
-assign [class="Firefox Developer Edition"] 2
-assign [class="firefox"] 2
+assign [class="Firefox Developer Edition" window_type="normal"] 2
+assign [class="firefox" window_type="normal"] 2
 assign [class="Steam"] 5
-assign [class="Chromium"] 6
+assign [class="Chromium" window_type="normal"] 3
 # new_window 1pixel
 # new_float normal
 
@@ -180,8 +176,7 @@ assign [class="Chromium"] 6
     # Start your launcher
     bindsym $mod+d exec $menu
     bindsym $mod+Shift+d exec $menu_emojis
-    #bindsym $mod+Shift+d exec $menu_cmd
-    bindsym $mod+Tab exec --no-startup-id $menu -show window
+    bindsym $mod+Tab exec --no-startup-id $menu_window_switcher
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
