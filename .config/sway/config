@@ -92,6 +92,9 @@ input type:keyboard {
     # EN, RS_lat, RS_cyr, DE and no xkb based cadets
     # (use interception tools like caps2esc for cadets)
     #xkb_file ~/.dotfiles/xkb/xkb_arch.xkb
+    xkb_layout us,de,rs,hr
+    xkb_variant intl
+    xkb_options grp:ctrls_toggle,grp_led:caps
 }
 
 input "21569:1:TADA_TADA68_Mouse" {
