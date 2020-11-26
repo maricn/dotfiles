@@ -1,8 +1,8 @@
-exec pulseaudio --start
 exec kanshi &
 exec gammastep &
 exec brightnessctl --device='tpacpi::kbd_backlight' s 1
 
+exec sleep 1 && pulseaudio --start
 exec sleep 1 && flashfocus &
 exec libinput-gestures-setup stop; \
     sleep 1 && dex ~/.config/autostart/libinput-gestures.desktop
