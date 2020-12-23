@@ -1,15 +1,15 @@
 font:
   normal:
-    family: Iosevka Nerd Font
+    family: Iosevka Nerd Font Mono
     style: Regular
   bold:
-    family: Iosevka Nerd Font
+    family: Iosevka Nerd Font Mono
     style: Bold
   italic:
-    family: Iosevka Nerd Font
+    family: Iosevka Nerd Font Mono
     style: Italic
   bold_italic:
-    family: Iosevka Nerd Font
+    family: Iosevka Nerd Font Mono
     style: Bold Italic
   size: 12
 env:
@@ -65,6 +65,7 @@ schemes:
       magenta: '#8f3f71'
       cyan:    '#427b58'
       white:   '#3c3836'
+
   gruvbox_dark: &dark
     primary:
       # hard contrast: background = '#1d2021'
@@ -90,4 +91,80 @@ schemes:
       cyan:    '#8ec07c'
       white:   '#ebdbb2'
 
+  snazzy: &snazzy
+    primary:
+      background: '#282a36'
+      foreground: '#eff0eb'
+    normal:
+      black:   '#282a36'
+      red:     '#ff5c57'
+      green:   '#5af78e'
+      yellow:  '#f3f99d'
+      blue:    '#57c7ff'
+      magenta: '#ff6ac1'
+      cyan:    '#9aedfe'
+      white:   '#f1f1f0'
+    bright:
+      black:   '#686868'
+      red:     '#ff5c57'
+      green:   '#5af78e'
+      yellow:  '#f3f99d'
+      blue:    '#57c7ff'
+      magenta: '#ff6ac1'
+      cyan:    '#9aedfe'
+      white:   '#f1f1f0'
+
+  hyper: &hyper
+    primary:
+      background: '#000000'
+      foreground: '#ffffff'
+    cursor:
+      text: '#F81CE5'
+      cursor: '#ffffff'
+    normal:
+      black:   '#000000'
+      red:     '#fe0100'
+      green:   '#33ff00'
+      yellow:  '#feff00'
+      blue:    '#0066ff'
+      magenta: '#cc00ff'
+      cyan:    '#00ffff'
+      white:   '#d0d0d0'
+    bright:
+      black:   '#808080'
+      red:     '#fe0100'
+      green:   '#33ff00'
+      yellow:  '#feff00'
+      blue:    '#0066ff'
+      magenta: '#cc00ff'
+      cyan:    '#00ffff'
+      white:   '#FFFFFF'
+
+  argonaut: &argonaut
+    primary:
+      background: '#292C3E'
+      foreground: '#EBEBEB'
+    cursor:
+     text: '#FF261E'
+     cursor: '#FF261E'
+    normal:
+      black:   '#0d0d0d'
+      red:     '#FF301B'
+      green:   '#A0E521'
+      yellow:  '#FFC620'
+      blue:    '#1BA6FA'
+      magenta: '#8763B8'
+      cyan:    '#21DEEF'
+      white:   '#EBEBEB'
+    bright:
+      black:   '#6D7070'
+      red:     '#FF4352'
+      green:   '#B8E466'
+      yellow:  '#FFD750'
+      blue:    '#1BA6FA'
+      magenta: '#A578EA'
+      cyan:    '#73FBF1'
+      white:   '#FEFEF8'
+
+# colors: *argonaut
 colors: *dark
