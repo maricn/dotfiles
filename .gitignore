@@ -43,6 +43,11 @@ node_modules/
 !.config/nvim/
 !.config/sway/
 !.config/tridactyl/
+!.config/weechat/
+.config/weechat/sec.conf
+.config/weechat/weechat.log
+.config/weechat/logs/
+.config/weechat/python/
 !.config/wofi/
 !.config/waybar/
 !.config/yay/
