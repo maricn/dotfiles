@@ -12,6 +12,7 @@ ZSH_THEME="maricn"
   export LC_TIME=en_DK.UTF-8
 
   export XDG_CONFIG_HOME="$HOME/.config"
+  export WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
   export XDG_PICTURES_DIR="$HOME/Pictures"
 
   # set autoload path
@@ -25,11 +26,13 @@ ZSH_THEME="maricn"
 # }}}
 
 alias datetime="date +'%Y-%m-%d %H:%M:%S'"
+alias datetimeT="date +'%FT%T'"
+alias screenpaste='WAYLAND_DEBUG=0 wl-paste -t image/png > screenshot-$(datetimeT).png'
 alias updatedb="sudo /usr/libexec/locate.updatedb"
 alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
 alias cdws="cd $HOME/Workspace/"
 alias light="sed -i 's/colors: \*dark/colors: *light/' ~/.config/alacritty/alacritty.yml"
-alias  dark="sed -i 's/colors: \*light/colors: *dark/' ~/.config/alacritty/alacritty.yml"
+alias dark="sed -i 's/colors: \*light/colors: *dark/' ~/.config/alacritty/alacritty.yml"
 alias grepc="grep --color -E "
 alias clear='[ $[$RANDOM % 6] = 0 ] && timeout 3 cmatrix; clear || clear'
 alias trees="tree -shC"
@@ -37,8 +40,9 @@ alias pingg="ping 8.8.8.8"
 alias myip="curl https://ipinfo.io/ip"
 alias weather="curl wttr.in"
 alias curl-weather="weather"
-alias psauxgrep='ps aux | grep'
+alias psauxgrep='ps aux | grep -i'
 alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
+alias pandoc="docker run --rm -u `id -u`:`id -g` -v `pwd`:/pandoc dalibo/pandocker"
 
 # Use sudoedit instead, it's safer
 # alias sudoe='sudo -E PATH=$PATH'
@@ -105,6 +109,8 @@ bindkey '˚' history-beginning-search-backward
 bindkey '∆' history-beginning-search-forward
 
 source $ZSH/oh-my-zsh.sh
+
+alias ls="lsd"
 
 ## Git / GitHub
 export GIT_AUTHOR_NAME=Nikola\ Maric
@@ -245,16 +251,3 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
   alias npmt-appv2="docker run -t --mount type=bind,src=/home/nikola/Workspace/CoreV2,dst=/usr/src/app appv2-test:ci-10.20.1-jessie"
 
 # }}}
-
-
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/nikola/.dotfiles/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
-
