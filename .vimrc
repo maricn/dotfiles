@@ -89,6 +89,8 @@ Plug 'unblevable/quick-scope'         " Highlight jump characters - slows (unles
 Plug 'godlygeek/csapprox'             " make gvim-only colorschemes work in terminal vim
 Plug 'joshdick/onedark.vim'           " Colorscheme onedark
 Plug 'morhetz/gruvbox'                " Colorscheme gruvbox (can be light)
+Plug 'connorholyday/vim-snazzy'       " Colorscheme snazzy (colorful)
+Plug 'nanotech/jellybeans.vim'        " Colorscheme jellybeans
 Plug 'breuckelen/vim-resize'          " Use Ctrl+arrows to resize splits
 Plug 'chrisbra/Colorizer'             " Show hex codes as colours
 " Plug 'vheon/vim-cursormode'           " Color cursor based on the mode - working only on iTerm2
@@ -142,7 +144,7 @@ xnoremap p "_dP
   " set t_Co=256
   " set t_ut=
   " themes {{{
-    " autocmd vimenter * colorscheme onedark
+    " autocmd vimenter * colorscheme snazzy
 
     " gruvbox {{{
       autocmd vimenter * colorscheme gruvbox
@@ -574,25 +576,25 @@ endif
 
 " Status Line Custom
 let g:currentmode={
-    \ 'n'  : 'Normal',
-    \ 'no' : 'Normal·Operator Pending',
-    \ 'v'  : 'Visual',
-    \ 'V'  : 'V·Line',
-    \ '^V' : 'V·Block',
-    \ 's'  : 'Select',
-    \ 'S'  : 'S·Line',
-    \ '^S' : 'S·Block',
-    \ 'i'  : 'Insert',
-    \ 'R'  : 'Replace',
-    \ 'Rv' : 'V·Replace',
-    \ 'c'  : 'Command',
-    \ 'cv' : 'Vim Ex',
-    \ 'ce' : 'Ex',
-    \ 'r'  : 'Prompt',
-    \ 'rm' : 'More',
-    \ 'r?' : 'Confirm',
-    \ '!'  : 'Shell',
-    \ 't'  : 'Terminal'
+    \ "n"  : 'Normal',
+    \ "no" : 'Normal·Operator Pending',
+    \ "v"  : 'Visual',
+    \ "V"  : 'V·Line',
+    \ "" : 'V·Block',
+    \ "s"  : 'Select',
+    \ "S"  : 'S·Line',
+    \ "" : 'S·Block',
+    \ "i"  : 'Insert',
+    \ "R"  : 'Replace',
+    \ "Rv" : 'V·Replace',
+    \ "c"  : 'Command',
+    \ "cv" : 'Vim Ex',
+    \ "ce" : 'Ex',
+    \ "r"  : 'Prompt',
+    \ "rm" : 'More',
+    \ "r?" : 'Confirm',
+    \ "!"  : 'Shell',
+    \ "t"  : 'Terminal'
     \}
 
 set noshowmode
