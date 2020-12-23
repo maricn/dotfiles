@@ -1,4 +1,13 @@
+# Personal helper / utility folders
 .netcat/
 .helpers/
+
+# OSX stuff
 .DS_Store
+
+# Visual Studio Code / VSCodium stuff
 .vscode/
+
+# Vim stuff
+*.swp
+*.vim
