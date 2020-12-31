@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "coc-db": ">=0.0.43",
     "coc-emoji": ">=1.2.3",
     "coc-explorer": ">=0.9.1",
     "coc-highlight": ">=1.2.6",
@@ -8,6 +9,7 @@
     "coc-markdownlint": ">=1.7.0",
     "coc-prettier": ">=1.1.18",
     "coc-python": ">=1.2.13",
+    "coc-sql": ">=0.4.0",
     "coc-syntax": ">=1.2.4",
     "coc-tsserver": ">=1.6.0",
     "coc-word": ">=1.2.2"
