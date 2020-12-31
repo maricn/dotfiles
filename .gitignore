@@ -3,6 +3,7 @@ node_modules/
 
 !.gitignore
 !.gitmodules
+*~Stashed\ changes
 
 # Linux keyboard map (init on startup, plus stuff in /usr/share/X11/xkb/symbols/us)
 !.Xmodmap
@@ -48,6 +49,8 @@ node_modules/
 .config/weechat/weechat.log
 .config/weechat/logs/
 .config/weechat/python/
+.config/weechat/script/
+.config/weechat/script/**
 !.config/wofi/
 !.config/waybar/
 !.config/yay/

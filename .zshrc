@@ -43,6 +43,7 @@ alias curl-weather="weather"
 alias psauxgrep='ps aux | grep -i'
 alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
 alias pandoc="docker run --rm -u `id -u`:`id -g` -v `pwd`:/pandoc dalibo/pandocker"
+alias weechat='printf "\e[?1049h\e[H" && weechat && printf "\e[?1049l"'
 
 # Use sudoedit instead, it's safer
 # alias sudoe='sudo -E PATH=$PATH'
