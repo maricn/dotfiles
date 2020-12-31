@@ -63,12 +63,12 @@ Plug 'mhinz/vim-startify'               " Start screen for vim
 " Plug 'svermeulen/ncm2-yoink'            " clipboard history manager ncm2 completion
 
 
-" Network
+" Network (API)
 Plug 'diepm/vim-rest-console'           " Use vim as postman
-" Integration
+" Firefox integration
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
-" Programming
+" Programming {{{
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neomake/neomake'                  " asynchronously run programs (autolint)
 Plug 'leafgarland/typescript-vim'       " typescript syntax and indenting for vim
@@ -78,8 +78,22 @@ Plug 'stevearc/vim-arduino'             " Arduino build and upload sketch
 " Programming - coc.nvim
 " Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'} " TSC
 
-" DevOps
+" }}} Programming
+
+" Database {{{
+Plug 'tpope/vim-dadbod'                     " Database interaction
+Plug 'kristijanhusak/vim-dadbod-ui'         " Database interaction UI
+Plug 'kristijanhusak/vim-dadbod-completion' " Intellisense for dadbod
+Plug 'jsborjesson/vim-uppercase-sql'        " Uppercase SQL keywords in filetype sql
+" }}} database
+
+" DevOps {{{
 Plug 'danihodovic/vim-ansible-vault'    " AnsibleVault encrypt/decrypt file
+" }}} DevOps
+
+" LiveCoding {{{
+Plug 'tidalcycles/vim-tidal'            " Tidal Cycles Vim plugin - https://roosnaflak.com/tech-and-research/install-tidal-cycles-on-arch-linux/
+" }}} LiveCoding
 
 " Appearance
 Plug 'camspiers/animate.vim'
@@ -101,8 +115,9 @@ Plug 'chrisbra/Colorizer'             " Show hex codes as colours
 " Plug 'zchee/deoplete-go', { 'do': 'make' }
 call plug#end()
 " Buffers and files
-" }}}
+" }}} Load plugins
 
+" Basic settings {{{
 " Use :help <option> to see the docs
 set encoding=utf-8
 set expandtab
@@ -133,6 +148,8 @@ let g:python3_host_prog="/usr/bin/"
 " supposed to fix slowness caused by vim-nerdtree-syntax-highlight
 set lazyredraw
 set wildignore=*/node_modules/*
+" }}} Basic settings
+
 " mapping for paste (so that overwriting visual selection doesn't pick up the
 " overwritten text into the buffer, but just paste over it)
 xnoremap p "_dP
@@ -176,6 +193,7 @@ xnoremap p "_dP
     set gcr+=v-ve:VisualCursor-ver1
   " }}}
   
+" Key remaps {{{
 "" Key remaps -----------------
 " noremap <silent> <expr> <F2> g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 noremap <silent> <F2> :CocCommand explorer<CR>
@@ -402,7 +420,7 @@ let g:peekaboo_window="call CreateCenteredFloatingWindow()"
   nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
   " Resume latest coc list.
   nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-" }}}
+" }}} coc.nvim
 
 """" CamelCase motion
 let g:camelcasemotion_key = '<leader>'
@@ -471,6 +489,10 @@ let g:camelcasemotion_key = '<leader>'
   xmap gs <plug>(GrepperOperator)
 " }}}
 
+" tidalcycles {{{
+let g:tidal_target = "terminal"
+" }}}
+
 """ Refactoring ---------------
 nmap <S-F6> <Plug>(coc-rename)
 
@@ -514,7 +536,9 @@ nmap <S-F6> <Plug>(coc-rename)
 " }}}
 
 "" END Key remaps -------------
+" }}} key remaps
 
+" Plugins {{{
 " Plugins ----------------------
 
 "" Nuake
@@ -621,7 +645,7 @@ set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
 hi PMenu guibg=#666666
 hi PMenuSel guibg=#777777
 
-" {{{ Firenvim plugin
+" Firenvim plugin {{{
 if (exists('g:started_by_firenvim'))
   nnoremap <C-z> :call firenvim#hide_frame()<CR>
 
@@ -669,7 +693,7 @@ if (exists('g:started_by_firenvim'))
 
   autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
 endif
-" }}}
+" }}} Firenvim plugin
 
 " Markdown plugin
 let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
@@ -686,6 +710,44 @@ let g:jekyll_draft_dirs = ['_drafts', '_source/_drafts', 'notes']
 
 " Quick Scope (jump f key highlight)
 let g:qs_highlight_on_keys = ['f', 'F']
+
+" Dadbod / DB plugin {{{
+  "" operator mapping
+  func! DBExe(...)
+  	if !a:0
+  		let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+  		return 'g@'
+  	endif
+  	let sel_save = &selection
+  	let &selection = "inclusive"
+  	let reg_save = @@
+  
+  	if a:1 == 'char'	" Invoked from Visual mode, use gv command.
+  		silent exe 'normal! gvy'
+  	elseif a:1 == 'line'
+  		silent exe "normal! '[V']y"
+  	else
+  		silent exe 'normal! `[v`]y'
+  	endif
+  
+  	execute "DB " . @@
+  
+  	let &selection = sel_save
+  	let @@ = reg_save
+  endfunc
+  vnoremap <leader>db :DB<CR>
+  
+  xnoremap <expr> <Plug>(DBExe)     DBExe()
+  nnoremap <expr> <Plug>(DBExe)     DBExe()
+  nnoremap <expr> <Plug>(DBExeLine) DBExe() . '_'
+  
+  xmap <leader>db  <Plug>(DBExe)
+  nmap <leader>db  <Plug>(DBExe)
+  omap <leader>db  <Plug>(DBExe)
+  nmap <leader>dbb <Plug>(DBExeLine)
+" }}} Dadbod / DB plugin
+
+" }}} Plugins
 
 " Tmux integration
 if &term =~ '^screen'
@@ -755,7 +817,7 @@ autocmd filetype crontab setlocal nobackup nowritebackup
 
 " Folding {{{
   """ Folding in rc files
-  autocmd Filetype vim set foldmethod=fold-marker
+  autocmd Filetype vim set foldmethod=marker
 
   function! VimFolds(lnum)
       " get content of current line and the line below
