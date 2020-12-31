@@ -1,3 +1,26 @@
+@define-color gruvbox-bg #32302f;
+@define-color gruvbox-fg #bdae93;
+@define-color gruvbox-battery-charge #689d6a;
+@define-color gruvbox-urgent #cc241d;
+@define-color gruvbox-disabled #7f6f64;
+@define-color gruvbox-focused #3c3836;
+@define-color gruvbox-workspace #282828;
+
+@define-color lila-bg #995588;
+@define-color lila-fg #fdd9dd;
+@define-color lila-urgent #ff77aa;
+@define-color lila-disabled #906f84;
+@define-color lila-focused #da8291;
+@define-color lila-workspace #420042;
+
+@define-color battery-charge-color  @gruvbox-battery-charge;
+@define-color bg-color              @gruvbox-bg;
+@define-color fg-color              @gruvbox-fg;
+@define-color bg-urgent-color       @gruvbox-urgent;
+@define-color bg-disabled-color     @gruvbox-disabled;
+@define-color bg-focused-color      @gruvbox-focused;
+@define-color bg-workspace-color    @gruvbox-workspace;
+
 * {
   border: none;
   border-radius: 0;
@@ -5,8 +28,8 @@
 }
 
 window#waybar {
-  background-color: #3c3836;
-  color: #bdae93;
+  background-color: @bg-color;
+  color: @fg-color;
   transition-property: background-color;
   transition-duration: 0.5s;
 }
@@ -17,25 +40,25 @@ window#waybar.hidden {
 
 #workspaces button {
   padding: 0 4px;
-  background-color: #282828;
+  background-color: @bg-workspace-color;
   color: #665c54;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
-  background: #7c6f64;
-  color: #282828;
+  background: @bg-disabled-color;
+  color: @bg-workspace-color;
   box-shadow: inherit;
   text-shadow: inherit;
 }
 
 #workspaces button.focused {
-  background-color: #504945;
+  background-color: @bg-focused-color;
   color: #ebdbb2;
 }
 
 #workspaces button.urgent {
-  background-color: #cc241d;
+  background-color: @bg-urgent-color;
 }
 
 #clock,
@@ -53,20 +76,22 @@ window#waybar.hidden {
 #disk,
 #mpd {
   padding: 0 12px;
-  color: #bdae93;
-  border-left: 2px solid #504945;
+  color: @fg-color;
+  border-left: 2px solid @bg-focused-color;
 }
 
 #battery.charging {
-  color: #689d6a;
+  color: @battery-charge-color;
 }
 
 @keyframes blink {
   to {
-    color: #504945;
+    color: @bg-focused-color;
   }
 }
-.blinking, #temperature.critical, #battery.critical:not(.charging) {
+.blinking,
+#temperature.critical,
+#battery.critical:not(.charging) {
   animation-name: blink;
   animation-duration: 0.5s;
   animation-timing-function: linear;
@@ -75,15 +100,15 @@ window#waybar.hidden {
 }
 
 #battery.critical:not(.charging) {
-  background-color: #cc241d;
+  background-color: @bg-urgent-color;
 }
 
 #network.disconnected {
-  color: #7c6f64;
+  color: @bg-disabled-color;
 }
 
 #pulseaudio.muted {
-  color: #7c6f64;
+  color: @bg-disabled-color;
 }
 
 #custom-media {
@@ -91,7 +116,7 @@ window#waybar.hidden {
 }
 
 #custom-media.custom-spotify {
-  color: #689d6a;
+  color: @battery-charge-color;
 }
 
 #custom-media.custom-vlc {
@@ -103,7 +128,7 @@ window#waybar.hidden {
 }
 
 #idle_inhibitor {
-  color: #7c6f64;
+  color: @bg-disabled-color;
 }
 
 #idle_inhibitor.activated {
@@ -111,20 +136,20 @@ window#waybar.hidden {
 }
 
 #mpd {
-  background-color: #3c3836;
-  color: #689d6a;
+  background-color: @bg-color;
+  color: @battery-charge-color;
 }
 
 #mpd.disconnected {
-  background-color: #3c3836;
-  color: #cc241d;
+  background-color: @bg-color;
+  color: @bg-urgent-color;
 }
 
 #mpd.stopped {
-  background-color: #3c3836;
-  color: #7c6f64;
+  background-color: @bg-color;
+  color: @bg-disabled-color;
 }
 
 #mpd.paused {
-  background-color: #3c3836;
+  background-color: @bg-color;
 }
