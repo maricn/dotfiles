@@ -18,7 +18,7 @@ profile "sabrina" {
 }
 
 profile "home" {
-    output eDP-1 enable scale 1 position 2560,1200
+    output eDP-1 enable scale 1 position 2560,360
     output HDMI-A-1 enable mode 2560x1440 position 0,0
 }
 
