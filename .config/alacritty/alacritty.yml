@@ -25,6 +25,9 @@ key_bindings:
 # non-default bindings:
   - { key: Up,        mods: Shift,   action: ScrollLineUp,   mode: ~Alt       }
   - { key: Down,      mods: Shift,   action: ScrollLineDown, mode: ~Alt       }
+# gotta explicitly pass these through for weechat running in Alt mode
+  - { key: Up,        mods: Shift,   chars: "\x1b[1;2A",     mode: Alt       }
+  - { key: Down,      mods: Shift,   chars: "\x1b[1;2B",     mode: Alt       }
 
 # colors:
 #   # Normal colors
