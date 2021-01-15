@@ -134,8 +134,8 @@ fi
 ### Initialize ssh-agent
 if [ -x "$(command -v keychain)" ]; then
   eval $(keychain --eval --quiet "$HOME/.ssh/id_me_maricn_nikola_2019" "$HOME/.ssh/id_mimi_nikola_maric")
-else
-  eval $(ssh-agent -s)
+elif [[ $(hostname) == *"work-"* || $(hostname) == *"home-"* ]]; then
+    eval $(ssh-agent -s)
 fi
 
 ### Preserving legacy scripts compatibility
@@ -185,6 +185,7 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # Software Development (Node.JS) {{{
   # NVM - Node Version Manager
   export load_nvm() {
+    if !type "nvm" >/dev/null; then return fi;
     unset -f nvm node npm npx >/dev/null 2>&1
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -195,23 +196,25 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     # place this after nvm initialization!
     autoload -U add-zsh-hook
     load-nvmrc() {
-      local node_version="$(nvm version)"
-      local nvmrc_path="$(nvm_find_nvmrc)"
+      if type "nvm" >/dev/null; then
+        local node_version="$(nvm version)"
+        local nvmrc_path="$(nvm_find_nvmrc)"
 
 
 
-      if [ -n "$nvmrc_path" ]; then
-        local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+        if [ -n "$nvmrc_path" ]; then
+          local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
 
 
-        if [ "$nvmrc_node_version" != "N/A" ] && [ "$nvmrc_node_version" != "$node_version" ]; then
-          nvm use
+          if [ "$nvmrc_node_version" != "N/A" ] && [ "$nvmrc_node_version" != "$node_version" ]; then
+            nvm use
+          fi
+        elif [ "$node_version" != "$(nvm version default)" ]; then
+          echo "Reverting to nvm default version"
+          nvm use default
         fi
-      elif [ "$node_version" != "$(nvm version default)" ]; then
-        echo "Reverting to nvm default version"
-        nvm use default
-      fi
+      fi # if type "nvm"
     }
     add-zsh-hook chpwd load-nvmrc
     load-nvmrc
