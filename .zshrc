@@ -44,6 +44,7 @@ alias psauxgrep='ps aux | grep -i'
 alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
 alias pandoc="docker run --rm -u `id -u`:`id -g` -v `pwd`:/pandoc dalibo/pandocker"
 alias weechat='printf "\e[?1049h\e[H" && weechat && printf "\e[?1049l"'
+alias yayfzfpkginfo='yay -Qq | fzf --preview "yay -Qil {}" --layout=reverse --bind "enter:execute(yay -Qil {} | less)"'
 
 # Use sudoedit instead, it's safer
 # alias sudoe='sudo -E PATH=$PATH'
@@ -184,14 +185,14 @@ export rmzip() {
 source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # Software Development (Node.JS) {{{
   # NVM - Node Version Manager
+  source "/usr/share/nvm/init-nvm.sh"
+
   export load_nvm() {
-    if !type "nvm" >/dev/null; then return fi;
+    if ! type "nvm" >/dev/null; then return 1; fi;
     unset -f nvm node npm npx >/dev/null 2>&1
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
 
     # place this after nvm initialization!
     autoload -U add-zsh-hook
@@ -200,12 +201,8 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
         local node_version="$(nvm version)"
         local nvmrc_path="$(nvm_find_nvmrc)"
 
-
-
         if [ -n "$nvmrc_path" ]; then
           local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-
 
           if [ "$nvmrc_node_version" != "N/A" ] && [ "$nvmrc_node_version" != "$node_version" ]; then
             nvm use
@@ -220,28 +217,20 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     load-nvmrc
   }
 
-
-
   export nvm() {
     load_nvm
     nvm "$@"
   }
-
-
 
   export node() {
     load_nvm
     node "$@"
   }
 
-
-
   export npm() {
     load_nvm
     npm "$@"
   }
-
-
 
   export npx() {
       load_nvm
