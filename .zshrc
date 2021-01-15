@@ -198,48 +198,41 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     autoload -U add-zsh-hook
     load-nvmrc() {
       if type "nvm" >/dev/null; then
-        local node_version="$(nvm version)"
         local nvmrc_path="$(nvm_find_nvmrc)"
 
         if [ -n "$nvmrc_path" ]; then
           local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
-          if [ "$nvmrc_node_version" != "N/A" ] && [ "$nvmrc_node_version" != "$node_version" ]; then
-            nvm use
+          if [ "$nvmrc_node_version" != "N/A" ]; then
+            local node_version="$(nvm version)"
+            if [ "$nvmrc_node_version" != "$node_version" ]; then
+              nvm use
+            fi
           fi
-        elif [ "$node_version" != "$(nvm version default)" ]; then
-          echo "Reverting to nvm default version"
-          nvm use default
+        else
+          local node_version="$(nvm version)"
+          if [ "$node_version" != "$(nvm version default)" ]; then
+            echo "Reverting to nvm default version"
+            nvm use default
+          fi
         fi
       fi # if type "nvm"
     }
-    add-zsh-hook chpwd load-nvmrc
+    # optionally add zsh hook to load-nvmrc with each change of the working dir
+    # add-zsh-hook chpwd load-nvmrc
     load-nvmrc
   }
 
-  export nvm() {
-    load_nvm
-    nvm "$@"
-  }
+  if type "nvm" >/dev/null; then
+    export nvm() { load_nvm; nvm "$@"; }
+    export node() { load_nvm; node "$@"; }
+    export npm() { load_nvm; npm "$@"; }
+    export npx() { load_nvm; npx "$@"; }
 
-  export node() {
-    load_nvm
-    node "$@"
-  }
-
-  export npm() {
-    load_nvm
-    npm "$@"
-  }
-
-  export npx() {
-      load_nvm
-      npx "$@"
-  }
-
-  alias vim="load_nvm;vim"
-  alias nvim="load_nvm;nvim"
-  alias nv="load_nvm;nvim"
+    alias vim="load_nvm;vim"
+    alias nvim="load_nvm;nvim"
+    alias nv="load_nvm;nvim"
+  fi
 
   alias npmt-appv2="docker run -t --mount type=bind,src=/home/nikola/Workspace/CoreV2,dst=/usr/src/app appv2-test:ci-10.20.1-jessie"
 
