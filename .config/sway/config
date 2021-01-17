@@ -141,29 +141,29 @@ input "1133:16500:Logitech_G305" {
 }
 
 # Some windows float by class
-for_window [class="copyq"] floating enable, border normal
-for_window [instance="copyq"] floating enable, border normal
-for_window [class="mpv"] floating enable, border normal
-for_window [class="Cadence"] floating enable, border normal
-for_window [class="Xscreensaver-demo"] floating enable, border normal
-for_window [class="Gdebi-gtk"] floating enable, border normal
-for_window [class="Gpick"] floating enable, border normal
-for_window [class="fontforge"] floating enable, border normal
-for_window [class="Pavucontrol"] floating enable, border normal
-for_window [class="Orage"] floating enable, border normal
-for_window [class="Blueman-manager"] floating enable, border normal
+for_window [class="copyq"] floating enable, border pixel 6
+for_window [instance="copyq"] floating enable, border pixel 6
+for_window [class="mpv"] floating enable, border pixel 6
+for_window [class="Cadence"] floating enable, border pixel 6
+for_window [class="Xscreensaver-demo"] floating enable, border pixel 6
+for_window [class="Gdebi-gtk"] floating enable, border pixel 6
+for_window [class="Gpick"] floating enable, border pixel 6
+for_window [class="fontforge"] floating enable, border pixel 6
+for_window [class="Pavucontrol"] floating enable, border pixel 6
+for_window [class="Orage"] floating enable, border pixel 6
+for_window [class="Blueman-manager"] floating enable, border pixel 6
 # Some windows float by app_id
-for_window [app_id="blueman-manager"] floating enable, border normal
-for_window [app_id="pavucontrol"] floating enable, border normal
-for_window [app_id="mpv"] floating enable, border normal
+for_window [app_id="blueman-manager"] floating enable, border pixel 6
+for_window [app_id="pavucontrol"] floating enable, border pixel 6
+for_window [app_id="mpv"] floating enable, border pixel 6
 # More windows float by their window_role
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="Preferences"] floating enable
-for_window [window_type="dialog"] floating enable
+for_window [window_role="pop-up"] floating enable, border pixel 6
+for_window [window_role="bubble"] floating enable, border pixel 6
+for_window [window_role="task_dialog"] floating enable, border pixel 6
+for_window [window_role="Preferences"] floating enable, border pixel 6
+for_window [window_type="dialog"] floating enable, border pixel 6
 # Some but not all app windows float cherry-picked
-for_window [class="Ripcord" title="((Search Messages|Channels|Files|Members|Threads Overview|Mentions) - .*|Bookmarks|Add Emoji Reaction|Start Thread|Preferences)"] floating enable
+for_window [class="Ripcord" title="((Search Messages|Channels|Files|Members|Threads Overview|Mentions) - .*|Bookmarks|Add Emoji Reaction|Start Thread|Preferences)"] floating enable, border pixel 6
 # Some windows float over all workspaces
 for_window [class="mpv"] sticky enable
 for_window [app_id="mpv"] sticky enable
@@ -174,6 +174,7 @@ for_window [app_id="mpv"] sticky enable
 for_window [class="firefox"] inhibit_idle fullscreen
 for_window [app_id="mpv"] inhibit_idle fullscreen
 for_window [class="vlc"] inhibit_idle fullscreen
+for_window [class="Chromium"] inhibit_idle fullscreen
 
 # Some windows are assigned to workspaces
 assign [class="Slack"] 1
@@ -317,7 +318,10 @@ assign [class="Chromium" window_type="normal"] 3
     bindsym $mod+semicolon fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+Shift+space floating toggle; \
+        [tiling con_id=__focused__] border none; \
+        [floating con_id=__focused__] border pixel 4;
+
 
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
@@ -375,7 +379,8 @@ bindsym Control+Mod1+l exec $lock_cmd
 for_window [title="imv.*screenshot"] floating enable
 for_window [title="imv.*screenshot"] fullscreen on
 bindsym $mod+P --release exec "grim screen -"
-bindsym $mod+Shift+P exec 'geo="$(slurp)" && sleep 2 && grim -g "$geo" - | wl-copy -t image/png'
+bindsym $mod+Shift+P exec 'geo="$(slurp)" && sleep 2 && grim -g "$geo" - | swappy -f -'
+bindsym $mod+Mod1+P exec 'grim -g "$(swaymsg -t get_tree | jq -r '"'"'.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"'"'"' | slurp)" - | swappy -f -'
 #bindsym $mod+Shift+P exec "~/Tools/screenshot.sh 2>&1 >~/log"
 
 # Media keys
@@ -426,18 +431,19 @@ bar {
     bindsym $mod+Mod1+z         gaps inner current plus 1
     bindsym $mod+Mod1+Shift+z   gaps inner current minus 1
     
-    for_window [class=.*] border pixel 2
+    for_window [class=".*"] border pixel 2
     for_window [class="X-terminal-emulator"] border pixel 3
-    for_window [app_id="Alacritty"] border pixel 3
     for_window [class="firefox" window_type="normal"] border pixel 3
+    for_window [app_id="Alacritty"] border pixel 3
+    for_window [app_id="swappy"] border pixel 6
     focus_follows_mouse         no
     # don't steal focus if window is a pop-up
     no_focus [window_role="pop-up"]
     # don't steal focus when a window activates, just mark it as urgent [default: smart]
     focus_on_window_activation urgent
-    # window border settings
+    # window border settings (floating_border is not working, dunno why)
     default_border              none
-    default_floating_border     none
+    default_floating_border     pixel 6
     # hide borders adjacent to the screen edges
     hide_edge_borders           none
 # }}} i3-gaps
