@@ -113,6 +113,8 @@ bindkey '∆' history-beginning-search-forward
 source $ZSH/oh-my-zsh.sh
 
 alias ls="lsd"
+alias bat='/usr/bin/bat'
+alias cat='/usr/bin/bat --decorations=never --paging=never'
 
 ## Git / GitHub
 export GIT_AUTHOR_NAME=Nikola\ Maric
