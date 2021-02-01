@@ -45,6 +45,8 @@ alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title
 alias pandoc="docker run --rm -u `id -u`:`id -g` -v `pwd`:/pandoc dalibo/pandocker"
 alias weechat='printf "\e[?1049h\e[H" && weechat && printf "\e[?1049l"'
 alias yayfzfpkginfo='yay -Qq | fzf --preview "yay -Qil {}" --layout=reverse --bind "enter:execute(yay -Qil {} | less)"'
+alias parufzfpkginfo='paru -Qq | fzf --preview "paru -Qil {}" --layout=reverse --bind "enter:execute(paru -Qil {} | less)"'
+alias startsway='WAYLAND_DEBUG=0; XDG_CURRENT_DESKTOP=sway; sway 2>&1 >~/sway.$(date +"%Y-%m-%d").log'
 
 # Use sudoedit instead, it's safer
 # alias sudoe='sudo -E PATH=$PATH'
