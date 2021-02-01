@@ -420,6 +420,17 @@ let g:peekaboo_window="call CreateCenteredFloatingWindow()"
   nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
   " Resume latest coc list.
   nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+  " Pretend netrw is already opened so it doesn't open automatically
+  " let g:loaded_netrw = 1
+  let g:loaded_netrwPlugin = 1
+
+  " Autoload coc-explorer (it has a delay, so I prefer not to use it)
+  " augroup MyCocExplorer
+  "   autocmd!
+  "   autocmd VimEnter * sil! au! FileExplorer *
+  "   autocmd BufEnter * let d = expand('%') | if isdirectory(d) | silent! bd | exe 'CocCommand explorer ' . d | endif
+  " augroup END
 " }}} coc.nvim
 
 """" CamelCase motion
@@ -763,7 +774,8 @@ autocmd VimLeave * set guicursor=a:block-blinkon0
 
 """ Custom file types
 au BufRead,BufNewFile *.md set filetype=markdown
-au BufRead,BufNewFile *.jsonc set filetype=json
+au BufRead,BufNewFile *.json set filetype=json syntax=json
+au BufRead,BufNewFile *.jsonc set filetype=jsonc syntax=json
 au BufRead,BufNewFile *.tsx set filetype=typescript
 syntax match Comment /\%^---\_.\{-}---$/ contains=@Spell
 au BufRead,BufNewFile *.http set syntax=json

@@ -1,5 +1,7 @@
 {
   "prettier.tslintIntegration": true,
+  "typescript.format.enabled": true,
+  "coc.preferences.formatOnType": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "javascript",
@@ -11,13 +13,30 @@
   "diagnostic.hintSign": ">>",
   "diagnostic.infoSign": "ℹ️",
   "diagnostic.warningSign": "⚠️",
-  "diagnostic.errorSign": "💣",
+  "diagnostic.errorSign": "x", //"💣",
   "diagnostic.enableHighlightLineNumber": true,
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "email": "languagetool",
     "markdown": ["write-good", "markdownlint"],
     "sh": "shellcheck"
+  },
+  "diagnostic-languageserver.formatFiletypes": {
+    "python": ["black", "isort", "docformatter"]
+  },
+  "diagnostic-languageserver.formatters": {
+    "black": {
+      "command": "black",
+      "args": ["black", "-q", "-"]
+    },
+    "isort": {
+      "command": "isort",
+      "args": ["-q", "-"]
+    },
+    "docformatter": {
+      "command": "docformatter",
+      "args": ["-"]
+    }
   },
   "typescript.preferences.importModuleSpecifier": "relative",
   "markdownlint.config": {
