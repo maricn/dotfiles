@@ -127,13 +127,15 @@ input "7119:5:USB_Optical_Mouse" {
 
 input "2:10:TPPS/2_Elan_TrackPoint" {
     natural_scroll enabled
+    accel_profile flat
+    pointer_accel 1
 }
 
 input "1739:52619:SYNA8004:00_06CB:CD8B_Touchpad" {
     natural_scroll enabled
     tap enabled
     accel_profile adaptive
-    pointer_accel 0.5
+    pointer_accel 0.125
 }
 
 input "1133:16500:Logitech_G305" {
@@ -220,7 +222,7 @@ assign [class="Chromium" window_type="normal"] 3
     # bindsym $mod+Shift+x exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
     # Input shortcuts
-    bindsym $mod+Control+slash exec --no-startup-id "~/.config/i3/toggle-colemak"
+    # bindsym $mod+Control+slash exec --no-startup-id "~/.config/i3/toggle-colemak"
     # bindsym $mod+Control+k exec --no-startup-id "~/.xinitrc-keyboard-remap"
 #
 # Moving around:
