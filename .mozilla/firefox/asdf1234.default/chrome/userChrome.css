@@ -1,0 +1,76 @@
+/* Hide horizontal tabs at the top of the window */
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
+  opacity: 0;
+  pointer-events: none;
+}
+#main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+    visibility: collapse !important;
+}
+
+/* Hide TST header on top of the sidebar */
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
+  display: none;
+}
+
+/* Reduce min width of sidebar */
+#sidebar {
+  min-width: 100px !important;
+}
+
+/* No tab title pop-up tooltips when hovering over tab */
+#aHTMLTooltip {
+  display: none !important;
+}
+#remoteBrowserTooltip { display: none !important; }
+
+
+/* #tabbrowser-tabs, #navigator-toolbox, menuitem, menu, ... */
+* {
+    font-family: monospace !important;
+    font-size: 16px !important;
+}
+
+/* exception for badge on adblocker */
+.toolbarbutton-badge {
+    font-size: 8px !important;
+}
+
+/* 
+   dark background in new tabs without a white flash 
+   @see: https://fedidat.com/640-dark-newtab-firefox/
+*/
+#browser vbox#appcontent tabbrowser, #content, #tabbrowser-tabpanels, 
+browser[type=content-primary],browser[type=content] > html {
+    background: #1D1B19 !important
+}
+
+/*
+ * dark background more from https://gist.github.com/regalstreak/0b293d2a285152410a1181dd56891b76
+ */
+@-moz-document url(chrome://browser/content/browser.xul) {
+    #main-window,
+    browser[type="content-primary"],
+    browser[type="content"],
+    tabbrowser#content,
+    #content,
+    browser[type="content"]>html {
+        background: #1D1B19 !important;
+    }
+
+    /* overlay indicating microphone/camera/screenshare usage */
+    #webrtcIndicator {
+        /* display:none; */
+        opacity: 0.5;
+        float: right;
+    }
+}
+:root {
+    /*tab flash on new tab*/
+    --in-content-page-background: #1D1B19 ;
+}
+
+/*
+ * attempt to remove key binding Ctrl+Q (^Q) (<C-Q>)
+ */
+var kqa = document.getElementById('key_quitApplication');
+if (kqa) kqa.remove();

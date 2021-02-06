@@ -1,0 +1,22 @@
+/* 
+   dark background in new tabs without a white flash 
+   @see: https://github.com/tridactyl/tridactyl/issues/2510
+*/
+:root {
+  --tridactyl-bg: #1d1b19 !important;
+  --tridactyl-fg: white !important;
+}
+
+/* will not only work on empty page, but will also affect other web pages */
+/* .TridactylThemeMaricn-base16-gruvbox-dark-hard body, */
+/* .TridactylThemeQuake body { */
+/* background: #1d1b19; */
+/* } */
+
+@-moz-document url-prefix(about:home), url-prefix(about:newtab), url-prefix(about:blank) {
+  html:not(#ublock0-epicker),
+  html:not(#ublock0-epicker) body,
+  #newtab-customize-overlay {
+    background: #1d1b19;
+  }
+}
