@@ -32,7 +32,7 @@ client.background       #212121
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Font for window titles
-#font pango:monospace 10
+# font pango:monospace 10
 #font xft:Iosevka Term SS03:style=Regular 10
 font pango:Iosevka Term SS03 10
 # Home row direction keys, like vim
@@ -45,14 +45,15 @@ set $term alacritty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu wofi
-set $menu dmenu_path | rofi -show run | xargs swaymsg exec --
+set $menu exec $term --class=launcher -t "sway-launcher-desktop" -e env TERMINAL_COMMAND="$term -e" /usr/bin/sway-launcher-desktop
+# set $menu dmenu_path | rofi -show run | xargs swaymsg exec --
 set $menu_emojis ~/Tools/charpicker/charpicker.sh
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output "*" background "~/.cache/wallpaper" fill
+output "*" background "$HOME/.cache/wallpaper" fill
 
 # check out kanshi and ~/.config/kanshi/config for dynamic output configuration
 output eDP-1 scale 1
@@ -155,6 +156,7 @@ for_window [class="Pavucontrol"] floating enable, border pixel 6
 for_window [class="Orage"] floating enable, border pixel 6
 for_window [class="Blueman-manager"] floating enable, border pixel 6
 # Some windows float by app_id
+for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 for_window [app_id="blueman-manager"] floating enable, border pixel 6
 for_window [app_id="pavucontrol"] floating enable, border pixel 6
 for_window [app_id="mpv"] floating enable, border pixel 6
@@ -164,6 +166,8 @@ for_window [window_role="bubble"] floating enable, border pixel 6
 for_window [window_role="task_dialog"] floating enable, border pixel 6
 for_window [window_role="Preferences"] floating enable, border pixel 6
 for_window [window_type="dialog"] floating enable, border pixel 6
+# Some special windows float by their name
+# for_window [title="pulsemixer"] floating enable, border pixel 6
 # Some but not all app windows float cherry-picked
 for_window [class="Ripcord" title="((Search Messages|Channels|Files|Members|Threads Overview|Mentions) - .*|Bookmarks|Add Emoji Reaction|Start Thread|Preferences)"] floating enable, border pixel 6
 # Some windows float over all workspaces
@@ -206,7 +210,10 @@ assign [class="Chromium" window_type="normal"] 3
     # Start your launcher
     bindsym $mod+d exec $menu
     bindsym $mod+Shift+d exec $menu_emojis
-    bindsym $mod+Tab exec --no-startup-id $menu_window_switcher
+
+    # Mark and swap main window in the workspace (layout stuff)
+    bindsym $mod+Escape exec "$HOME/.local/bin/swaywm-mark-main.sh"
+    bindsym $mod+Tab exec "$HOME/.local/bin/swaywm-swap-main.sh"        
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -415,7 +422,8 @@ bindsym $mod+x mode "exit: [x]sway, [l]ock, [s]leep, [r]eboot, [p]oweroff"
 bar {
     swaybar_command waybar
 
-    font xft:Iosevka Term SS03:style=Regular
+    # font xft:Iosevka Term SS03:style=Regular
+    font pango:monospace
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
