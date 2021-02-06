@@ -6,7 +6,7 @@ CURR_WS="`swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .current_work
 # Check if the focused window is marked as main on the current workspace
 IS_MAIN="`swaymsg -t get_tree | jq -r \".. | select(.focused?) | .marks | contains([\\\"main-$CURR_WS\\\"])\"`" && \
 
-# swap places, exchange marks, focus stays on the same position (diff window)
+# swap places, exchange marks, focus main always
 if [[ "$IS_MAIN" = "true" ]]; then
     swaymsg swap container with mark "prev-$CURR_WS" && \
     swaymsg unmark "main-$CURR_WS" && \
@@ -17,6 +17,8 @@ else \
     swaymsg "[con_mark=\"prev-$CURR_WS\"]" unmark "prev-$CURR_WS"; \
     swaymsg swap container with mark "main-$CURR_WS" && \
     swaymsg "[con_mark=\"main-$CURR_WS\"]" mark "prev-$CURR_WS" && \
-    swaymsg mark "main-$CURR_WS" && \
-    swaymsg "[con_mark=\"prev-$CURR_WS\"]" focus;
+    swaymsg mark "main-$CURR_WS";
 fi
+
+# if you want to keep the focus on the previous, add this to the end of the else branch above
+# swaymsg "[con_mark=\"prev-$CURR_WS\"]" focus;
