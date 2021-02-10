@@ -41,14 +41,16 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term alacritty
+# set $term alacritty
+set $term kitty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu wofi
-set $menu exec $term --class=launcher -t "sway-launcher-desktop" -e env TERMINAL_COMMAND="$term -e" /usr/bin/sway-launcher-desktop
+# set $menu exec $term --class=launcher --title "sway-launcher-desktop" -e env TERMINAL_COMMAND="$term -e" /usr/bin/sway-launcher-desktop
+set $menu exec "$HOME/.local/bin/sway-launcher-wrapper.sh"
 # set $menu dmenu_path | rofi -show run | xargs swaymsg exec --
-set $menu_emojis ~/Tools/charpicker/charpicker.sh
 
+set $menu_emojis ~/Tools/charpicker/charpicker.sh
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -179,6 +181,7 @@ for_window [app_id="mpv"] sticky enable
 
 for_window [class="firefox"] inhibit_idle fullscreen
 for_window [app_id="mpv"] inhibit_idle fullscreen
+for_window [class="mpv"] inhibit_idle fullscreen
 for_window [class="vlc"] inhibit_idle fullscreen
 for_window [class="Chromium"] inhibit_idle fullscreen
 
@@ -208,12 +211,12 @@ assign [class="Chromium" window_type="normal"] 3
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
-    bindsym $mod+Shift+d exec $menu_emojis
+    bindsym --no-repeat $mod+d exec $menu
+    bindsym --no-repeat $mod+Shift+d exec $menu_emojis
 
     # Mark and swap main window in the workspace (layout stuff)
     bindsym $mod+Escape exec "$HOME/.local/bin/swaywm-mark-main.sh"
-    bindsym $mod+Tab exec "$HOME/.local/bin/swaywm-swap-main.sh"        
+    bindsym --no-repeat $mod+Tab exec "$HOME/.local/bin/swaywm-swap-main.sh"        
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -445,6 +448,7 @@ bar {
     for_window [class="X-terminal-emulator"] border pixel 3
     for_window [class="firefox" window_type="normal"] border pixel 3
     for_window [app_id="Alacritty"] border pixel 3
+    for_window [app_id="kitty"] border pixel 3
     for_window [app_id="swappy"] border pixel 6
     focus_follows_mouse         no
     # don't steal focus if window is a pop-up

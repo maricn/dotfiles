@@ -9,7 +9,7 @@ flash-opacity: 0.2
 default-opacity: 0.9
 
 # Length of flash in milliseconds.
-time: 250
+time: 230
 
 # If true, flashes are not faded out. This will improve performance but flashes
 # won't be smooth.
@@ -39,6 +39,8 @@ flash-lone-windows: 'on_open_close'
 
 rules:
   - window-class: X-terminal-emulator
+    default-opacity: 0.85
+  - app-id: kitty
     default-opacity: 0.85
   - window-class: ^(Firefox Developer Edition|firefox|Slack|Chromium|Chrome|tutanota-desktop|mpv|Skype|vlc)$
     default-opacity: 1
