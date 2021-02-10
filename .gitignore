@@ -25,7 +25,12 @@ node_modules/
 !.config/coc/extensions/
 .config/coc/extensions/*
 !.config/coc/extensions/package.json
+!.config/copyq/
+.config/copyq/**
+!.config/copyq/copyq.conf
+!.config/copyq/copyq-commands.ini
 !.config/flashfocus/
+!.config/fontconfig/
 !.config/i3/
 !.config/i3status/
 .config/i3status/config.backup
@@ -33,6 +38,7 @@ node_modules/
 !.config/imv/
 !.config/kanshi/
 !.config/karabiner/
+!.config/kitty
 !.config/libinput-gestures.conf
 !.config/mps-youtube
 .config/mps-youtube/play_history.m3u

@@ -11,3 +11,11 @@
 # Vim stuff
 *.swp
 *.vim
+
+# Virtual environment folders
+venv/
+venv2/
+venv3/
+
+# Caches
+.ccls-cache/

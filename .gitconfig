@@ -13,3 +13,5 @@
     rebase = false
 [alias]
 	project-summary = !which onefetch && onefetch
+[init]
+	defaultBranch = main
