@@ -18,9 +18,6 @@ ZSH_THEME="maricn"
   # set autoload path
   fpath=($HOME/.zsh "${fpath[@]}")
 
-  # load `kp`(ps|fzf)
-  autoload -Uz kp
-
   # every time we load .zshrc, ditch duplicate path entries
   typeset -U PATH fpath
 # }}}
@@ -38,7 +35,7 @@ alias clear='[ $[$RANDOM % 6] = 0 ] && timeout 3 cmatrix; clear || clear'
 alias trees="tree -shC"
 alias pingg="ping 8.8.8.8"
 alias myip="curl https://ipinfo.io/ip"
-alias weather="curl wttr.in"
+alias weather="curl wttr.in?location=Berlin"
 alias curl-weather="weather"
 alias psauxgrep='ps aux | grep -i'
 alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
@@ -46,7 +43,8 @@ alias pandoc="docker run --rm -u `id -u`:`id -g` -v `pwd`:/pandoc dalibo/pandock
 alias weechat='printf "\e[?1049h\e[H" && weechat && printf "\e[?1049l"'
 alias yayfzfpkginfo='yay -Qq | fzf --preview "yay -Qil {}" --layout=reverse --bind "enter:execute(yay -Qil {} | less)"'
 alias parufzfpkginfo='paru -Qq | fzf --preview "paru -Qil {}" --layout=reverse --bind "enter:execute(paru -Qil {} | less)"'
-alias startsway='WAYLAND_DEBUG=0; XDG_CURRENT_DESKTOP=sway; sway 2>&1 >~/sway.$(date +"%Y-%m-%d").log'
+alias parufzfinstall='paru -Slq | fzf -m --preview "paru -Si {1}" | sudo paru -S -'
+alias startsway='WAYLAND_DEBUG=0; XDG_CURRENT_DESKTOP=sway; _JAVA_AWT_WM_NONREPARENTING=1; sway 2>&1 >~/sway.$(date +"%Y-%m-%d").log'
 
 # Use sudoedit instead, it's safer
 # alias sudoe='sudo -E PATH=$PATH'
@@ -102,11 +100,24 @@ zstyle ':completion:*:kill:*' force-list always
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,cputime,command'
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
+# fzf {{{
+  # gotta come before plugins section
+  export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --no-ignore-vcs --glob '!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}'"
+  alias fzfi="rg --files --hidden --follow --no-ignore-vcs -g '!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}' | fzf"
+  alias vifi='vim $(fzfi)'
+# }}} fzf
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras urltools web-search pip common-aliases docker docker-compose docker-machine docker-helpers globalias highlight zsh-autosuggestions history-substring-search shrink-path)
+plugins=(git git-extras urltools web-search pip common-aliases docker docker-compose docker-machine docker-helpers globalias highlight zsh-autosuggestions history-substring-search shrink-path fzf)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
+
+# In addition to oh-my-zsh plugins, use zplug for managing zsh plugins
+# source /usr/share/zsh/scripts/zplug/init.zsh
+# zplug "wfxr/forgit"
+# zplug load
+
 ## history-substring-search plugin works with ↑ and ↓ keys;
 ## use opt+k and opt+j keys for old history lookup
 bindkey '˚' history-beginning-search-backward
@@ -159,15 +170,9 @@ else
   export EDITOR=vim
 fi
 
-export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
+export PATH="$HOME/.local/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
 
 # Utilities {{{
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}"'
-  alias fzfi='rg --files --hidden --follow --no-ignore-vcs -g "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}" | fzf'
-  alias vifi='vim $(fzfi)'
-
   function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
   # Setup cdg function
