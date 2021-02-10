@@ -169,6 +169,18 @@ export PATH="$HOME/.local/bin:/usr/local/sbin:$HOME/go/bin:/usr/local/go/bin:$HO
   alias vifi='vim $(fzfi)'
 
   function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
+
+  # Setup cdg function
+  # ------------------
+  # https://dmitryfrank.com/articles/shell_shortcuts
+  unalias cdg 2> /dev/null
+  cdg() {
+     local dest_dir=$(cdscuts_glob_echo | fzf )
+     if [[ $dest_dir != '' ]]; then
+        cd "$dest_dir"
+     fi
+  }
+  export cdg > /dev/null
 # }}}
 
 # less
