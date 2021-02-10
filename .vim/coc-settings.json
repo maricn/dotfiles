@@ -1,19 +1,23 @@
 {
   "prettier.tslintIntegration": true,
   "typescript.format.enabled": true,
-  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "javascript",
     "typescript",
     "json",
-    "jsonc"
+    "jsonc",
+    "php"
   ],
   "coc.preferences.colorSupport": false,
   "diagnostic.hintSign": ">>",
-  "diagnostic.infoSign": "ℹ️",
-  "diagnostic.warningSign": "⚠️",
-  "diagnostic.errorSign": "x", //"💣",
+  //"diagnostic.infoSign": "ℹ️",
+  //"diagnostic.warningSign": "⚠️",
+  //"diagnostic.errorSign": "💣",
+  "diagnostic.infoSign": "☝",
+  "diagnostic.warningSign": "☢",
+  "diagnostic.errorSign": "🚨",
   "diagnostic.enableHighlightLineNumber": true,
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
@@ -45,6 +49,8 @@
     "MD032": false,
     "MD033": false, // inline HTML shouldn't be forbidden (<a name="asdf"></a>...[goto](#asdf))
     "MD034": false,
+    "MD044": false,
+    "MD004": false,
     "MD025": { "front_matter_title": "" }
   },
   "languageserver": {

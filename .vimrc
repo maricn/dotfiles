@@ -42,7 +42,7 @@ Plug 'romainl/vim-qf'                   " Advanced quickfix behavior (skip to ne
 Plug 'stefandtw/quickfix-reflector.vim' " Edit the quickfix list (find and replace with rg/fzf)
 Plug 'matze/vim-move'                   " Move lines up and down
 Plug 'ConradIrwin/vim-bracketed-paste'  " Detect clipboard paste (auto :set paste!)
-Plug 'jremmen/vim-ripgrep'              " Use ripgrep for search
+" Plug 'jremmen/vim-ripgrep'              " Use ripgrep for search - deprecated in favor of vim-grepper
 Plug 'mhinz/vim-grepper'                " grep using your fav grepper
 Plug 'majutsushi/tagbar'                " Tagbar (right side thing to show functions)
 Plug 'bkad/CamelCaseMotion'
@@ -160,6 +160,7 @@ xnoremap p "_dP
   " Sakura supports TRUECOLOR, so no need to revert to 256
   " set t_Co=256
   " set t_ut=
+
   " themes {{{
     " autocmd vimenter * colorscheme snazzy
 
@@ -168,7 +169,7 @@ xnoremap p "_dP
       set background=dark
       let g:gruvbox_contrast_dark = 'medium'
       let g:gruvbox_contrast_light = 'hard'
-    " }}}
+    " }}} gruvbox
 
     " fix for Coc diagnostic signs color mismatch
     autocmd ColorScheme * 
@@ -191,7 +192,24 @@ xnoremap p "_dP
     set gcr+=r-cr:ReplaceCursor-hor20
     set gcr+=c:CommandCursor
     set gcr+=v-ve:VisualCursor-ver1
-  " }}}
+  " }}} themes
+
+  " Kitty {{{
+    " (should be after applying theme)
+    set termguicolors
+    set t_ut=''
+    " General colors
+    if has('gui_running') || has('nvim') 
+        hi Normal 		guifg=#ebdbb2 guibg=#282828 
+    else
+        " Set the terminal default background and foreground colors, thereby
+        " improving performance by not needing to set these colors on empty cells.
+        hi Normal guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE
+        let &t_ti = &t_ti . "\033]10;#ebdbb2\007\033]11;#282828\007"
+        let &t_te = &t_te . "\033]110\007\033]111\007"
+    endif
+  " }}} Kitty
+" }}} Customize views
   
 " Key remaps {{{
 "" Key remaps -----------------
@@ -472,18 +490,11 @@ let g:camelcasemotion_key = '<leader>'
   nnoremap <C-F>f :Find<CR>
 " }}}
 
-" ripgrep {{{
-  let g:rg_command = 'rg --vimgrep -S --no-ignore-vcs --hidden --glob "!{**/__pycache__,**/.git,**/*.pyc,**/venv/lib,**/coverage,**/lcov-report}"'
-  let g:rg_highlight = 'true'
-  let g:rg_derive_root = 'false' " it will use getcwd() (startup dir or `chdir`)
-  nnoremap <C-F>g :Rg
-  vmap <c-f> "hy:Rg<Enter><M-r>h
-" }}}
-
 " vim-grepper {{{
   " initialize with default values
   let g:grepper = {}
   let g:grepper.rg = {}
+  let g:grepper.tools = ['rg', 'git', 'grep']
   runtime plugin/grepper.vim
   " override rg query
   let g:grepper.rg.grepprg = 'rg --follow --smart-case --with-filename --no-heading --vimgrep --hidden --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib,**/coverage,**/lcov-report}"'
@@ -685,7 +696,8 @@ if (exists('g:started_by_firenvim'))
   function! OnUIEnter(event) abort
     if s:IsFirenvimActive(a:event)
       " configure font size
-  		set guifont=Iosevka:h12
+  		" set guifont=Iosevka:h12
+  		set guifont=monospace:h14
       " extend the textarea
       set lines=14 columns=80
       " disable the statusline
@@ -723,6 +735,7 @@ let g:jekyll_draft_dirs = ['_drafts', '_source/_drafts', 'notes']
 let g:qs_highlight_on_keys = ['f', 'F']
 
 " Dadbod / DB plugin {{{
+  "" see https://habamax.github.io/2019/09/02/use-vim-dadbod-to-query-databases.html
   "" operator mapping
   func! DBExe(...)
   	if !a:0
@@ -756,6 +769,28 @@ let g:qs_highlight_on_keys = ['f', 'F']
   nmap <leader>db  <Plug>(DBExe)
   omap <leader>db  <Plug>(DBExe)
   nmap <leader>dbb <Plug>(DBExeLine)
+
+  let g:dadbods = []
+  let db = {
+  		\"name": "postgres@localhost:5432/postgres)",
+  		\"url": "postgresql://postgres:@localhost:5432/postgres"
+  \}
+  call add(g:dadbods, db)
+  
+  " if g:db and b:db is set up -- b:db will be used.
+  " so g:db would serve as a default database (first in the list)
+  let g:db = g:dadbods[0].url
+
+  command! DBSelect :call popup_menu(map(copy(g:dadbods), {k,v -> v.name}), {
+  			\"callback": 'DBSelected'
+  \})
+  
+  func! DBSelected(id, result)
+  	if a:result != -1
+  		let b:db = g:dadbods[a:result-1].url
+  		echomsg 'DB ' . g:dadbods[a:result-1].name . ' is selected.'
+  	endif
+  endfunc
 " }}} Dadbod / DB plugin
 
 " }}} Plugins
