@@ -3,8 +3,8 @@ ZSH=$HOME/.oh-my-zsh
 #ZSH_THEME="lukerandall"
 ZSH_THEME="maricn"
 
-# Exports and autoloading {{{
   # export LC_CTYPE=en_US.UTF-8
+  # Exports and autoloading {{{
   export LC_ALL=en_US.UTF-8
   # Setting for nano to figure out I want it in English
   export LANG=en_US.UTF-8
@@ -12,8 +12,11 @@ ZSH_THEME="maricn"
   export LC_TIME=en_DK.UTF-8
 
   export XDG_CONFIG_HOME="$HOME/.config"
-  export WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
   export XDG_PICTURES_DIR="$HOME/Pictures"
+  export WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
+
+  # So xdg-open (and opening links from other apps) would use proper firefox
+  export MOZ_ENABLE_WAYLAND=1
 
   # set autoload path
   fpath=($HOME/.zsh "${fpath[@]}")
@@ -22,29 +25,39 @@ ZSH_THEME="maricn"
   typeset -U PATH fpath
 # }}}
 
-alias datetime="date +'%Y-%m-%d %H:%M:%S'"
-alias datetimeT="date +'%FT%T'"
-alias screenpaste='WAYLAND_DEBUG=0 wl-paste -t image/png > screenshot-$(datetimeT).png'
-alias updatedb="sudo /usr/libexec/locate.updatedb"
-alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
-alias cdws="cd $HOME/Workspace/"
-alias light="sed -i 's/colors: \*dark/colors: *light/' ~/.config/alacritty/alacritty.yml"
-alias dark="sed -i 's/colors: \*light/colors: *dark/' ~/.config/alacritty/alacritty.yml"
-alias grepc="grep --color -E "
-alias clear='[ $[$RANDOM % 6] = 0 ] && timeout 3 cmatrix; clear || clear'
-alias trees="tree -shC"
-alias pingg="ping 8.8.8.8"
-alias myip="curl https://ipinfo.io/ip"
-alias weather="curl wttr.in?location=Berlin"
-alias curl-weather="weather"
-alias psauxgrep='ps aux | grep -i'
-alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
-alias pandoc="docker run --rm -u `id -u`:`id -g` -v `pwd`:/pandoc dalibo/pandocker"
-alias weechat='printf "\e[?1049h\e[H" && weechat && printf "\e[?1049l"'
-alias yayfzfpkginfo='yay -Qq | fzf --preview "yay -Qil {}" --layout=reverse --bind "enter:execute(yay -Qil {} | less)"'
-alias parufzfpkginfo='paru -Qq | fzf --preview "paru -Qil {}" --layout=reverse --bind "enter:execute(paru -Qil {} | less)"'
-alias parufzfinstall='paru -Slq | fzf -m --preview "paru -Si {1}" | sudo paru -S -'
-alias startsway='WAYLAND_DEBUG=0; XDG_CURRENT_DESKTOP=sway; _JAVA_AWT_WM_NONREPARENTING=1; sway 2>&1 >~/sway.$(date +"%Y-%m-%d").log'
+# Aliases {{{
+  # Shortcuts w/ arguments {{{
+    alias datetime="date +'%Y-%m-%d %H:%M:%S'"
+    alias datetimeT="date +'%FT%T'"
+    alias screenpaste='WAYLAND_DEBUG=0 wl-paste -t image/png > screenshot-$(datetimeT).png'
+    alias updatedb="sudo /usr/libexec/locate.updatedb"
+    alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
+    alias cdws="cd $HOME/Workspace/"
+    alias light="sed -i 's/colors: \*dark/colors: *light/' ~/.config/alacritty/alacritty.yml"
+    alias dark="sed -i 's/colors: \*light/colors: *dark/' ~/.config/alacritty/alacritty.yml"
+    alias grepc="grep --color -E "
+    alias clear='[ $[$RANDOM % 6] = 0 ] && timeout 3 cmatrix; clear || clear'
+    alias trees="tree -shC"
+    alias pingg="ping 8.8.8.8"
+    alias myip="curl https://ipinfo.io/ip"
+    alias weather="curl wttr.in?location=Berlin"
+    alias curl-weather="weather"
+    alias psauxgrep='ps aux | grep -i'
+    alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
+    alias pandoc="docker run --rm -u `id -u`:`id -g` -v `pwd`:/pandoc dalibo/pandocker"
+    alias weechat='printf "\e[?1049h\e[H" && weechat && printf "\e[?1049l"'
+    alias yayfzfpkginfo='yay -Qq | fzf --preview "yay -Qil {}" --layout=reverse --bind "enter:execute(yay -Qil {} | less)"'
+    alias parufzfpkginfo='paru -Qq | fzf --preview "paru -Qil {}" --layout=reverse --bind "enter:execute(paru -Qil {} | less)"'
+    alias parufzfinstall='paru -Slq | fzf -m --preview "paru -Si {1}" | sudo paru -S -'
+    alias startsway='export $(dbus-launch) && WAYLAND_DEBUG=0; XDG_CURRENT_DESKTOP=sway; _JAVA_AWT_WM_NONREPARENTING=1; sway 2>&1 >~/sway.$(date +"%Y-%m-%d").log'
+  # }}} Shortcuts w/ arguments
+# }}} Aliases
+
+# Use wayland/swaywm firefox
+unalias firefox 2>/dev/null
+function firefox() {
+  MOZ_ENABLE_WAYLAND=1 /usr/bin/firefox "$@"
+}
 
 # Use sudoedit instead, it's safer
 # alias sudoe='sudo -E PATH=$PATH'
@@ -56,8 +69,8 @@ function datefromepoch() { date -j -f "%s" "$1"; }
 
 # Radio stations
 alias radio='mpv --no-video --no-cache --no-audio-display --vo=none --no-resume-playback --no-config'
-alias radio_ai_320ogg_gaming='radio http://ai-radio.org/320.ogg'
-alias radio_ai_flac_gaming='radio http://ai-radio.org/44.flac'
+# alias radio_ai_320ogg_gaming='radio http://ai-radio.org/320.ogg'
+# alias radio_ai_flac_gaming='radio http://ai-radio.org/44.flac'
 alias radio_cliqhoq_128aac_idm='radio http://ice1.somafm.com/cliqhop-128-aac'
 alias radio_spacestation_128aac_ambient_midtempo_electronica='radio http://ice1.somafm.com/spacestation-128-aac'
 alias radio_deepspaceone_128aac_deep_ambient_experimental_space='radio http://ice1.somafm.com/deepspaceone-128-aac'
