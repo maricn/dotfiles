@@ -1,3 +1,4 @@
+" vim: filetype=tridactyl
 " don't sanitize https://github.com/tridactyl/tridactyl/issues/1409
 " sanitise tridactyllocal tridactylsync
 
