@@ -34,6 +34,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
 Plug 'airblade/vim-gitgutter'           " Show sign on the left side when the line has been modified
 Plug 'tpope/vim-rhubarb'                " To use :Gbrowse (open commit in GitHub)
+Plug 'rhysd/git-messenger.vim'          " To show git commit message under the cursor
 
 " Utilities
 " Plug 'roxma/nvim-yarp'                  " Yet Another Remote Plugin Framework for Neovim (used for ncm2 and deoplete.nvim)
@@ -99,6 +100,7 @@ Plug 'tidalcycles/vim-tidal'            " Tidal Cycles Vim plugin - https://roos
 Plug 'camspiers/animate.vim'
 " Plug 'camspiers/lens.vim'
 Plug 'unblevable/quick-scope'         " Highlight jump characters - slows (unless only on f/F trigger)
+Plug 'machakann/vim-highlightedyank'  " Highlight yanked region
 " down vim considerably
 Plug 'godlygeek/csapprox'             " make gvim-only colorschemes work in terminal vim
 Plug 'joshdick/onedark.vim'           " Colorscheme onedark
@@ -143,7 +145,7 @@ set cursorcolumn
 if !has('nvim')
   set termguicolors!
 endif
-let g:python3_host_prog="/usr/bin/"
+let g:python3_host_prog="/usr/bin/python3"
 
 " supposed to fix slowness caused by vim-nerdtree-syntax-highlight
 set lazyredraw
@@ -263,14 +265,27 @@ nmap <silent> <C-B> :call <SID>BlameToggle()<CR>
 let g:fugitive_summary_format = '%s (%cr) <%an>'
 " }}}
 
+" git-messenger {{{
+  " Disable default mappings bc <leader>gm makes our <leader>g (rg search)
+  " wait for second key input
+  let g:git_messenger_no_default_mappings = v:true
+
+  " Use <leader>hh similar to <leader>hp for preview head diff
+  nnoremap <leader>hh :GitMessenger<cr>
+
+  " Cursor gets in the popup immediately
+  " use oO to navigate history, dD for diff, q to close popup
+  let g:git_messenger_always_into_popup = v:true
+" }}} git-messenger
+
 " peekaboo {{{
-function! CreateCenteredFloatingWindow()
+  function! CreateCenteredFloatingWindow()
     let width = float2nr(&columns * 0.6)
     let height = float2nr(&lines * 0.6)
     let top = ((&lines - height) / 2) - 1
     let left = (&columns - width) / 2
     let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
-
+ 
     let top = "╭" . repeat("─", width - 2) . "╮"
     let mid = "│" . repeat(" ", width - 2) . "│"
     let bot = "╰" . repeat("─", width - 2) . "╯"
@@ -285,8 +300,8 @@ function! CreateCenteredFloatingWindow()
     let opts.width -= 4
     call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
     au BufWipeout <buffer> exe 'bw '.s:buf
-endfunction
-let g:peekaboo_window="call CreateCenteredFloatingWindow()"
+  endfunction
+  let g:peekaboo_window="call CreateCenteredFloatingWindow()"
 " }}}
 
 " coc.nvim {{{
