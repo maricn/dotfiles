@@ -1,33 +1,41 @@
-profile "work" {
-    output eDP-1 disable
-    output "Dell Inc. DELL U2515H 9X2VY73Q0BLL" enable mode 2560x1440 position 0,0
-}
-
+#####   no other displays   #####
 profile "solo" {
     output eDP-1 enable scale 1 position 0,0
 }
 
-profile "clara" {
+##### with specific display #####
+profile "work hdmi/dp" {
+    output eDP-1 disable
+    output "Dell Inc. DELL U2515H 9X2VY73Q0BLL" enable mode 2560x1440 position 0,0
+}
+
+profile "clara beamer" {
     output eDP-1 enable scale 1 position 0,1080
     output "Unknown Qumi Q38 0x00000001" enable mode 1920x1080 position 0,0
 }
 
-profile "sabrina" {
+profile "sabrina beamer" {
     output eDP-1 enable scale 1 position 0,720
     output "Acer Technologies ACER H5382BD JNQ110015900" enable mode 1280x720 position 0,0
 }
 
-profile "home" {
-    output eDP-1 enable scale 1 position 2560,360
-    output HDMI-A-1 enable mode 2560x1440 position 0,0
-}
-
-profile "davide" {
-    output DP-2 enable mode 3840x2160 scale 1.4 position 0,0
-    output eDP-1 disable scale 1.1 position 330,1600
+profile "work Ben's" {
+    output eDP-1 enable scale 1 position 0,1080
+    output "LG Ultra HD" enable mode 1920x1080 position 0,0
 }
 
 profile "cadaques" {
     output "Sony SONY TV 0x00000101" enable mode 1920x1080 position 0,0
     output eDP-1 disable mode 1920x1080 position 1920,0
+}
+
+#####  with specific port   #####
+profile "home beamer" {
+    output eDP-1 enable scale 1 position 2560,360
+    output HDMI-A-1 enable mode 2560x1440 position 0,0
+}
+
+profile "davide dp" {
+    output DP-2 enable mode 3840x2160 scale 1.4 position 0,0
+    output eDP-1 disable scale 1.1 position 330,1600
 }
