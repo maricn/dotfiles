@@ -145,9 +145,22 @@ input "1133:16500:Logitech_G305" {
     natural_scroll enabled
 }
 
+input "2522:1359:A4TECH_USB_Device" {
+    natural_scroll enabled
+}
+
+set $MOUSE "2522:1359:A4TECH_USB_Device"
+bindsym --input-device=$MOUSE --whole-window BTN_EXTRA seat - cursor press BTN_SIDE
+bindsym --input-device=$MOUSE --whole-window --release BTN_EXTRA seat - cursor release BTN_SIDE
+
+bindsym --input-device=$MOUSE --whole-window BTN_SIDE seat - cursor press BTN_EXTRA
+bindsym --input-device=$MOUSE --whole-window --release BTN_SIDE seat - cursor release BTN_EXTRA
+
+
 # Some windows float by class
 for_window [class="copyq"] floating enable, border pixel 6
 for_window [instance="copyq"] floating enable, border pixel 6
+for_window [app_id="copyq"] floating enable, border pixel 6
 for_window [class="mpv"] floating enable, border pixel 6
 for_window [class="Cadence"] floating enable, border pixel 6
 for_window [class="Xscreensaver-demo"] floating enable, border pixel 6
@@ -180,6 +193,7 @@ for_window [app_id="mpv"] sticky enable
 # for_window [name="^.*@production-.*$"] title_format "<span background='#ff0000'>%title</span>"
 
 for_window [class="firefox"] inhibit_idle fullscreen
+for_window [app_id="firefox"] inhibit_idle fullscreen
 for_window [app_id="mpv"] inhibit_idle fullscreen
 for_window [class="mpv"] inhibit_idle fullscreen
 for_window [class="vlc"] inhibit_idle fullscreen
@@ -193,6 +207,7 @@ assign [class="tutanota"] 1
 assign [class="KeePassXC"] 1
 assign [class="Firefox Developer Edition" window_type="normal"] 2
 assign [class="firefox" window_type="normal"] 2
+# assign [app_id="firefox" window_type="normal"] 2
 assign [class="Steam"] 5
 assign [class="Chromium" window_type="normal"] 3
 # new_window 1pixel
@@ -213,6 +228,10 @@ assign [class="Chromium" window_type="normal"] 3
     # Start your launcher
     bindsym --no-repeat $mod+d exec $menu
     bindsym --no-repeat $mod+Shift+d exec $menu_emojis
+    bindsym --no-repeat $mod+Ctrl+Shift+d exec $menu_emojis_symbols
+
+    # Toggle copyq
+    bindsym --no-repeat Ctrl+Shift+V exec "$HOME/.local/bin/sway-copyq-launcher.sh"
 
     # Mark and swap main window in the workspace (layout stuff)
     bindsym $mod+Escape exec "$HOME/.local/bin/swaywm-mark-main.sh"
@@ -297,14 +316,12 @@ assign [class="Chromium" window_type="normal"] 3
     workspace 8 output eDP-1 DP-2 HDMI-A-1
     workspace 9 output eDP-1 DP-2 HDMI-A-1
     workspace 10 output eDP-1 DP-2 HDMI-A-1
-    bindsym $mod+Mod1+h move workspace to output HDMI-A-1
-    bindsym $mod+Mod1+e move workspace to output eDP-1
+    bindsym $mod+Mod1+h move workspace to output left
+    bindsym $mod+Mod1+j move workspace to output down
+    bindsym $mod+Mod1+k move workspace to output up
+    bindsym $mod+Mod1+l move workspace to output right
 
     # Move around workspaces relative to the current one
-    bindsym $mod+Ctrl+h workspace prev
-    bindsym $mod+Ctrl+l workspace next
-    bindsym $mod+Shift+Ctrl+h move container to workspace prev
-    bindsym $mod+Shift+Ctrl+l move container to workspace next
 
 #
 # Layout stuff:
@@ -383,11 +400,9 @@ bindsym $mod+Shift+i		resize grow height 5 px or 5 ppt
 bindsym $mod+Shift+o		resize grow width 5 px or 5 ppt
 
 # Lock
-bindsym Control+Mod1+l exec $lock_cmd
+bindsym Ctrl+Mod1+l exec $lock_cmd
 
 # Screenshot
-#bindsym $mod+P --release exec "flameshot full -c"
-#bindsym $mod+Shift+P exec "flameshot full -d 2000 -c"
 for_window [title="imv.*screenshot"] floating enable
 for_window [title="imv.*screenshot"] fullscreen on
 bindsym $mod+P --release exec "grim screen -"
@@ -447,6 +462,7 @@ bar {
     for_window [class=".*"] border pixel 2
     for_window [class="X-terminal-emulator"] border pixel 3
     for_window [class="firefox" window_type="normal"] border pixel 3
+    for_window [app_id="firefox"] border pixel 3
     for_window [app_id="Alacritty"] border pixel 3
     for_window [app_id="kitty"] border pixel 3
     for_window [app_id="swappy"] border pixel 6
@@ -456,7 +472,7 @@ bar {
     # don't steal focus when a window activates, just mark it as urgent [default: smart]
     focus_on_window_activation urgent
     # window border settings (floating_border is not working, dunno why)
-    default_border              none
+    default_border              pixel 3
     default_floating_border     pixel 6
     # hide borders adjacent to the screen edges
     hide_edge_borders           none

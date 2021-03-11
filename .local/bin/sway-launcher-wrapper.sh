@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# TERM=alacritty
-TERM=kitty
+TERM=alacritty
+# TERM=kitty
 
 "$TERM" --class=launcher --title "sway-launcher-desktop" -e env TERMINAL_COMMAND="$TERM -e" /usr/bin/sway-launcher-desktop &
 
