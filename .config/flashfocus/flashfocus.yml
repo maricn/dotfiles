@@ -38,10 +38,16 @@ flash-fullscreen: true
 flash-lone-windows: 'on_open_close'
 
 rules:
-  - window-class: X-terminal-emulator
+  # terminals opacity
+  - window-class: ^X-terminal-emulator$
     default-opacity: 0.85
-  - app-id: kitty
+  - app-id: ^kitty$
     default-opacity: 0.85
+
+  # no opacity
+  - app-id: ^(firefox|mpv|vlc)$
+    default-opacity: 1
+    flash-opacity: 0.4
   - window-class: ^(Firefox Developer Edition|firefox|Slack|Chromium|Chrome|tutanota-desktop|mpv|Skype|vlc)$
     default-opacity: 1
     flash-opacity: 0.4
