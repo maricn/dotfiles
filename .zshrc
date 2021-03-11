@@ -91,16 +91,27 @@ DISABLE_AUTO_TITLE="true"
 # Uncomment following line if you want to disable command autocorrection
 # DISABLE_CORRECTION="true"
 
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
-
 # Uncomment following line if you want to disable marking untracked files under
 # VCS as dirty. This makes repository status check for large repositories much,
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-setopt EXTENDED_GLOB
+# http://unix.stackexchange.com/questions/273861/unlimited-history-in-zsh
+# You need to set both HISTSIZE and SAVEHIST. They indicate how many lines of history to keep in
+# memory and how many lines to keep in the history file, respectively.
+HISTFILE=~/.zsh_history
+HISTSIZE=999999999
+SAVEHIST=$HISTSIZE
 
+# Settings
+setopt NO_BANG_HIST
+setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+
+setopt dot_glob
+
+setopt EXTENDED_GLOB
 # Tab completion from both ends
 setopt completeinword
 
@@ -155,8 +166,8 @@ else
   export PATH="$PATH:/home/nikola/Tools/F8331/android/platform-tools"
 
   ### What do I use Qt for, again? -qtractor
-  export QTDIR=/home/nikola/Tools/Qt/5.14.1/gcc_64
-  export Qt5WebEngineWidgets_DIR=/home/nikola/Tools/Qt/5.14.1/gcc_64/lib/cmake/Qt5WebEngineWidgets
+  export QTDIR="$HOME/Tools/Qt/5.14.1/gcc_64"
+  export Qt5WebEngineWidgets_DIR="$HOME/Tools/Qt/5.14.1/gcc_64/lib/cmake/Qt5WebEngineWidgets"
   export QT_SELECT=qt5
 fi
 
@@ -164,7 +175,7 @@ fi
 if [ -x "$(command -v keychain)" ]; then
   eval $(keychain --eval --quiet "$HOME/.ssh/id_me_maricn_nikola_2019" "$HOME/.ssh/id_mimi_nikola_maric")
 elif [[ $(hostname) == *"work-"* || $(hostname) == *"home-"* ]]; then
-    eval $(ssh-agent -s)
+  eval $(ssh-agent -s)
 fi
 
 ### Preserving legacy scripts compatibility
