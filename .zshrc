@@ -256,7 +256,14 @@ export LESS=-eFRX
 # make ls use pre-8.25 behavior (per https://unix.stackexchange.com/questions/258679/why-is-ls-suddenly-wrapping-items-with-spaces-in-single-quotes)
 export QUOTING_STYLE=literal
 
-export TAGSEARCH_HOME="$HOME/Sync/notes/notes"
+# notes {{{
+  export TAGSEARCH_HOME="$HOME/Sync/notes/notes"
+
+  # https://github.com/maricn/notes-cli
+  alias no='notes ls --sort modified | fzf --preview "cat {1}" | xargs -o nvim'
+  alias nn='notes new'
+# }}} notes
+
 export rmtar() {
   tar tf $1 | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
 }
