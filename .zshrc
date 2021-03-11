@@ -124,17 +124,10 @@ zstyle ':completion:*:kill:*' force-list always
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,cputime,command'
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
-# fzf {{{
-  # gotta come before plugins section
-  export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --no-ignore-vcs --glob '!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}'"
-  alias fzfi="rg --files --hidden --follow --no-ignore-vcs -g '!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib}' | fzf"
-  alias vifi='vim $(fzfi)'
-# }}} fzf
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras urltools web-search pip common-aliases docker docker-compose docker-machine docker-helpers globalias highlight zsh-autosuggestions history-substring-search shrink-path fzf)
+plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search shrink-path fzf)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 
 # In addition to oh-my-zsh plugins, use zplug for managing zsh plugins
@@ -146,12 +139,34 @@ plugins=(git git-extras urltools web-search pip common-aliases docker docker-com
 ## use opt+k and opt+j keys for old history lookup
 bindkey '˚' history-beginning-search-backward
 bindkey '∆' history-beginning-search-forward
+## use alt+k and alt+j keys for old history lookup
+bindkey '\ek' history-beginning-search-backward
+bindkey '\ej' history-beginning-search-forward
 
 source $ZSH/oh-my-zsh.sh
 
-alias ls="lsd"
-alias bat='/usr/bin/bat'
-alias cat='/usr/bin/bat --decorations=never --paging=never'
+# Aliases {{{
+  # Unalias {{{
+    # https://github.com/muesli/duf vs common-aliases
+    unalias duf
+  # }}} Unalias
+
+  # change standard behavior {{{
+    # 🌈
+    alias ls="lsd"
+    alias lat="la --sort=time"
+    # 🦇
+    alias bat='/usr/bin/bat'
+    alias cat='/usr/bin/bat --decorations=never --paging=never'
+    # 🗣
+    alias rm='rm -iv'
+    alias cp='cp -iv'
+    alias mv='mv -iv'
+    alias ln='ln -iv'
+    # 🕸
+    alias dog='dog --seconds'
+  # }}} change standard behavior
+# }}} Aliases
 
 ## Git / GitHub
 export GIT_AUTHOR_NAME=Nikola\ Maric
