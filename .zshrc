@@ -133,7 +133,29 @@ plugins=(git git-extras urltools pip common-aliases docker docker-compose docker
 # In addition to oh-my-zsh plugins, use zplug for managing zsh plugins
 # source /usr/share/zsh/scripts/zplug/init.zsh
 # zplug "wfxr/forgit"
+# zplug "changyuheng/fz", defer:1
+# zplug "skywind3000/z.lua", defer:1
+# zplug "rupa/z", use:z.sh
 # zplug load
+
+# Load zsh plugin for virtualenv automatic management when using `cd`
+# disabled for being too slow - uses find to depth 2 to look for `activate`
+# source "$HOME/Tools/virtualenv-autodetect/virtualenv-autodetect.plugin.zsh"
+
+# External scripts {{{
+  # Source these before our own `bindkeys` so that we can override stuff
+  # But after plugins so we override their behavior with stuff here
+  scripts_to_source=(
+    ${HOME}/Tools/dht/dht-complete.zsh
+    ${HOME}/.dotfiles/zsh/fzf-helpers.zsh
+  )
+
+  for script in $scripts_to_source; do
+    if [ -f $script ]; then
+      source $script
+    fi
+  done
+# }}} External scripts
 
 ## history-substring-search plugin works with ↑ and ↓ keys;
 ## use opt+k and opt+j keys for old history lookup
