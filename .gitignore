@@ -19,6 +19,7 @@ node_modules/
 .ccls-cache/
 
 .config/*
+!.config/.curlrc
 !.config/alacritty/
 !.config/coc/
 .config/coc/*
