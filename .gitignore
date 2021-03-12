@@ -49,6 +49,7 @@ node_modules/
 .config/mpv/*
 !.config/mpv/mpv.conf
 !.config/nvim/
+!.config/pulsemixer.cfg
 !.config/swappy/
 !.config/sway/
 !.config/tridactyl/
