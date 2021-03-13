@@ -11,6 +11,7 @@ exec sleep 2 && unset QT_QPA_PLATFORMTHEME && firefox &
 exec sleep 3 && unset QT_QPA_PLATFORMTHEME && QT_QPA_PLATFORM=xcb copyq &
 exec sleep 3 && keepassxc &
 exec sleep 3 && signal-desktop-beta &
+exec sleep 3 && emote &
 #exec sleep 3 && whatsapp-for-linux &
 
 # This just won't work, must start it manually (maybe try with some envvars in the future)
