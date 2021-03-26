@@ -26,7 +26,7 @@ REGEXP (((http|https|ftp|gopher|gemini)|mailto):(//)?[^ <>"\t]*|(www|ftp)[0-9]?\
 
 #COMMAND lynx %s
 #COMMAND netscape -remote 'openURL(%s)'
-# COMMAND url_handler.sh
+#COMMAND url_handler.sh
 COMMAND ~/.local/bin/url_handler.sh %s
 
 WRAP yes

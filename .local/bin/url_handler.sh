@@ -8,24 +8,24 @@
 
 # List of sites that will be opened in mpv.
 vidsites="youtube.com
-	\|hooktube.com
-	\|bitchute.com
-	"
+  \|hooktube.com
+  \|bitchute.com
+  "
 ext="${1##*.}"
-mpvFiles="mkv mp4 avi"
+mpvFiles="mkv mp4 avi mp3 flac opus aac ogg mp3?source=feed"
 imvFiles="png jpg jpeg jpe gif"
-wgetFiles="mp3 flac opus aac ogg mp3?source=feed pdf"
+zathuraFiles="pdf"
 
 echo $ext
 
 if echo $imvFiles | grep -w $ext > /dev/null; then
-	imv "$1" >/dev/null &
+  imv "$1" >/dev/null &
 elif echo $mpvFiles | grep -w $ext > /dev/null; then
-	mpv --loop --quiet "$1" > /dev/null &
-elif echo $wgetFiles | grep -w $ext > /dev/null; then
-	wget "$1" >/dev/null &
+  mpv --loop --speed=1.3 --quiet "$1" > /dev/null &
+elif echo $zathuraFiles | grep -w $ext > /dev/null; then
+  zathura "$1" > /dev/null &
 elif echo "$@" | grep "$vidsites">/dev/null; then
-	mpv -quiet "$1" > /dev/null &
+  mpv -quiet "$1" > /dev/null &
 else
-	/usr/bin/firefox "$1" 2>/dev/null & disown
+  firefox "$1" 2>/dev/null & disown
 fi
