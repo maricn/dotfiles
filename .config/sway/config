@@ -32,8 +32,8 @@ client.background       #212121
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Font for window titles
-# font pango:monospace 10
-font xft:Iosevka Term SS03:style=Regular 10
+font pango:monospace 8
+# font xft:Iosevka Term SS03:style=Regular 10
 # font pango:Iosevka Fixed Slab 10
 # Home row direction keys, like vim
 set $left h
