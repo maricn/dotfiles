@@ -8,7 +8,14 @@ endif
 " Load plugins {{{
 call plug#begin('~/.vim/plugged')
 " Productivity
-""" Plug 'paulkass/jira-vim'
+" JIRA {{{
+  """ Plug 'paulkass/jira-vim'
+  Plug 'n0v1c3/vira', { 'do': './install.sh', 'branch': 'VIRA-247' }  " JIRA integration
+  Plug 'ActivityWatch/aw-watcher-vim'     " Track keyboard usage
+" }}} JIRA
+" TaskWarrior {{{
+  Plug 'blindFS/vim-taskwarrior'          " TaskWarrior todo list manager
+" }}} TaskWarrior
 
 Plug 'liuchengxu/vim-which-key'       " Vim mapping, and its on-demand lazy load
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
@@ -21,13 +28,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'tweekmonster/fzf-filemru'
 Plug 'pbogut/fzf-mru.vim'
 Plug 'qpkorr/vim-bufkill'
-
-" NERDTree (switched to coc-explorer)
-" Plug 'scrooloose/nerdtree'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'lambdalisue/nerdfont.vim'
-" Plug 'ryanoasis/vim-devicons'         " removed in favor of nerdfont.vim which is lighter
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Git related
 Plug 'tpope/vim-fugitive'
@@ -42,10 +42,12 @@ Plug 'rhysd/git-messenger.vim'          " To show git commit message under the c
 Plug 'romainl/vim-qf'                   " Advanced quickfix behavior (skip to next filename {/}; :Keep, :Reject and :Restore entries funnel - works with quickfix-reflector.vim)
 Plug 'stefandtw/quickfix-reflector.vim' " Edit the quickfix list (find and replace with rg/fzf)
 Plug 'matze/vim-move'                   " Move lines up and down
+Plug 'yaroot/vissort'                   " DrChip's Visual block based sorting
 Plug 'ConradIrwin/vim-bracketed-paste'  " Detect clipboard paste (auto :set paste!)
 " Plug 'jremmen/vim-ripgrep'              " Use ripgrep for search - deprecated in favor of vim-grepper
 Plug 'mhinz/vim-grepper'                " grep using your fav grepper
 Plug 'majutsushi/tagbar'                " Tagbar (right side thing to show functions)
+Plug 'mbbill/undotree'                  " The undo history visualizer for VIM
 Plug 'bkad/CamelCaseMotion'
 Plug 'tpope/vim-commentary'             " :Commentary to comment out a line or block
 " autocomplete window with escape
@@ -63,6 +65,9 @@ Plug 'mhinz/vim-startify'               " Start screen for vim
 " Plug 'svermeulen/vim-yoink'             " clipboard history manager (buffer yankring)
 " Plug 'svermeulen/ncm2-yoink'            " clipboard history manager ncm2 completion
 
+" Tools {{{
+Plug 'soywod/himalaya', {'rtp': 'vim'}
+" }}} Tools
 
 " Network (API)
 Plug 'diepm/vim-rest-console'           " Use vim as postman
@@ -75,6 +80,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'       " typescript syntax and indenting for vim
 Plug 'eliba2/vim-node-inspect'          " NodeJS interactive debugger
 Plug 'stevearc/vim-arduino'             " Arduino build and upload sketch
+Plug 'AndrewRadev/splitjoin.vim'        " Split one-liner to multiple lines and back
 
 " Programming - coc.nvim
 " Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'} " TSC
@@ -156,6 +162,7 @@ set wildignore=*/node_modules/*
 " overwritten text into the buffer, but just paste over it)
 xnoremap p "_dP
 
+autocmd vimenter * :AWStart
 
 " Customize view {{{
   syntax on
@@ -169,7 +176,7 @@ xnoremap p "_dP
     " gruvbox {{{
       autocmd vimenter * colorscheme gruvbox
       set background=dark
-      let g:gruvbox_contrast_dark = 'medium'
+      let g:gruvbox_contrast_dark = 'soft'
       let g:gruvbox_contrast_light = 'hard'
     " }}} gruvbox
 
@@ -196,21 +203,21 @@ xnoremap p "_dP
     set gcr+=v-ve:VisualCursor-ver1
   " }}} themes
 
-  " Kitty {{{
-    " (should be after applying theme)
-    set termguicolors
-    set t_ut=''
-    " General colors
-    if has('gui_running') || has('nvim') 
-        hi Normal 		guifg=#ebdbb2 guibg=#282828 
-    else
-        " Set the terminal default background and foreground colors, thereby
-        " improving performance by not needing to set these colors on empty cells.
-        hi Normal guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE
-        let &t_ti = &t_ti . "\033]10;#ebdbb2\007\033]11;#282828\007"
-        let &t_te = &t_te . "\033]110\007\033]111\007"
-    endif
-  " }}} Kitty
+  " " Kitty {{{
+  "   " (should be after applying theme)
+  "   set termguicolors
+  "   set t_ut=''
+  "   " General colors
+  "   if has('gui_running') || has('nvim') 
+  "       hi Normal 		guifg=#ebdbb2 guibg=#282828 
+  "   else
+  "       " Set the terminal default background and foreground colors, thereby
+  "       " improving performance by not needing to set these colors on empty cells.
+  "       hi Normal guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE
+  "       let &t_ti = &t_ti . "\033]10;#ebdbb2\007\033]11;#282828\007"
+  "       let &t_te = &t_te . "\033]110\007\033]111\007"
+  "   endif
+  " " }}} Kitty
 " }}} Customize views
   
 " Key remaps {{{
@@ -457,6 +464,8 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   " Pretend netrw is already opened so it doesn't open automatically
   " let g:loaded_netrw = 1
   let g:loaded_netrwPlugin = 1
+  " But reimplement `gx` from original netrw (open link)
+  nmap gx :!xdg-open <c-r><c-a>
 
   " Autoload coc-explorer (it has a delay, so I prefer not to use it)
   " augroup MyCocExplorer
@@ -491,6 +500,7 @@ let g:camelcasemotion_key = '<leader>'
 " }}}
 
 " fzf {{{
+  let $FZF_DEFAULT_COMMAND="fd --type f"
   let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
   nnoremap <silent> <leader>. :Files<CR>
   nnoremap <silent> <leader><space> :Buffers<CR>
@@ -512,7 +522,7 @@ let g:camelcasemotion_key = '<leader>'
   let g:grepper.tools = ['rg', 'git', 'grep']
   runtime plugin/grepper.vim
   " override rg query
-  let g:grepper.rg.grepprg = 'rg --follow --smart-case --with-filename --no-heading --vimgrep --hidden --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib,**/coverage,**/lcov-report}"'
+  let g:grepper.rg.grepprg = 'rg --follow --smart-case --with-filename --no-heading --vimgrep --hidden --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib,**/venv2/lib,**/venv3/lib,**/coverage,**/lcov-report}"'
   " highlight searches
   let g:grepper.searchreg = 1
   let g:grepper.highlight = 1
@@ -527,7 +537,7 @@ let g:camelcasemotion_key = '<leader>'
 " }}}
 
 " tidalcycles {{{
-let g:tidal_target = "terminal"
+  let g:tidal_target = "terminal"
 " }}}
 
 """ Refactoring ---------------
@@ -576,251 +586,272 @@ nmap <S-F6> <Plug>(coc-rename)
 " }}} key remaps
 
 " Plugins {{{
-" Plugins ----------------------
-
-"" Nuake
-tnoremap <C-q> <C-w>N
-tnoremap <C-\> <C-\><C-n>:Nuake<CR>
-nnoremap + <C-w>3+
-nnoremap _ <C-w>3-
-nnoremap <C-\> :Nuake<CR>
-inoremap <C-\> <C-\><C-n>:Nuake<CR>
-let g:nuake_position = 'top'
-let g:nuake_size = 0.2
-
-" ,,w saves the file
-nnoremap <leader><leader>w :w<CR>
-" :w!! sudo saves the file
-cmap w!! w !sudo tee % >/dev/null
-
-" status bar colors
-hi statusline guibg=#8fbfdc ctermbg=cyan
-au InsertEnter * hi statusline guibg=#d7afff ctermbg=magenta
-au InsertLeave * hi statusline guibg=#8fbfdc ctermbg=cyan
-" au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
-" au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
-" hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
-
-" vim-startify {{{
-if (!exists('g:started_by_firenvim'))
-  " returns all modified files of the current git repo
-  " `2>/dev/null` makes the command fail quietly, so that when we are not
-  " in a git repo, the list will be empty
-  function! s:gitModified()
-      let files = systemlist('git ls-files -m 2>/dev/null')
-      return map(files, "{'line': v:val, 'path': v:val}")
-  endfunction
+  " Plugins ----------------------
   
-  " same as above, but show untracked files, honouring .gitignore
-  function! s:gitUntracked()
-      let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
-      return map(files, "{'line': v:val, 'path': v:val}")
-  endfunction
+  "" Nuake
+  tnoremap <C-q> <C-w>N
+  tnoremap <C-\> <C-\><C-n>:Nuake<CR>
+  nnoremap + <C-w>3+
+  nnoremap _ <C-w>3-
+  nnoremap <C-\> :Nuake<CR>
+  inoremap <C-\> <C-\><C-n>:Nuake<CR>
+  let g:nuake_position = 'top'
+  let g:nuake_size = 0.2
   
-  " autoload session if the dir contains Session.vim
-  let g:startify_session_autoload = 1
-  " specify bookmarks
-  let g:startify_bookmarks = [ {'c': '~/.vimrc'}, {'z': '~/.zshrc'}, {'s': '~/.config/sway/config'} ]
-  " list of stuff to show on startup
-  let g:startify_lists = [
-          \ { 'type': 'sessions',  'header': ['   Sessions']       },
-          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-          \ { 'type': 'files',     'header': ['   MRU']            },
-          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-          \ { 'type': function('s:gitModified'),  'header': ['   git modified']},
-          \ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
-          \ { 'type': 'commands',  'header': ['   Commands']       },
-          \ ]
-  autocmd User Startified setlocal cursorline
-endif
-" }}}
-
-" Status Line Custom
-let g:currentmode={
-    \ "n"  : 'Normal',
-    \ "no" : 'Normal·Operator Pending',
-    \ "v"  : 'Visual',
-    \ "V"  : 'V·Line',
-    \ "" : 'V·Block',
-    \ "s"  : 'Select',
-    \ "S"  : 'S·Line',
-    \ "" : 'S·Block',
-    \ "i"  : 'Insert',
-    \ "R"  : 'Replace',
-    \ "Rv" : 'V·Replace',
-    \ "c"  : 'Command',
-    \ "cv" : 'Vim Ex',
-    \ "ce" : 'Ex',
-    \ "r"  : 'Prompt',
-    \ "rm" : 'More',
-    \ "r?" : 'Confirm',
-    \ "!"  : 'Shell',
-    \ "t"  : 'Terminal'
-    \}
-
-set noshowmode
-set laststatus=2
-set statusline=
-set statusline+=%0*\ %n\                                 " Buffer number
-set statusline+=%0*\ %<%f%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
-set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %02l:%02v\ (%3p%%)\                 " Line number : column number ( percentage )
-set statusline+=%=                                       " Right Side
-" set statusline+=%2*\ %Y\                                 " FileType
-" set statusline+=%3*│                                     " Separator
-" set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
-" set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
-" set statusline+=%3*│                                     " Separator
-set statusline+=%0*\ %{fugitive#head()}\                 " Fugitive - git branch name
-set statusline+=%3*│                                     " Separator
-set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-
-hi PMenu guibg=#666666
-hi PMenuSel guibg=#777777
-
-" Firenvim plugin {{{
-if (exists('g:started_by_firenvim'))
-  nnoremap <C-z> :call firenvim#hide_frame()<CR>
-
-  let g:firenvim_config = { 
-      \ 'globalSettings': {
-          \ 'alt': 'all',
-      \  },
-      \ 'localSettings': {
-          \ '.*': {
-              \ 'priority': 0,
-              \ 'selector': 'textarea',
-              \ 'takeover': 'never',
-          \ },
-      \ }
-  \ }
-
-  function! s:IsFirenvimActive(event) abort
-    if !exists('*nvim_get_chan_info')
-      return 0
-    endif
-    let l:ui = nvim_get_chan_info(a:event.chan)
-    return has_key(l:ui, 'client') && has_key(l:ui.client, 'name') &&
-        \ l:ui.client.name =~? 'Firenvim'
-  endfunction
+  " ,,w saves the file
+  nnoremap <leader><leader>w :w<CR>
+  " :w!! sudo saves the file
+  cmap w!! w !sudo tee % >/dev/null
   
-  function! OnUIEnter(event) abort
-    if s:IsFirenvimActive(a:event)
-      " configure font size
-  		" set guifont=Iosevka:h12
-  		set guifont=monospace:h14
-      " extend the textarea
-      set lines=14 columns=80
-      " disable the statusline
-      set laststatus=0
-      set statusline=
-      " extend the gutter line
-      set nuw=3
-      " disable git gutter
-      GitGutterDisable
-      " color the cursor
-      hi Cursor ctermbg=black ctermfg=gray guibg=black guifg=#e9d6b6
-      " quit on ,,q (not only buffer, but whole thing)
-      nnoremap <leader><leader>q :quit<CR>
-    endif
-  endfunction
-
-  autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
-endif
-" }}} Firenvim plugin
-
-" Markdown plugin
-let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
-                        \ 'enter': { 'shift': 1 },
-                        \ 'links': { 'external': { 'enable': 1 } },
-                        \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
-                        \ 'fold': { 'enable': 1 } }
-let g:polyglot_disabled = ['markdown'] " for vim-polyglot users, it loads Plasticboy's markdown
-                                       " plugin which unfortunately interferes with mkdx list indentation.
-
-" Jekyll plugin (notes)
-let g:jekyll_post_extension = '.md'
-let g:jekyll_draft_dirs = ['_drafts', '_source/_drafts', 'notes']
-
-" Quick Scope (jump f key highlight)
-let g:qs_highlight_on_keys = ['f', 'F']
-
-" Dadbod / DB plugin {{{
-  "" see https://habamax.github.io/2019/09/02/use-vim-dadbod-to-query-databases.html
-  "" operator mapping
-  func! DBExe(...)
-  	if !a:0
-  		let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
-  		return 'g@'
-  	endif
-  	let sel_save = &selection
-  	let &selection = "inclusive"
-  	let reg_save = @@
+  " status bar colors
+  hi statusline guibg=#8fbfdc ctermbg=cyan
+  au InsertEnter * hi statusline guibg=#d7afff ctermbg=magenta
+  au InsertLeave * hi statusline guibg=#8fbfdc ctermbg=cyan
+  " au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
+  " au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+  " hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
   
-  	if a:1 == 'char'	" Invoked from Visual mode, use gv command.
-  		silent exe 'normal! gvy'
-  	elseif a:1 == 'line'
-  		silent exe "normal! '[V']y"
-  	else
-  		silent exe 'normal! `[v`]y'
-  	endif
+  " vim-startify {{{
+  if (!exists('g:started_by_firenvim'))
+    " returns all modified files of the current git repo
+    " `2>/dev/null` makes the command fail quietly, so that when we are not
+    " in a git repo, the list will be empty
+    function! s:gitModified()
+        let files = systemlist('git ls-files -m 2>/dev/null')
+        return map(files, "{'line': v:val, 'path': v:val}")
+    endfunction
+    
+    " same as above, but show untracked files, honouring .gitignore
+    function! s:gitUntracked()
+        let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
+        return map(files, "{'line': v:val, 'path': v:val}")
+    endfunction
+    
+    " autoload session if the dir contains Session.vim
+    let g:startify_session_autoload = 1
+    " specify bookmarks
+    let g:startify_bookmarks = [ {'c': '~/.vimrc'}, {'z': '~/.zshrc'}, {'s': '~/.config/sway/config'} ]
+    " list of stuff to show on startup
+    let g:startify_lists = [
+            \ { 'type': 'sessions',  'header': ['   Sessions']       },
+            \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+            \ { 'type': 'files',     'header': ['   MRU']            },
+            \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+            \ { 'type': function('s:gitModified'),  'header': ['   git modified']},
+            \ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
+            \ { 'type': 'commands',  'header': ['   Commands']       },
+            \ ]
+    autocmd User Startified setlocal cursorline
+  endif
+  " }}}
   
-  	execute "DB " . @@
+  " Status Line Custom
+  let g:currentmode={
+      \ "n"  : 'Normal',
+      \ "no" : 'Normal·Operator Pending',
+      \ "v"  : 'Visual',
+      \ "V"  : 'V·Line',
+      \ "" : 'V·Block',
+      \ "s"  : 'Select',
+      \ "S"  : 'S·Line',
+      \ "" : 'S·Block',
+      \ "i"  : 'Insert',
+      \ "R"  : 'Replace',
+      \ "Rv" : 'V·Replace',
+      \ "c"  : 'Command',
+      \ "cv" : 'Vim Ex',
+      \ "ce" : 'Ex',
+      \ "r"  : 'Prompt',
+      \ "rm" : 'More',
+      \ "r?" : 'Confirm',
+      \ "!"  : 'Shell',
+      \ "t"  : 'Terminal'
+      \}
   
-  	let &selection = sel_save
-  	let @@ = reg_save
-  endfunc
-  vnoremap <leader>db :DB<CR>
+  set noshowmode
+  set laststatus=2
+  set statusline=
+  set statusline+=%0*\ %n\                                 " Buffer number
+  set statusline+=%0*\ %<%f%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
+  set statusline+=%3*│                                     " Separator
+  set statusline+=%2*\ %02l:%02v\ (%3p%%)\                 " Line number : column number ( percentage )
+  set statusline+=%=                                       " Right Side
+  " set statusline+=%2*\ %Y\                                 " FileType
+  " set statusline+=%3*│                                     " Separator
+  " set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
+  " set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
+  " set statusline+=%3*│                                     " Separator
+  set statusline+=%0*\ %{fugitive#head()}\                 " Fugitive - git branch name
+  set statusline+=%3*│                                     " Separator
+  set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
   
-  xnoremap <expr> <Plug>(DBExe)     DBExe()
-  nnoremap <expr> <Plug>(DBExe)     DBExe()
-  nnoremap <expr> <Plug>(DBExeLine) DBExe() . '_'
+  " Add (Neo)Vim's native statusline support.
+  " NOTE: Please see `:h coc-status` for integrations with external plugins that
+  " provide custom statusline: lightline.vim, vim-airline.
   
-  xmap <leader>db  <Plug>(DBExe)
-  nmap <leader>db  <Plug>(DBExe)
-  omap <leader>db  <Plug>(DBExe)
-  nmap <leader>dbb <Plug>(DBExeLine)
+  hi PMenu guibg=#666666
+  hi PMenuSel guibg=#777777
+  
+  " Firenvim plugin {{{
+  if (exists('g:started_by_firenvim'))
+    nnoremap <C-z> :call firenvim#hide_frame()<CR>
+  
+    let g:firenvim_config = { 
+        \ 'globalSettings': {
+            \ 'alt': 'all',
+        \  },
+        \ 'localSettings': {
+            \ '.*': {
+                \ 'priority': 0,
+                \ 'selector': 'textarea',
+                \ 'takeover': 'never',
+            \ },
+        \ }
+    \ }
+  
+    function! s:IsFirenvimActive(event) abort
+      if !exists('*nvim_get_chan_info')
+        return 0
+      endif
+      let l:ui = nvim_get_chan_info(a:event.chan)
+      return has_key(l:ui, 'client') && has_key(l:ui.client, 'name') &&
+          \ l:ui.client.name =~? 'Firenvim'
+    endfunction
+    
+    function! OnUIEnter(event) abort
+      if s:IsFirenvimActive(a:event)
+        " configure font size
+    		" set guifont=Iosevka:h12
+    		set guifont=monospace:h14
+        " extend the textarea
+        set lines=14 columns=80
+        " disable the statusline
+        set laststatus=0
+        set statusline=
+        " extend the gutter line
+        set nuw=3
+        " disable git gutter
+        GitGutterDisable
+        " color the cursor
+        hi Cursor ctermbg=black ctermfg=gray guibg=black guifg=#e9d6b6
+        " quit on ,,q (not only buffer, but whole thing)
+        nnoremap <leader><leader>q :quit<CR>
+      endif
+    endfunction
+  
+    autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
+  endif
+  " }}} Firenvim plugin
+  
+  " Markdown plugin
+  let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
+                          \ 'enter': { 'shift': 1 },
+                          \ 'links': { 'external': { 'enable': 1 } },
+                          \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
+                          \ 'fold': { 'enable': 1 } }
+  let g:polyglot_disabled = ['markdown'] " for vim-polyglot users, it loads Plasticboy's markdown
+                                         " plugin which unfortunately interferes with mkdx list indentation.
+  
+  " Jekyll plugin (notes)
+  let g:jekyll_post_extension = '.md'
+  let g:jekyll_draft_dirs = ['_drafts', '_source/_drafts', 'notes']
+  
+  " Quick Scope (jump f key highlight)
+  let g:qs_highlight_on_keys = ['f', 'F']
+  
+  " Dadbod / DB plugin {{{
+    "" see https://habamax.github.io/2019/09/02/use-vim-dadbod-to-query-databases.html
+    "" operator mapping
+    func! DBExe(...)
+    	if !a:0
+    		let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+    		return 'g@'
+    	endif
+    	let sel_save = &selection
+    	let &selection = "inclusive"
+    	let reg_save = @@
+    
+    	if a:1 == 'char'	" Invoked from Visual mode, use gv command.
+    		silent exe 'normal! gvy'
+    	elseif a:1 == 'line'
+    		silent exe "normal! '[V']y"
+    	else
+    		silent exe 'normal! `[v`]y'
+    	endif
+    
+    	execute "DB " . @@
+    
+    	let &selection = sel_save
+    	let @@ = reg_save
+    endfunc
 
-  let g:dadbods = []
-  let db = {
-  		\"name": "postgres@localhost:5432/postgres)",
-  		\"url": "postgresql://postgres:@localhost:5432/postgres"
-  \}
-  call add(g:dadbods, db)
+    vnoremap <leader>db :DB<CR>
+    
+    xnoremap <expr> <Plug>(DBExe)     DBExe()
+    nnoremap <expr> <Plug>(DBExe)     DBExe()
+    nnoremap <expr> <Plug>(DBExeLine) DBExe() . '_'
+    
+    xmap <leader>db  <Plug>(DBExe)
+    nmap <leader>db  <Plug>(DBExe)
+    omap <leader>db  <Plug>(DBExe)
+    nmap <leader>dbb <Plug>(DBExeLine)
   
-  " if g:db and b:db is set up -- b:db will be used.
-  " so g:db would serve as a default database (first in the list)
-  let g:db = g:dadbods[0].url
-
-  command! DBSelect :call popup_menu(map(copy(g:dadbods), {k,v -> v.name}), {
-  			\"callback": 'DBSelected'
-  \})
+    " let g:dadbods = []
+    " let db = {
+    " 		\"name": "postgres@localhost:5432/postgres)",
+    " 		\"url": "postgresql://postgres:@localhost:5432/postgres"
+    " \}
+    " call add(g:dadbods, db)
+    
+    " " if g:db and b:db is set up -- b:db will be used.
+    " " so g:db would serve as a default database (first in the list)
+    " let g:db = g:dadbods[0].url
   
-  func! DBSelected(id, result)
-  	if a:result != -1
-  		let b:db = g:dadbods[a:result-1].url
-  		echomsg 'DB ' . g:dadbods[a:result-1].name . ' is selected.'
-  	endif
-  endfunc
-" }}} Dadbod / DB plugin
+    " command! DBSelect :call popup_menu(map(copy(g:dadbods), {k,v -> v.name}), {
+    " 			\"callback": 'DBSelected'
+    " \})
+    
+    " func! DBSelected(id, result)
+    " 	if a:result != -1
+    " 		let b:db = g:dadbods[a:result-1].url
+    " 		echomsg 'DB ' . g:dadbods[a:result-1].name . ' is selected.'
+    " 	endif
+    " endfunc
+  " }}} Dadbod / DB plugin
+  " Vira {{{
+    " let vira_config_servers = '~/.config/vira/vira_servers.json'
+    " let vira_config_file_servers = '~/.config/vira/vira_servers.json'
+  " }}} Vira
 
+  " splitjoin.vim {{{
+    let g:splitjoin_split_mapping = ''
+    let g:splitjoin_join_mapping = ''
+
+    nmap <leader>j :SplitjoinJoin<cr>
+    nmap <leader>J :SplitjoinSplit<cr>
+  " }}} splitjoin.vim
+
+  " undotree {{{
+    let g:undotree_WindowLayout = 3
+    let g:undotree_ShortIndicators = 1
+    let g:undotree_DiffCommand = "delta"
+    nnoremap <F4> :UndotreeToggle<CR>
+  " }}} undotree
+  
 " }}} Plugins
 
-" Tmux integration
-if &term =~ '^screen'
-    " tmux will send xterm-style keys when xterm-keys is on
-    execute "set <xUp>=\e[1;*A"
-    execute "set <xDown>=\e[1;*B"
-    execute "set <xRight>=\e[1;*C"
-    execute "set <xLeft>=\e[1;*D"
-endif
-" Close tmux when exiting vim
-autocmd VimLeave * silent !tmux kill-session -t $VIM_SESSION
-autocmd VimLeave * set guicursor=a:block-blinkon0
+" Tmux {{{
+  if &term =~ '^screen'
+      " tmux will send xterm-style keys when xterm-keys is on
+      execute "set <xUp>=\e[1;*A"
+      execute "set <xDown>=\e[1;*B"
+      execute "set <xRight>=\e[1;*C"
+      execute "set <xLeft>=\e[1;*D"
+  endif
+  " Close tmux when exiting vim
+  autocmd VimLeave * silent !tmux kill-session -t $VIM_SESSION
+  autocmd VimLeave * set guicursor=a:block-blinkon0
+" }}} Tmux
 
 """ Custom file types
 au BufRead,BufNewFile *.md set filetype=markdown
@@ -844,69 +875,68 @@ autocmd FileType help nnoremap <buffer> S ?\|\zs\S\+\ze\|<CR>
 " Don't wrap long lines in git PR or git commit messages
 autocmd FileType git,gitcommit set formatoptions=n
 
-""" Automatic commands
-" Automatically start NERDTree (disabled bc annoying when used with fzf
-" file opener)
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" this just gets in the way when using narrow windows
-" autocmd FileType c,cpp,h,java,python,go,js,jsx,tsc,ts nested :TagbarOpen
-
-""" QuickFix window always at the bottom
-autocmd FileType qf wincmd J
-
-""" Two space indents:
-autocmd Filetype zsh,vim setlocal ts=2 sts=2 sw=2
-autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
-autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
-autocmd Filetype js setlocal ts=2 sts=2 sw=2
-autocmd Filetype jsx setlocal ts=2 sts=2 sw=2
-autocmd Filetype tsc setlocal ts=2 sts=2 sw=2
-autocmd Filetype ts setlocal ts=2 sts=2 sw=2
-autocmd Filetype typescript setlocal ts=2 sts=2 sw=2
-autocmd Filetype c,cpp,h,hpp setlocal ts=2 sts=2 sw=2
-
-""" Enable wrapping in textual files
-autocmd Filetype txt,md,markdown set wrap
-
-
-""" Autoload changes in .vimrc
-" autocmd BufWritePost .vimrc source $MYVIMRC
-" cmap reloadvimrc source $MYVIMRC
-
-" Fix editing crontab
-autocmd filetype crontab setlocal nobackup nowritebackup
-
-" Folding {{{
-  """ Folding in rc files
-  autocmd Filetype vim set foldmethod=marker
-
-  function! VimFolds(lnum)
-      " get content of current line and the line below
-      let l:cur_line = getline(a:lnum)
-      let l:next_line = getline(a:lnum+1)
-
-      if l:cur_line =~# '^"{'
-          return '>' . (matchend(l:cur_line, '"{*') - 1)
-      else
-          if l:cur_line ==# '' && (matchend(l:next_line, '"{*') - 1) == 1
-              return 0
-          else
-              return '='
-          endif
-      endif
-  endfunction
-
-  " autocmd FileType vim set foldmethod=expr
-  " set foldexpr=VimFolds(v:lnum)
-
-  " Autosave folding on exit and load on open
-  augroup remember_folds
-    autocmd!
-    autocmd BufWinLeave *.* mkview
-    autocmd BufWinEnter *.* silent! loadview
-  augroup END
-"}}}
+""" Automatic commands {{{
+  
+  """ QuickFix window always at the bottom
+  autocmd FileType qf wincmd J
+  
+  """ Two space indents:
+  autocmd Filetype zsh,vim setlocal ts=2 sts=2 sw=2
+  autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+  autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
+  autocmd Filetype js setlocal ts=2 sts=2 sw=2
+  autocmd Filetype jsx setlocal ts=2 sts=2 sw=2
+  autocmd Filetype tsc setlocal ts=2 sts=2 sw=2
+  autocmd Filetype ts setlocal ts=2 sts=2 sw=2
+  autocmd Filetype typescript setlocal ts=2 sts=2 sw=2
+  autocmd Filetype c,cpp,h,hpp setlocal ts=2 sts=2 sw=2
+  
+  """ Enable wrapping in textual files
+  autocmd Filetype txt,md,markdown set wrap
+  
+  
+  """ Autoload changes in .vimrc
+  " autocmd BufWritePost .vimrc source $MYVIMRC
+  " cmap reloadvimrc source $MYVIMRC
+  
+  " Fix editing crontab
+  autocmd filetype crontab setlocal nobackup nowritebackup
+  
+  " Folding {{{
+    """ Folding in rc files
+    autocmd Filetype vim set foldmethod=marker
+  
+    function! VimFolds(lnum)
+        " get content of current line and the line below
+        let l:cur_line = getline(a:lnum)
+        let l:next_line = getline(a:lnum+1)
+  
+        if l:cur_line =~# '^"{'
+            return '>' . (matchend(l:cur_line, '"{*') - 1)
+        else
+            if l:cur_line ==# '' && (matchend(l:next_line, '"{*') - 1) == 1
+                return 0
+            else
+                return '='
+            endif
+        endif
+    endfunction
+  
+    " autocmd FileType vim set foldmethod=expr
+    " set foldexpr=VimFolds(v:lnum)
+    
+    " Use ~/.vim/after/syntax/python.vim syntax for folding
+    autocmd FileType python setlocal foldenable foldmethod=syntax
+  
+    " Autosave folding on exit and load on open
+    augroup remember_folds
+      autocmd!
+      autocmd BufWinLeave *.* mkview
+      autocmd BufWinEnter *.* silent! loadview
+    augroup END
+  "}}}
+  
+" }}} Automatic commands
 
 " run ncat
 " map <c-y>l :! eval $(cat ~/.netcat/localhost.env); envsubst < % \| sed '1,/Content-Length/d;/,0/,$d' \| tail -n+2 \| wc -c \| read NC_MM_CONTENT_LENGTH; export NC_MM_CONTENT_LENGTH; envsubst < % \| tee /dev/tty \| ~/.netcat/ncat-wrapper.sh localhost <CR>

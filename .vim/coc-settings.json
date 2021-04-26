@@ -7,22 +7,22 @@
     "javascript",
     "typescript",
     "json",
-    "jsonc",
-    "php"
+    "jsonc"
+    //"php"
   ],
   "coc.preferences.colorSupport": false,
-  "diagnostic.hintSign": ">>",
+  //"diagnostic.hintSign": ">>",
+  "diagnostic.hintSign": "💭",
   //"diagnostic.infoSign": "ℹ️",
-  //"diagnostic.warningSign": "⚠️",
-  //"diagnostic.errorSign": "💣",
   "diagnostic.infoSign": "☝",
-  "diagnostic.warningSign": "☢",
+  "diagnostic.warningSign": "⚠️",
+  //"diagnostic.warningSign": "☢",
   "diagnostic.errorSign": "🚨",
+  //"diagnostic.errorSign": "💣",
   "diagnostic.enableHighlightLineNumber": true,
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "email": "languagetool",
-    "markdown": ["write-good", "markdownlint"],
     "sh": "shellcheck"
   },
   "diagnostic-languageserver.formatFiletypes": {
@@ -68,5 +68,14 @@
       }
     }
   },
-  "explorer.icon.enableNerdfont": true
+  "explorer.icon.enableNerdfont": true,
+  "explorer.file.showHiddenFiles": true,
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-14",
+      "path": "/usr/lib/jvm/java-15-openjdk/"
+    }
+  ],
+  "python.formatting.provider": "black",
+  "python.pythonPath": "/home/nikola/.cache/pypoetry/virtualenvs/preset-server-xQAw4Bsh-py3.9/bin/python"
 }
