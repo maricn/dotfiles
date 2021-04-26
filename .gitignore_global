@@ -13,6 +13,9 @@
 *.vim
 
 # Virtual environment folders
+.venv/
+.venv2/
+.venv3/
 venv/
 venv2/
 venv3/

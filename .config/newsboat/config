@@ -112,6 +112,10 @@ macro y set browser "echo %u | wl-copy"; open-in-browser ; set browser "$BROWSER
   bind-key D pb-download
   bind-key U show-urls
   bind-key x pb-delete
+
+  # maricn
+  bind-key s sort
+  # bind-key S revsort
 # }}}
 
 # ignore-article "*" "title =~ \"Sponsor\""

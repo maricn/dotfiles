@@ -30,6 +30,7 @@ node_modules/
 .config/copyq/**
 !.config/copyq/copyq.conf
 !.config/copyq/copyq-commands.ini
+!.config/foot/
 !.config/flashfocus/
 !.config/fontconfig/
 !.config/i3/
@@ -48,6 +49,9 @@ node_modules/
 !.config/mpv
 .config/mpv/*
 !.config/mpv/mpv.conf
+!.config/newsboat
+.config/newsboat/cache.db
+.config/newsboat/history.cmdline
 !.config/nvim/
 !.config/pulsemixer.cfg
 !.config/swappy/
