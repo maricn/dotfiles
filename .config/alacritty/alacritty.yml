@@ -2,17 +2,17 @@ font:
   normal:
     family: monospace 
     # "♥👍😍🙊🥱🥺✨✅🎊🏄"
-    style: Regular
+    style: Medium
   bold:
     family: monospace
-    style: Bold
+    style: Extrabold
   italic:
     family: monospace
     style: Italic
   bold_italic:
     family: monospace
-    style: Bold Italic
-  size: 14
+    style: Extrabold Italic
+  size: 15
 env:
   TERM: xterm-256color
 background_opacity: 0.8
@@ -26,6 +26,8 @@ key_bindings:
 # non-default bindings:
   - { key: Up,        mods: Shift,   action: ScrollLineUp,   mode: ~Alt       }
   - { key: Down,      mods: Shift,   action: ScrollLineDown, mode: ~Alt       }
+  - { key: C,         mods: Super,   action: Copy  }
+  - { key: V,         mods: Super,   action: Paste }
 # gotta explicitly pass these through for weechat running in Alt mode
   - { key: Up,        mods: Shift,   chars: "\x1b[1;2A",     mode: Alt       }
   - { key: Down,      mods: Shift,   chars: "\x1b[1;2B",     mode: Alt       }
