@@ -4,9 +4,20 @@ profile "solo" {
 }
 
 ##### with specific display #####
-profile "work hdmi/dp" {
+profile "home hdmi beamer" {
+    output eDP-1 disable
+    output "Sony EPSON PJ 0x00000101" enable mode 1920x1080 scale 1.0 position 0,0
+}
+
+profile "work hdmi/dp 1 (DELL)" {
     output eDP-1 disable
     output "Dell Inc. DELL U2515H 9X2VY73Q0BLL" enable mode 2560x1440 position 0,0
+}
+
+profile "work hdmi/dp 2 (LG)" {
+    output eDP-1 disable
+    output "Goldstar Company Ltd LG Ultra HD 0x0000D71C" enable mode 2560x1440 scale 1.0 position 0,0
+    # output "Goldstar Company Ltd LG Ultra HD 0x0000D71C" enable mode 3840x2160 scale 1.4 position 0,0
 }
 
 profile "clara beamer" {
