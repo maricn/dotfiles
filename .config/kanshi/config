@@ -25,6 +25,15 @@ profile "clara beamer" {
     output "Unknown Qumi Q38 0x00000001" enable mode 1920x1080 position 0,0
 }
 
+profile "tiags LG" {
+    # output eDP-1 enable scale 1 position 3840,2160
+    output eDP-1 disable
+    # order of listing is important - first goes DP-1 then DP-2
+    # tiagos monitor shows up twice, first should be ignored, only second used
+    output "Goldstar Company Ltd LG UltraFine 801NTPC8A808" disable
+    output "Goldstar Company Ltd LG UltraFine 801NTPC8A808" enable mode 3840x2160 scale 1.5 position 0,0
+}
+
 profile "sabrina beamer" {
     output eDP-1 enable scale 1 position 0,720
     output "Acer Technologies ACER H5382BD JNQ110015900" enable mode 1280x720 position 0,0
