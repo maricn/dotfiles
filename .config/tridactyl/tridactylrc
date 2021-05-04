@@ -8,6 +8,7 @@ set update.lastchecktime 1593077346454
 set smoothscroll true
 set modeindicatorshowkeys true
 set modeindicator false
+set editorcmd foot nvim
 
 " Theme
 " set theme maricn-base16-gruvbox-dark-hard
@@ -36,6 +37,10 @@ unbind .
 " unbind D
 unbind u
 unbind U
+" unbind CTRL+I for external editor as that's often toggle for Italic font
+unbind --mode=insert <C-i>
+" unbind gf (view source) because I often do it by accident (ggggggf), and it's a really slow operation
+unbind gf
 
 bind d scrollpage 0.5
 bind u scrollpage -0.5
@@ -62,6 +67,8 @@ bind N findnext -1
 bind <Escape> composite mode normal ; hidecmdline ; nohlsearch
 
 bind --mode=ex <ArrowRight> ex.insert_completion
+
+bind --mode=insert <C-A-i> editor
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl
