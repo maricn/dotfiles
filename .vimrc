@@ -78,6 +78,7 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neomake/neomake'                  " asynchronously run programs (autolint)
 Plug 'leafgarland/typescript-vim'       " typescript syntax and indenting for vim
+Plug 'tmhedberg/SimpylFold'             " Python folding for vim
 Plug 'eliba2/vim-node-inspect'          " NodeJS interactive debugger
 Plug 'stevearc/vim-arduino'             " Arduino build and upload sketch
 Plug 'AndrewRadev/splitjoin.vim'        " Split one-liner to multiple lines and back
@@ -105,22 +106,20 @@ Plug 'tidalcycles/vim-tidal'            " Tidal Cycles Vim plugin - https://roos
 " Appearance
 Plug 'camspiers/animate.vim'
 " Plug 'camspiers/lens.vim'
-Plug 'unblevable/quick-scope'         " Highlight jump characters - slows (unless only on f/F trigger)
-Plug 'machakann/vim-highlightedyank'  " Highlight yanked region
-" down vim considerably
-Plug 'godlygeek/csapprox'             " make gvim-only colorschemes work in terminal vim
-Plug 'joshdick/onedark.vim'           " Colorscheme onedark
-Plug 'morhetz/gruvbox'                " Colorscheme gruvbox (can be light)
-Plug 'connorholyday/vim-snazzy'       " Colorscheme snazzy (colorful)
-Plug 'nanotech/jellybeans.vim'        " Colorscheme jellybeans
-Plug 'breuckelen/vim-resize'          " Use Ctrl+arrows to resize splits
-Plug 'chrisbra/Colorizer'             " Show hex codes as colours
+Plug 'unblevable/quick-scope'                                      " Highlight jump characters - slows (unless only on f/F trigger) down vim considerably
+Plug 'machakann/vim-highlightedyank'                               " Highlight yanked region
+Plug 'godlygeek/csapprox'                                          " make gvim-only colorschemes work in terminal vim
+Plug 'joshdick/onedark.vim'                                        " Colorscheme onedark
+Plug 'morhetz/gruvbox'                                             " Colorscheme gruvbox (can be light)
+Plug 'maricn/vim-snazzy'                                           " Colorscheme snazzy (colorful) (maricn forked to add coc.nvim highlights)
+Plug 'nanotech/jellybeans.vim'                                     " Colorscheme jellybeans
+Plug 'breuckelen/vim-resize'                                       " Use Ctrl+arrows to resize splits
+" Plug 'chrisbra/Colorizer'                                          " Show hex codes as colours
+Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }          " Show hex codes as colours - async
 " Plug 'vheon/vim-cursormode'           " Color cursor based on the mode - working only on iTerm2
 " Plug 'Townk/vim-autoclose' " perhaps is conflicting when closing
 " Plug 'udalov/kotlin-vim'
 " Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'zchee/deoplete-go', { 'do': 'make' }
 call plug#end()
 " Buffers and files
 " }}} Load plugins
@@ -171,11 +170,11 @@ autocmd vimenter * :AWStart
   " set t_ut=
 
   " themes {{{
-    " autocmd vimenter * colorscheme snazzy
+    autocmd vimenter * colorscheme snazzy
 
     " gruvbox {{{
-      autocmd vimenter * colorscheme gruvbox
-      set background=dark
+      " autocmd vimenter * colorscheme gruvbox
+      " set background=light
       let g:gruvbox_contrast_dark = 'soft'
       let g:gruvbox_contrast_light = 'hard'
     " }}} gruvbox
@@ -329,10 +328,16 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   set signcolumn=yes
   
   let g:coc_disable_transparent_cursor = 1
+  au FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'venv2', 'venv3', '.venv2', '.venv3', 'setup.cfg', 'setup.py', 'pyrightconfig.json']
   
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
   " other plugin before putting this into your config.
+  " " use <tab> for trigger completion and navigate to the next complete item
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction
   inoremap <silent><expr> <TAB>
         \ pumvisible() ? "\<C-n>" :
         \ <SID>check_back_space() ? "\<TAB>" :
@@ -350,6 +355,11 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   else
     imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   endif
+
+  " Use <C-j> and <C-k> to navigate the completion list
+  " https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-tab-and-s-tab-to-navigate-the-completion-list
+  inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+  inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
   
   " Use `[g` and `]g` to navigate diagnostics
   nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -371,10 +381,6 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
     else
       call CocAction('doHover')
     endif
-  endfunction
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
   
   " Highlight the symbol and its references when holding the cursor.
@@ -671,7 +677,7 @@ nmap <S-F6> <Plug>(coc-rename)
   set noshowmode
   set laststatus=2
   set statusline=
-  set statusline+=%0*\ %n\                                 " Buffer number
+  " set statusline+=%0*\ %n\                                 " Buffer number
   set statusline+=%0*\ %<%f%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
   set statusline+=%3*│                                     " Separator
   set statusline+=%2*\ %02l:%02v\ (%3p%%)\                 " Line number : column number ( percentage )
@@ -837,6 +843,10 @@ nmap <S-F6> <Plug>(coc-rename)
     let g:undotree_DiffCommand = "delta"
     nnoremap <F4> :UndotreeToggle<CR>
   " }}} undotree
+
+  " hexokinase {{{
+    let g:Hexokinase_highlighters = ['backgroundfull']
+  " }}} hexokinase
   
 " }}} Plugins
 
@@ -925,8 +935,11 @@ autocmd FileType git,gitcommit set formatoptions=n
     " autocmd FileType vim set foldmethod=expr
     " set foldexpr=VimFolds(v:lnum)
     
+    " Stopped working at some point, ┐(͡°ʖ̯͡°)┌
     " Use ~/.vim/after/syntax/python.vim syntax for folding
-    autocmd FileType python setlocal foldenable foldmethod=syntax
+    " autocmd FileType python setlocal foldenable foldmethod=syntax
+    " now using SimpylFold plugin
+    autocmd FileType python setlocal foldenable foldmethod=indent foldnestmax=3
   
     " Autosave folding on exit and load on open
     augroup remember_folds
