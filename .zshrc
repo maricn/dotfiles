@@ -1,7 +1,22 @@
+### Initialize ssh-agent (has to go before p10k)
+if [ -x "$(command -v keychain)" ]; then
+  eval $(keychain --eval --quiet "$HOME/.ssh/id_me_maricn_nikola_2019" "$HOME/.ssh/id_mimi_nikola_maric")
+elif [[ $(hostname) == *"work-"* || $(hostname) == *"home-"* ]]; then
+  eval $(ssh-agent -s)
+fi
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
-#ZSH_THEME="lukerandall"
-ZSH_THEME="maricn"
+# ZSH_THEME="lukerandall"
+# ZSH_THEME="maricn"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
   # export LC_CTYPE=en_US.UTF-8
   # Exports and autoloading {{{
@@ -15,6 +30,8 @@ ZSH_THEME="maricn"
   export XDG_PICTURES_DIR="$HOME/Pictures"
   export WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
 
+  # ~/.local/bin/url_handler.sh uses $BROWSER (for urlview/newsboat/neomutt)
+  export BROWSER=firefox
   # So xdg-open (and opening links from other apps) would use proper firefox
   export MOZ_ENABLE_WAYLAND=1
 
@@ -49,7 +66,14 @@ ZSH_THEME="maricn"
     alias yayfzfpkginfo='yay -Qq | fzf --preview "yay -Qil {}" --layout=reverse --bind "enter:execute(yay -Qil {} | less)"'
     alias parufzfpkginfo='paru -Qq | fzf --preview "paru -Qil {}" --layout=reverse --bind "enter:execute(paru -Qil {} | less)"'
     alias parufzfinstall='paru -Slq | fzf -m --preview "paru -Si {1}" | sudo paru -S -'
-    alias startsway='export $(dbus-launch) && WAYLAND_DEBUG=0; XDG_CURRENT_DESKTOP=sway; _JAVA_AWT_WM_NONREPARENTING=1; sway 2>&1 >~/sway.$(date +"%Y-%m-%d").log'
+    alias ssh='TERM=xterm-256color ssh'
+    # ~~~~~~~~ startsway ~~~~~~~~~~~
+    # export $(dbus-launch)         - will export some envvars necessary for ???
+    # WAYLAND_DEBUG=0               - turn off wayland debug output
+    # XDG_CURRENT_DESKTOP=sway      - inform all child processes that they're on sway desktop - needed for screen sharing
+    # _JAVA_AWT_WM_NONREPARENTING=1 - used for java applications to fix them being completely blank (tinyMediaManager)
+    # WLR_DRM_NO_MODIFIERS=1        - fix for black screens when plugging in/out displays (https://github.com/swaywm/sway/issues/6167)
+    alias startsway='export $(dbus-launch) && WAYLAND_DEBUG=0 XDG_CURRENT_DESKTOP=sway _JAVA_AWT_WM_NONREPARENTING=1 WLR_DRM_NO_MODIFIERS=1 sway 2>&1 >~/sway.$(date +"%Y-%m-%d").log'
   # }}} Shortcuts w/ arguments
 # }}} Aliases
 
@@ -66,6 +90,7 @@ function whichla() { local res; res=$(which $@) && ls -la $res }
 function echobase64() { echo -n $@ | base64; }
 function echobase64decode() { echo -n $@ | base64 --decode; }
 function datefromepoch() { date -j -f "%s" "$1"; }
+function nmclitoggle() { type nmcli 1>/dev/null || (echo "no nmcli found" && return 1); if [[ "$(nmcli radio wwan)" == "enabled" ]]; then nmcli radio wwan off; nmcli radio wifi on; else nmcli radio wwan on; nmcli radio wifi off; fi; return 0; }
 
 # Radio stations
 alias radio='mpv --no-video --no-cache --no-audio-display --vo=none --no-resume-playback --no-config'
@@ -127,8 +152,9 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search shrink-path fzf)
+plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search fzf)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
+# shrink-path # REMOVED BC USING P10K now
 
 # In addition to oh-my-zsh plugins, use zplug for managing zsh plugins
 # source /usr/share/zsh/scripts/zplug/init.zsh
@@ -141,6 +167,9 @@ plugins=(git git-extras urltools pip common-aliases docker docker-compose docker
 # Load zsh plugin for virtualenv automatic management when using `cd`
 # disabled for being too slow - uses find to depth 2 to look for `activate`
 # source "$HOME/Tools/virtualenv-autodetect/virtualenv-autodetect.plugin.zsh"
+
+# source oh-my-zsh before importing externals as they rely on compdef
+source $ZSH/oh-my-zsh.sh
 
 # External scripts {{{
   # Source these before our own `bindkeys` so that we can override stuff
@@ -165,12 +194,14 @@ bindkey '∆' history-beginning-search-forward
 bindkey '\ek' history-beginning-search-backward
 bindkey '\ej' history-beginning-search-forward
 
-source $ZSH/oh-my-zsh.sh
-
 # Aliases {{{
   # Unalias {{{
     # https://github.com/muesli/duf vs common-aliases
     unalias duf
+    # http://www.graphicsmagick.org/ vs git-merge
+    unalias gm
+    # use rg as grep vs common-aliases
+    unalias grep
   # }}} Unalias
 
   # change standard behavior {{{
@@ -187,11 +218,14 @@ source $ZSH/oh-my-zsh.sh
     alias ln='ln -iv'
     # 🕸
     alias dog='dog --seconds'
+    alias newsboat='newsboat -C ~/.config/newsboat/config'
+    # 🕵️‍♀️
+    alias grep='rg'
   # }}} change standard behavior
 # }}} Aliases
 
 ## Git / GitHub
-export GIT_AUTHOR_NAME=Nikola\ Maric
+export GIT_AUTHOR_NAME=Nikola\ Marić
 export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
 export GITHUB_USER=3995223+maricn@users.noreply.github.com
 
@@ -208,19 +242,8 @@ else
   export QT_SELECT=qt5
 fi
 
-### Initialize ssh-agent
-if [ -x "$(command -v keychain)" ]; then
-  eval $(keychain --eval --quiet "$HOME/.ssh/id_me_maricn_nikola_2019" "$HOME/.ssh/id_mimi_nikola_maric")
-elif [[ $(hostname) == *"work-"* || $(hostname) == *"home-"* ]]; then
-  eval $(ssh-agent -s)
-fi
-
 ### Preserving legacy scripts compatibility
 alias gsed=sed
-
-### Utility for pipe copy/pasting
-alias pbcopyx='xclip -selection clipboard'
-alias pbpastex='xclip -selection clipboard -o'
 
 export DOCKER_HOST=unix:///var/run/docker.sock
 if [ -x "$(command -v nvim)" ]; then
@@ -277,6 +300,7 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
   source "/usr/share/nvm/init-nvm.sh"
 
   export load_nvm() {
+
     if ! type "nvm" >/dev/null; then return 1; fi;
     unset -f nvm node npm npx >/dev/null 2>&1
     export NVM_DIR="$HOME/.nvm"
@@ -321,8 +345,16 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     alias vim="load_nvm;vim"
     alias nvim="load_nvm;nvim"
     alias nv="load_nvm;nvim"
+  else
+    alias nv="nvim"
   fi
 
   alias npmt-appv2="docker run -t --mount type=bind,src=/home/nikola/Workspace/CoreV2,dst=/usr/src/app appv2-test:ci-10.20.1-jessie"
 
 # }}}
+#
+
+
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
