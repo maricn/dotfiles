@@ -33,6 +33,7 @@ node_modules/
 !.config/foot/
 !.config/flashfocus/
 !.config/fontconfig/
+!.config/gammastep/
 !.config/i3/
 !.config/i3status/
 .config/i3status/config.backup
