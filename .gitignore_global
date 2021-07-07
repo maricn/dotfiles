@@ -1,6 +1,9 @@
 # Personal helper / utility folders
-.netcat/
+.artillery/
+.curl/
 .helpers/
+.helpers.mjs/
+.netcat/
 
 # OSX stuff
 .DS_Store
