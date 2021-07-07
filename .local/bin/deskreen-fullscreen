@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+deskreen --enable-features=WebRTCPipeWireCapturer
