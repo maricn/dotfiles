@@ -15,3 +15,15 @@
 	project-summary = !which onefetch && onefetch
 [init]
 	defaultBranch = main
+[diff "odt"]
+    textconv = odt2txt
+    binary = true
+[diff "word"]
+  textconv = catdoc
+  binary = true
+[diff "xls"]
+  textconv = xls2csv
+  binary = true
+[diff "ppt"]
+  textconv = catppt
+  binary = true
