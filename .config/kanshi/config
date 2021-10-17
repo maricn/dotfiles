@@ -11,7 +11,7 @@ profile "home hdmi beamer" {
 
 profile "work hdmi/dp 1 (DELL)" {
     output eDP-1 disable
-    output "Dell Inc. DELL U2515H 9X2VY73Q0BLL" enable mode 2560x1440 position 0,0
+    output "Dell Inc. DELL U2515H 9X2VY73Q0BLL" enable mode 2560x1440 position 0,0 scale 1.0
 }
 
 profile "work hdmi/dp 2 (LG)" {
@@ -20,9 +20,14 @@ profile "work hdmi/dp 2 (LG)" {
     # output "Goldstar Company Ltd LG Ultra HD 0x0000D71C" enable mode 3840x2160 scale 1.4 position 0,0
 }
 
+profile "work dp 2 (ASUS)" {
+    output eDP-1 disable
+    output "Ancor Communications Inc ASUS PB258 G3LMTJ031730" enable mode 2560x1440 scale 1.0 position 0,0
+}
+
 profile "clara beamer" {
     output eDP-1 enable scale 1 position 0,1080
-    output "Unknown Qumi Q38 0x00000001" enable mode 1920x1080 position 0,0
+    output "Unknown Qumi Q38 0x00000001" enable mode 1920x1080 position 0,0 scale 1.0
 }
 
 profile "tiags LG" {
@@ -35,17 +40,19 @@ profile "tiags LG" {
 }
 
 profile "sabrina beamer" {
-    output eDP-1 enable scale 1 position 0,720
-    output "Acer Technologies ACER H5382BD JNQ110015900" enable mode 1280x720 position 0,0
+    # output eDP-1 enable scale 1 position 0,720
+    output eDP-1 enable scale 1 position 0,1080
+    # output "Acer Technologies ACER H5382BD JNQ110015900" enable mode 1280x720 position 0,0 scale 1.0
+    output "Acer Technologies ACER H5382BD JNQ110015900" enable mode 1920x1080 position 0,0 scale 1.0
 }
 
 profile "work Ben's" {
     output eDP-1 enable scale 1 position 0,1080
-    output "LG Ultra HD" enable mode 1920x1080 position 0,0
+    output "LG Ultra HD" enable mode 1920x1080 position 0,0 scale 1.0
 }
 
 profile "cadaques" {
-    output "Sony SONY TV 0x00000101" enable mode 1920x1080 position 0,0
+    output "Sony SONY TV 0x00000101" enable mode 1920x1080 position 0,0 scale 1.0
     output eDP-1 disable mode 1920x1080 position 1920,0
 }
 
