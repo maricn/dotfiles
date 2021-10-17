@@ -69,10 +69,10 @@ output HDMI-A-1 res 2560x1440
 # Example configuration:
 #
 exec --no-startup-id swayidle -w \
-         timeout 300 "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2'" \
-         timeout 600 'swaymsg "output * dpms off"' \
+         timeout 300 "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" --grace 1' --fade-in 1" \
+         timeout 400 'swaymsg "output * dpms off"' \
          resume 'swaymsg "output * dpms on"' \
-         before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2'" &
+         before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" --grace 1' --fade-in 1" &
          #before-sleep $lock_cmd
          #before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator'" &
 #
@@ -147,6 +147,16 @@ input "1133:16500:Logitech_G305" {
     natural_scroll enabled
 }
 
+input "1133:49242:Logitech_USB_Optical_Mouse" {
+    natural_scroll enabled
+}
+
+input "76:617:Tiags_Magic_Mouse_1" {
+    natural_scroll enabled
+    accel_profile flat
+    pointer_accel 0.001
+}
+
 input "2522:1359:A4TECH_USB_Device" {
     natural_scroll enabled
 }
@@ -157,7 +167,6 @@ bindsym --input-device=$MOUSE --whole-window --release BTN_EXTRA seat - cursor r
 
 bindsym --input-device=$MOUSE --whole-window BTN_SIDE seat - cursor press BTN_EXTRA
 bindsym --input-device=$MOUSE --whole-window --release BTN_SIDE seat - cursor release BTN_EXTRA
-
 
 # Some windows float by class
 for_window [class="copyq"] floating enable, border pixel 6
@@ -187,9 +196,9 @@ for_window [window_type="dialog"] floating enable, border pixel 6
 # for_window [title="pulsemixer"] floating enable, border pixel 6
 # Some but not all app windows float cherry-picked
 for_window [class="Ripcord" title="((Search Messages|Channels|Files|Members|Threads Overview|Mentions) - .*|Bookmarks|Add Emoji Reaction|Start Thread|Preferences)"] floating enable, border pixel 6
-# Some windows float over all workspaces
-for_window [class="mpv"] sticky enable
-for_window [app_id="mpv"] sticky enable
+# Some windows float over all workspaces (projecting at other ppl places)
+# for_window [class="mpv"] sticky enable
+# for_window [app_id="mpv"] sticky enable
 
 # not working (tried on a dummy filter too)
 # for_window [name="^.*@production-.*$"] title_format "<span background='#ff0000'>%title</span>"
@@ -345,6 +354,7 @@ assign [class="Chromium" window_type="normal"] 3
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+    bindsym $mod+Shift+a focus child
 #
 # Scratchpad:
 #
