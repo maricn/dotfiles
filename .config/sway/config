@@ -397,6 +397,9 @@ bindsym $mod+Shift+u		resize shrink height 5px or 5ppt
 bindsym $mod+Shift+i		resize grow height 5px or 5ppt
 bindsym $mod+Shift+o		resize grow width 5px or 5ppt
 
+# Restart udevmon (keyboard reconnect)
+bindsym $mod+Shift+comma exec sudo systemctl restart udevmon.service
+
 # Lock
 bindsym Ctrl+Mod1+l exec $lock_cmd
 
