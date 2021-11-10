@@ -69,10 +69,11 @@ output HDMI-A-1 res 2560x1440
 # Example configuration:
 #
 exec --no-startup-id swayidle -w \
-         timeout 300 "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" --grace 1' --fade-in 1" \
+         timeout 300 "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" --grace 1 --fade-in 1'" \
          timeout 400 'swaymsg "output * dpms off"' \
          resume 'swaymsg "output * dpms on"' \
-         before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" --grace 1' --fade-in 1" &
+         before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" --grace 1 --fade-in 1'" \
+         &
          #before-sleep $lock_cmd
          #before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator'" &
 #
