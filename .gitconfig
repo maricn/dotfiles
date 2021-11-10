@@ -12,18 +12,22 @@
 [pull]
     rebase = false
 [alias]
-	project-summary = !which onefetch && onefetch
+    project-summary = !which onefetch && onefetch
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
 [diff "odt"]
     textconv = odt2txt
     binary = true
 [diff "word"]
-  textconv = catdoc
-  binary = true
+    textconv = catdoc
+    binary = true
 [diff "xls"]
-  textconv = xls2csv
-  binary = true
+    textconv = xls2csv
+    binary = true
 [diff "ppt"]
-  textconv = catppt
-  binary = true
+    textconv = catppt
+    binary = true
+
+[includeIf "gitdir:~/Workspace/"]
+    path = ~/Workspace/.mimi.gitconfig
