@@ -50,14 +50,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
     alias updatedb="sudo /usr/libexec/locate.updatedb"
     alias logtimes='/usr/bin/pmset -g log | grep "Display is turned "'
     alias cdws="cd $HOME/Workspace/"
-    alias light="sed -i 's/colors: \*dark/colors: *light/' ~/.config/alacritty/alacritty.yml"
-    alias dark="sed -i 's/colors: \*light/colors: *dark/' ~/.config/alacritty/alacritty.yml"
-    alias grepc="grep --color -E "
+    # alias light="sed -i 's/colors: \*dark/colors: *light/' ~/.config/alacritty/alacritty.yml"
+    # alias dark="sed -i 's/colors: \*light/colors: *dark/' ~/.config/alacritty/alacritty.yml"
     alias clear='[ $[$RANDOM % 6] = 0 ] && timeout 3 cmatrix; clear || clear'
     alias trees="tree -shC"
     alias pingg="ping 8.8.8.8"
     alias myip="curl https://ipinfo.io/ip"
-    alias weather="curl wttr.in?location=Berlin"
+    alias weather="curl 'https://wttr.in/?location=Berlin' -w ''"
     alias curl-weather="weather"
     alias psauxgrep='ps aux | grep -i'
     alias youtube-dl-audio='youtube-dl -f bestaudio --yes-playlist --output "%(title)s.%(ext)s" --ignore-errors'
