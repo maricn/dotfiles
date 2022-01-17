@@ -151,9 +151,10 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras urltools pyenv pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search fzf)
+plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search fzf)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 # shrink-path # REMOVED BC USING P10K now
+# pyenv # REMOVED BC NOT BEING USED SO MUCH ANYMORE (and it was complaining it needs to be initialized and in the PATH in order to work)
 
 # In addition to oh-my-zsh plugins, use zplug for managing zsh plugins
 # source /usr/share/zsh/scripts/zplug/init.zsh
@@ -254,11 +255,14 @@ else
 fi
 
 export GOPATH="$HOME/go"
-export PATH="$(pyenv root)/shims:$HOME/.local/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
+# export PATH="$(pyenv root)/shims:$HOME/.local/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
+# if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
+  # eval "$(pyenv init -)"
+  # eval "$(pyenv virtualenv-init -)"
+# fi
 
 # Utilities {{{
   function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
