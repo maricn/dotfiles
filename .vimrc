@@ -35,6 +35,7 @@ Plug 'rhysd/committia.vim'
 Plug 'airblade/vim-gitgutter'           " Show sign on the left side when the line has been modified
 Plug 'tpope/vim-rhubarb'                " To use :Gbrowse (open commit in GitHub)
 Plug 'rhysd/git-messenger.vim'          " To show git commit message under the cursor
+Plug 'kdheepak/lazygit.nvim'            " Pop-up lazygit
 
 " Utilities
 " Plug 'roxma/nvim-yarp'                  " Yet Another Remote Plugin Framework for Neovim (used for ncm2 and deoplete.nvim)
@@ -292,31 +293,42 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
 
 " peekaboo {{{
   function! CreateCenteredFloatingWindow()
-    let width = float2nr(&columns * 0.6)
-    let height = float2nr(&lines * 0.6)
-    let top = ((&lines - height) / 2) - 1
-    let left = (&columns - width) / 2
-    let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
+    if(!has('nvim')) 
+      split
+      new
+    else
+      let width = float2nr(&columns * 0.6)
+      let height = float2nr(&lines * 0.6)
+      let top = ((&lines - height) / 2) - 1
+      let left = (&columns - width) / 2
+      let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
  
-    let top = "╭" . repeat("─", width - 2) . "╮"
-    let mid = "│" . repeat(" ", width - 2) . "│"
-    let bot = "╰" . repeat("─", width - 2) . "╯"
-    let lines = [top] + repeat([mid], height - 2) + [bot]
-    let s:buf = nvim_create_buf(v:false, v:true)
-    call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
-    call nvim_open_win(s:buf, v:true, opts)
-    set winhl=Normal:Floating
-    let opts.row += 1
-    let opts.height -= 2
-    let opts.col += 2
-    let opts.width -= 4
-    call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-    au BufWipeout <buffer> exe 'bw '.s:buf
+      " Commented out lines are fix for visual mode to work per comment:
+      " (https://github.com/junegunn/vim-peekaboo/issues/68#issuecomment-1013782594)
+      " let top = "╭" . repeat("─", width - 2) . "╮"
+      " let mid = "│" . repeat(" ", width - 2) . "│"
+      " let bot = "╰" . repeat("─", width - 2) . "╯"
+      " let lines = [top] + repeat([mid], height - 2) + [bot]
+      let s:buf = nvim_create_buf(v:false, v:true)
+      " call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
+      call nvim_open_win(s:buf, v:true, opts)
+      set winhl=Normal:Floating
+      " let opts.row += 1
+      " let opts.height -= 2
+      " let opts.col += 2
+      " let opts.width -= 4
+      " call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+      au BufWipeout <buffer> exe 'bw '.s:buf
+    endif
   endfunction
   let g:peekaboo_window="call CreateCenteredFloatingWindow()"
 " }}}
 
 " coc.nvim {{{
+  " Use system node executable (coc.nvim requires newer node version).
+  let g:coc_node_path = '/home/nikola/.nvm/versions/node/v14.15.4/bin/node'
+
+  " Use ,c to suggest actions in lines that have a hint.
   nnoremap <leader>c :CocAction<CR>
   
   " Give more space for displaying messages.
@@ -334,7 +346,7 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   set signcolumn=yes
   
   let g:coc_disable_transparent_cursor = 1
-  au FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'venv2', 'venv3', '.venv2', '.venv3', 'setup.cfg', 'setup.py', 'pyrightconfig.json']
+  au FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'venv2', 'venv3', '.venv2', '.venv3', 'setup.cfg', 'setup.py', 'pyrightconfig.json', 'poetry.lock']
   
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -528,9 +540,17 @@ let g:camelcasemotion_key = '<leader>'
   " initialize with default values
   let g:grepper = {}
   let g:grepper.rg = {}
-  let g:grepper.tools = ['rg', 'git', 'grep']
+  let g:grepper.grep = {}
+  " temporarily use grep>rg
+  " https://github.com/BurntSushi/ripgrep/issues/1892
+  " https://github.com/mhinz/vim-grepper/issues/244
+  let g:grepper.tools = ['rg', 'grep', 'git']
+  let g:grepper.grep.grepprg = '/usr/bin/grep --recursive -I --exclude "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib,**/venv2/lib,**/venv3/lib,**/coverage,**/lcov-report}" --regex $* .'
   runtime plugin/grepper.vim
   " override rg query
+  " temporarily add suffix "$* ."
+  " https://github.com/BurntSushi/ripgrep/issues/1892
+  " https://github.com/mhinz/vim-grepper/issues/244
   let g:grepper.rg.grepprg = 'rg --follow --smart-case --with-filename --no-heading --vimgrep --hidden --glob "!{**/__pycache__,**/node_modules,**/.git,**/*.pyc,**/venv/lib,**/venv2/lib,**/venv3/lib,**/coverage,**/lcov-report}"'
   " highlight searches
   let g:grepper.searchreg = 1
@@ -891,9 +911,11 @@ nmap <S-F6> <Plug>(coc-rename)
 
 """ Custom file types
 au BufRead,BufNewFile *.md set filetype=markdown
+au BufRead,BufNewFile *.md setlocal filetype=markdown spell
 au BufRead,BufNewFile *.json set filetype=json syntax=json
 au BufRead,BufNewFile *.jsonc set filetype=jsonc syntax=json
 au BufRead,BufNewFile *.tsx set filetype=typescript
+au BufRead,BufNewFile *.mjs set filetype=typescript
 syntax match Comment /\%^---\_.\{-}---$/ contains=@Spell
 au BufRead,BufNewFile *.http set syntax=json
 au BufRead,BufNewFile *.http setlocal ts=2 sts=2 sw=2
