@@ -14,7 +14,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'ActivityWatch/aw-watcher-vim'     " Track keyboard usage
 " }}} JIRA
 " TaskWarrior {{{
-  Plug 'blindFS/vim-taskwarrior'          " TaskWarrior todo list manager
+  " Plug 'blindFS/vim-taskwarrior'          " TaskWarrior todo list manager
 " }}} TaskWarrior
 
 Plug 'liuchengxu/vim-which-key'       " Vim mapping, and its on-demand lazy load
@@ -45,7 +45,8 @@ Plug 'matze/vim-move'                   " Move lines up and down
 Plug 'yaroot/vissort'                   " DrChip's Visual block based sorting
 Plug 'ConradIrwin/vim-bracketed-paste'  " Detect clipboard paste (auto :set paste!)
 " Plug 'jremmen/vim-ripgrep'              " Use ripgrep for search - deprecated in favor of vim-grepper
-Plug 'mhinz/vim-grepper'                " grep using your fav grepper
+" temporarily until merged to mhinz/vim-grepper
+Plug 'trsdln/vim-grepper'                " grep using your fav grepper
 Plug 'majutsushi/tagbar'                " Tagbar (right side thing to show functions)
 Plug 'mbbill/undotree'                  " The undo history visualizer for VIM
 Plug 'bkad/CamelCaseMotion'
@@ -80,12 +81,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'       " typescript syntax and indenting for vim
 Plug 'tmhedberg/SimpylFold'             " Python folding for vim
 Plug 'eliba2/vim-node-inspect'          " NodeJS interactive debugger
-Plug 'stevearc/vim-arduino'             " Arduino build and upload sketch
+" using platformio (`pio project init --ide vim --board esp32dev`)
+" Plug 'stevearc/vim-arduino'             " Arduino build and upload sketch
 Plug 'AndrewRadev/splitjoin.vim'        " Split one-liner to multiple lines and back
+Plug 'ray-x/lsp_signature.nvim'         " Show function signature, highlight parameters as you type
 
 " Programming - coc.nvim
 " Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'} " TSC
 
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } " vim DOcumentation GEnerator <leader>d
 " }}} Programming
 
 " Database {{{
@@ -120,6 +124,7 @@ Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }          " Show hex co
 " Plug 'Townk/vim-autoclose' " perhaps is conflicting when closing
 " Plug 'udalov/kotlin-vim'
 " Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'TaDaa/vimade'                                               " Fade vim buffers that are not in focus
 call plug#end()
 " Buffers and files
 " }}} Load plugins
@@ -143,6 +148,7 @@ set number relativenumber
 set title
 set ruler
 set nospell
+set spelllang=en_gb " just in case i change my mind to turn on spelling
 set updatetime=300
 set cursorline
 set cursorcolumn
@@ -171,12 +177,13 @@ autocmd vimenter * :AWStart
 
   " themes {{{
     autocmd vimenter * colorscheme snazzy
+    " autocmd vimenter * colorscheme gruvbox
 
     " gruvbox {{{
       " autocmd vimenter * colorscheme gruvbox
       " set background=light
-      let g:gruvbox_contrast_dark = 'soft'
-      let g:gruvbox_contrast_light = 'hard'
+      " let g:gruvbox_contrast_dark = 'soft'
+      " let g:gruvbox_contrast_light = 'hard'
     " }}} gruvbox
 
     " fix for Coc diagnostic signs color mismatch
@@ -221,7 +228,6 @@ autocmd vimenter * :AWStart
   
 " Key remaps {{{
 "" Key remaps -----------------
-" noremap <silent> <expr> <F2> g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
 noremap <silent> <F2> :CocCommand explorer<CR>
 :nnoremap <F5> "=strftime("%FT%T%z")<CR>P
 :inoremap <F5> <C-R>=strftime("%FT%T%z")<CR>
@@ -433,9 +439,6 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   nmap <silent> <TAB> <Plug>(coc-range-select)
   xmap <silent> <TAB> <Plug>(coc-range-select)
   
-  " Remove coc selection extension (coc-range-select) on Ctrl+I
-  " Because it overrides default vim C-O / C-I jump behavior
-  autocmd VimEnter * :unmap <C-I>
   autocmd VimEnter * :unmap <leader>ge
   
   " Add `:Format` command to format current buffer.
@@ -592,7 +595,6 @@ nmap <S-F6> <Plug>(coc-rename)
 " }}} key remaps
 
 " Plugins {{{
-  " Plugins ----------------------
   
   "" Nuake
   tnoremap <C-q> <C-w>N
@@ -847,6 +849,30 @@ nmap <S-F6> <Plug>(coc-rename)
   " hexokinase {{{
     let g:Hexokinase_highlighters = ['backgroundfull']
   " }}} hexokinase
+  
+  " vimade {{{
+    " coc-explorer loses colors on vimade, so disable it there
+    function! s:disable_vimade()
+        :VimadeBufDisable
+        :VimadeWinDisable
+    endfunction
+    autocmd FileType coc-explorer call s:disable_vimade()
+    " fade a bit less for readability
+    let g:vimade = {}
+    let g:vimade.fadelevel = 0.65
+    " fix for autocomplete slows down vim when using vimade
+    au! CompleteChanged * redraw
+  " }}} vimade
+
+  " {{{ lazygit
+    let g:lazygit_floating_window_winblend = 0 " transparency of floating window
+    let g:lazygit_floating_window_scaling_factor = 0.9 " scaling factor for floating window
+    let g:lazygit_floating_window_corner_chars = ['╭', '╮', '╰', '╯'] " customize lazygit popup window corner characters
+    let g:lazygit_floating_window_use_plenary = 0 " use plenary.nvim to manage floating window if available
+    let g:lazygit_use_neovim_remote = 0 " if set to 1, it will fallback to 0 if neovim-remote is not installed
+
+    nnoremap <silent> <leader>lg :LazyGit<CR>
+  " }}} lazygit
   
 " }}} Plugins
 
