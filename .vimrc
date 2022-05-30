@@ -576,8 +576,9 @@ nmap <S-F6> <Plug>(coc-rename)
 " :nnoremap <A-S-F> :vimgrep /<C-R>/g **<CR>
 
 " Code {{{
-  nnoremap <c-_> :Commentary<CR>
-  vnoremap <c-_> :Commentary<CR>
+  " if <c-/> doesn't work, then try <c-_>
+  nnoremap <c-/> :Commentary<CR>
+  vnoremap <c-/> :Commentary<CR>
 "  }}}
 
 " Buffers {{{
@@ -709,7 +710,7 @@ nmap <S-F6> <Plug>(coc-rename)
   " set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
   " set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
   " set statusline+=%3*│                                     " Separator
-  set statusline+=%0*\ %{fugitive#head()}\                 " Fugitive - git branch name
+  set statusline+=%0*\ %{FugitiveHead()}\                 " Fugitive - git branch name
   set statusline+=%3*│                                     " Separator
   set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
   
