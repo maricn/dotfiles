@@ -329,7 +329,10 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   let g:coc_node_path = '/home/nikola/.nvm/versions/node/v14.15.4/bin/node'
 
   " Use ,c to suggest actions in lines that have a hint.
-  nnoremap <leader>c :CocAction<CR>
+  " old :CocAction version not working anymore, moving to
+  " coc-codeaction-selected
+  " nnoremap <leader>c :CocAction<CR>
+  nnoremap <leader>c v<Plug>(coc-codeaction-selected)
   
   " Give more space for displaying messages.
   set cmdheight=2
@@ -358,9 +361,11 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   endfunction
   inoremap <silent><expr> <TAB>
         \ pumvisible() ? "\<C-n>" :
+        \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
         \ <SID>check_back_space() ? "\<TAB>" :
         \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  let g:coc_snippet_next = '<tab>'
+  inoremap <expr><S-TAB> coc#pumvisible() ? "\<C-p>" : "\<C-h>"
   
   " Use <c-space> to trigger completion.
   " inoremap <silent><expr> <c-space> coc#refresh()
