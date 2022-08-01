@@ -68,7 +68,7 @@ bind <Escape> composite mode normal ; hidecmdline ; nohlsearch
 
 bind --mode=ex <ArrowRight> ex.insert_completion
 
-bind --mode=insert <C-A-i> editor
+bind --mode=insert <CA-i> editor
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl
