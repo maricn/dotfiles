@@ -360,29 +360,24 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
     return !col || getline('.')[col - 1]  =~ '\s'
   endfunction
   inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
+        \ coc#pum#visible() ? coc#pum#next(1) :
         \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
         \ <SID>check_back_space() ? "\<TAB>" :
         \ coc#refresh()
   let g:coc_snippet_next = '<tab>'
-  inoremap <expr><S-TAB> coc#pumvisible() ? "\<C-p>" : "\<C-h>"
+  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
   
   " Use <c-space> to trigger completion.
   " inoremap <silent><expr> <c-space> coc#refresh()
   
   " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
   " position. Coc only does snippet and additional edit on confirm.
-  if has('patch8.1.1068')
-    " Use `complete_info` if your (Neo)Vim version supports it.
-    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-  else
-    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  endif
+  inoremap <expr> <cr> coc#pum#visible() && coc#pum#info()['index'] != -1 ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
   " Use <C-j> and <C-k> to navigate the completion list
   " https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-tab-and-s-tab-to-navigate-the-completion-list
-  inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-  inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+  inoremap <expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+  inoremap <expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
   
   " Use `[g` and `]g` to navigate diagnostics
   nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -440,15 +435,7 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   
   """" Enter just selects the item in the autocomplete menu
   """" http://vim.wikia.com/wiki/VimTip1386
-  :inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  """ Map Ctrl+Space to autocomplete
-  """ https://coderwall.com/p/cl6cpq/vim-ctrl-space-omni-keyword-completion
-  " inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
-  "             \ "\<lt>C-n>" :
-  "             \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
-  "             \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
-  "             \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
-  " hm, what's this for: imap <C-@> <C-Space>
+  :inoremap <expr> <CR> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
   
   " Use <TAB> for selections ranges.
   " NOTE: Requires 'textDocument/selectionRange' support from the language server.
@@ -954,6 +941,9 @@ autocmd FileType git,gitcommit set formatoptions=n
   autocmd Filetype ts setlocal ts=2 sts=2 sw=2
   autocmd Filetype typescript setlocal ts=2 sts=2 sw=2
   autocmd Filetype c,cpp,h,hpp setlocal ts=2 sts=2 sw=2
+
+  """ Tab indents (8 spaces appearance):
+  autocmd Filetype java,groovy,kotlin setlocal ts=8 sts=8 sw=8 list noexpandtab
   
   """ Enable wrapping in textual files
   autocmd Filetype txt,md,markdown set wrap
