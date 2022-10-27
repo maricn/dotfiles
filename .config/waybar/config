@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "battery", "battery#bat2", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "network", "cpu", "memory", "temperature", "battery", "backlight", "pulseaudio", "battery#bat2", "clock", "tray"],
     // "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "battery", "battery#bat2", "clock", "tray"],
     // Modules configuration
     "sway/workspaces": {
@@ -73,58 +73,111 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
-        "format": "{usage}% ",
-        "tooltip": false
+        /* "format": "{usage}% ", */
+        "format": "🏭 {usage}%",
+        "tooltip": false,
+        "interval": 5,
+        "states": {
+            "warning": 75,
+            "critical": 90
+        }
     },
     "memory": {
-        "format": "{}% "
+        /* "format": "{}% ", */
+        "format": "💾 {}%",
+        "states": {
+            "warning": 85,
+            "critical": 90
+        }
     },
     "temperature": {
         // "thermal-zone": 2,
         // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
         "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format-critical": "{icon} {temperatureC}°C",
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": [
+            "<span color='#709010'></span>", // Icon: temperature-empty
+            "<span color='#98971a'></span>", // Icon: temperature-quarter
+            "<span color='#c0c000'></span>", // Icon: temperature-half
+            "<span color='#d79921'></span>", // Icon: temperature-three-quarters
+            "<span color='#fb4934'></span>"  // Icon: temperature-full
+        ],
+        "tooltip": true
+        /* "format-icons": ["", "🌡️", ""] */
     },
     "backlight": {
         // "device": "acpi_video1",
-        "format": "{percent}% {icon}",
-        "format-icons": ["", ""]
+        "format": "{icon} {percent}%",
+        "format-icons": ["🔅", "🔅"]
     },
+    /* "battery": { */
+    /*     "states": { */
+    /*         "good": 60, */
+    /*         "warning": 30, */
+    /*         "critical": 15 */
+    /*     }, */
+    /*     "format": "{capacity}% {icon}", */
+    /*     "format-charging": "{capacity}% ", */
+    /*     "format-plugged": "{capacity}% ", */
+    /*     "format-alt": "{time} {icon}", */
+    /*     // "format-good": "", // An empty format will hide the module */
+    /*     // "format-full": "", */
+    /*     "format-icons": ["", "", "", "", ""] */
+    /* }, */
+    
     "battery": {
+        "interval": 20,
         "states": {
             "good": 60,
             "warning": 30,
             "critical": 15
         },
-        "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        // Connected to AC
+        "format": "  {icon}  {capacity}%", // Icon: bolt
+        // Not connected to AC
+        "format-discharging": "{icon}  {capacity}%",
+        "format-icons": [
+            "<span color='#fb4934'></span>", // Icon: battery-empty
+            "<span color='#d79921'></span>", // Icon: battery-quarter
+            "<span color='#c0c000'></span>", // Icon: battery-half
+            "<span color='#98971a'></span>", // Icon: battery-three-quarters
+            "<span color='#709010'></span>"  // Icon: battery-full
+        ],
+        "tooltip": true
     },
     "battery#bat2": {
         "bat": "BAT2"
     },
     "network": {
+		// "interface": "wlp2*", // (Optional) To force the use of this interface
+		"format-wifi": "<span color='#589df6'></span> {essid} {signalStrength}%" ,
+		"format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+		"format-linked": "{ifname} (No IP) ",
+		"format-disconnected": " ",
+		"format-alt": "{essid} <span color='green'>⬇</span>{bandwidthDownBits} <span color='green'>⬆</span>{bandwidthUpBits}",
+		"interval": 60,
+		"tooltip-format": "{ifname}  {ipaddr}"
+
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        /* "format-wifi": "{essid} ({signalStrength}%) ", */
+        /* "format-ethernet": "{ifname}: {ipaddr}/{cidr} ", */
+        /* "format-linked": "{ifname} (No IP) ", */
+        /* "format-disconnected": "Disconnected ⚠", */
+        /* "format-alt": "{ifname}: {ipaddr}/{cidr}" */
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
+        /* "format": "{volume}% {icon} {format_source}", */
+
+        "format": "{icon} {volume}% {format_source}",
+        "format-muted": "🔇 {format_source}",
+        "format-bluetooth": "{icon} {volume}% {format_source}",
+        "format-bluetooth-muted": "🔇 {format_source}",
+        
+        "format-source": "🎙️ {volume}%",
+        "format-surce-muted": "",
+
         "format-icons": {
             "headphone": "",
             "hands-free": "",
@@ -132,7 +185,8 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""]
+            "default": ["🔈", "🔉", "🔊"]
+            /* "default": ["", "", ""] */
         },
         "on-click": "pavucontrol"
     },

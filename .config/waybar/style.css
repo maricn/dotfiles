@@ -13,13 +13,13 @@
 @define-color lila-focused #da8291;
 @define-color lila-workspace #420042;
 
-@define-color battery-charge-color  @gruvbox-battery-charge;
-@define-color bg-color              @gruvbox-bg;
-@define-color fg-color              @gruvbox-fg;
-@define-color bg-urgent-color       @gruvbox-urgent;
-@define-color bg-disabled-color     @gruvbox-disabled;
-@define-color bg-focused-color      @gruvbox-focused;
-@define-color bg-workspace-color    @gruvbox-workspace;
+@define-color battery-charge-color  @lila-battery-charge;
+@define-color bg-color              @lila-bg;
+@define-color fg-color              @lila-fg;
+@define-color bg-urgent-color       @lila-urgent;
+@define-color bg-disabled-color     @lila-disabled;
+@define-color bg-focused-color      @lila-focused;
+@define-color bg-workspace-color    @lila-workspace;
 
 * {
   border: none;
