@@ -6,16 +6,27 @@
 
 ###---Colors---###
 
-## orange
-set $bg-color 	         #b36b00
-set $urgent-bg-color     #d64e4e
-set $inactive-bg-color   #212121
-## lila
-# set $bg-color 	         #995588
-# set $urgent-bg-color     #f62e4e
-# set $inactive-bg-color   #311131
-set $text-color          #000000
-set $inactive-text-color #86888c
+# orange {{{
+  # set $bg-color 	     #b36b00
+  # set $urgent-bg-color     #d64e4e
+  # set $inactive-bg-color   #212121
+# }}} orange
+# lila {{{
+  set $bg-color 	   #995588
+  set $urgent-bg-color     #f62e4e
+  set $inactive-bg-color   #311131
+  set $text-color          #000000
+  set $inactive-text-color #86888c
+  exec_always {
+    # Check /usr/share/themes/ for themes and /usr/share/icons/ for cursors
+    gsettings set org.gnome.desktop.wm.preferences theme 'Sweet'
+    gsettings set org.gnome.desktop.interface gtk-theme 'Sweet'
+    # gsettings set org.gnome.desktop.interface gtk-theme 'Sweet-Dark'
+    # gsettings set org.gnome.desktop.interface icon-theme 'Tela-pink-dark'
+    gsettings set org.gnome.desktop.interface icon-theme 'Fluent-pink-dark'
+  }
+# }}} lila
+
 
 # window colors
 #                       border              background         text                 indicator
@@ -33,8 +44,9 @@ client.background       #212121
 set $mod Mod4
 # Font for window titles
 font pango:monospace 8
+# font pango:Iosevka Fixed SS09 8
 # font xft:Iosevka Term SS03:style=Regular 10
-# font pango:Iosevka Fixed Slab 10
+# font pango:Iosevka Fixed Slab 8
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -51,13 +63,15 @@ set $term foot
 set $menu exec "$HOME/.local/bin/sway-launcher-wrapper.sh"
 # set $menu dmenu_path | rofi -show run | xargs swaymsg exec --
 
-set $menu_emojis_symbols ~/Tools/charpicker/charpicker.sh
+# set $menu_emojis_symbols ~/Tools/charpicker/charpicker.sh
+set $menu_emojis_symbols rofi -show emoji -a copy
 set $menu_emojis emote
+set $lock_cmd "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" '"
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output "*" background "$HOME/.cache/wallpaper" fill
+output "*" background "$HOME/.cache/wallpaper-bubble" fill
 
 # check out kanshi and ~/.config/kanshi/config for dynamic output configuration
 output eDP-1 scale 1
@@ -69,10 +83,10 @@ output HDMI-A-1 res 2560x1440
 # Example configuration:
 #
 exec --no-startup-id swayidle -w \
-         timeout 300 "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" --grace 1 --fade-in 1'" \
+         timeout 300 $lock_cmd \
          timeout 400 'swaymsg "output * dpms off"' \
          resume 'swaymsg "output * dpms on"' \
-         before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator --indicator-radius 100 --effect-scale 0.5 --effect-blur 7x5 --effect-scale 2 --datestr "'"'"%F %a"'"'" --grace 1 --fade-in 1'" \
+         before-sleep $lock_cmd \
          &
          #before-sleep $lock_cmd
          #before-sleep "swaymsg exec 'swaylock --screenshots --clock --indicator'" &
@@ -113,6 +127,7 @@ set $my_cursor 2Feast
 # set $my_cursor rainbow-18
 set $my_cursor_size 24
 
+# Check /usr/share/themes/ for themes and /usr/share/icons/ for cursors
 seat * xcursor_theme $my_cursor $my_cursor_size
 exec_always {
     gsettings set org.gnome.desktop.interface cursor-theme $my_cursor
@@ -182,11 +197,15 @@ for_window [class="fontforge"] floating enable, border pixel 6
 for_window [class="Pavucontrol"] floating enable, border pixel 6
 for_window [class="Orage"] floating enable, border pixel 6
 for_window [class="Blueman-manager"] floating enable, border pixel 6
+for_window [class="Wireshark-gtk"] floating enable, border pixel 6
 # Some windows float by app_id
 for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 for_window [app_id="blueman-manager"] floating enable, border pixel 6
 for_window [app_id="pavucontrol"] floating enable, border pixel 6
 for_window [app_id="mpv"] floating enable, border pixel 6
+for_window [app_id="file-roller"] floating enable, border pixel 6
+for_window [app_id="^nemo$"] floating enable, border pixel 6
+for_window [app_id="^wdisplays$"] floating enable, border pixel 6
 # More windows float by their window_role
 for_window [window_role="pop-up"] floating enable, border pixel 6
 for_window [window_role="bubble"] floating enable, border pixel 6
@@ -212,16 +231,16 @@ for_window [class="vlc"] inhibit_idle fullscreen
 for_window [class="Chromium"] inhibit_idle fullscreen
 
 # Some windows are assigned to workspaces
-assign [class="Slack"] 1
-assign [class="Signal"] 1
-assign [class="Signal Beta"] 1
-assign [class="tutanota"] 1
-assign [class="KeePassXC"] 1
-assign [class="Firefox Developer Edition" window_type="normal"] 2
-assign [class="firefox" window_type="normal"] 2
-# assign [app_id="firefox" window_type="normal"] 2
-assign [class="Steam"] 5
-assign [class="Chromium" window_type="normal"] 3
+assign [class="Slack"] number 1
+assign [class="Signal"] number 1
+assign [class="Signal Beta"] number 1
+assign [class="tutanota"] number 1
+assign [class="KeePassXC"] number 1
+assign [class="Firefox Developer Edition" window_type="normal"] number 2
+assign [class="firefox" window_type="normal"] number 2
+# assign [app_id="firefox" window_type="normal"] number 2
+assign [class="Steam"] number 5
+assign [class="Chromium" window_type="normal"] number 3
 # new_window 1pixel
 # new_float normal
 
@@ -287,27 +306,27 @@ assign [class="Chromium" window_type="normal"] 3
 # Workspaces:
 #
     # Switch to workspace
-    bindsym $mod+1 workspace 1
-    bindsym $mod+2 workspace 2
-    bindsym $mod+3 workspace 3
-    bindsym $mod+4 workspace 4
-    bindsym $mod+5 workspace 5
-    bindsym $mod+6 workspace 6
-    bindsym $mod+7 workspace 7
-    bindsym $mod+8 workspace 8
-    bindsym $mod+9 workspace 9
-    bindsym $mod+0 workspace 10
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
     # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace 1
-    bindsym $mod+Shift+2 move container to workspace 2
-    bindsym $mod+Shift+3 move container to workspace 3
-    bindsym $mod+Shift+4 move container to workspace 4
-    bindsym $mod+Shift+5 move container to workspace 5
-    bindsym $mod+Shift+6 move container to workspace 6
-    bindsym $mod+Shift+7 move container to workspace 7
-    bindsym $mod+Shift+8 move container to workspace 8
-    bindsym $mod+Shift+9 move container to workspace 9
-    bindsym $mod+Shift+0 move container to workspace 10
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
     
@@ -326,6 +345,7 @@ assign [class="Chromium" window_type="normal"] 3
     bindsym $mod+Mod1+j move workspace to output down
     bindsym $mod+Mod1+k move workspace to output up
     bindsym $mod+Mod1+l move workspace to output right
+    bindsym $mod+Shift+m output eDP-1 enable; workspace 3 output eDP-1; focus right
 
 #
 # Layout stuff:
@@ -410,6 +430,8 @@ for_window [title="imv.*screenshot"] fullscreen on
 bindsym $mod+P --release exec "grim screen -"
 bindsym $mod+Shift+P exec 'geo="$(slurp)" && sleep 2 && grim -g "$geo" - | swappy -f -'
 bindsym $mod+Mod1+P exec 'grim -g "$(swaymsg -t get_tree | jq -r '"'"'.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"'"'"' | slurp)" - | swappy -f -'
+# color picker:
+bindsym $mod+Shift+R exec grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- | tail -n 1 | cut -d ' ' -f 4 | wl-copy
 
 # Screencast (capture video/gif)
 bindsym $mod+Ctrl+P exec 'swaymsg -t get_tree | jq -r '"'"'.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"'"'"' | slurp | xargs -I{} "$term" --class=screencast --title "wf-recorder screencast" -e env TERMINAL_COMMAND="$term -e" wf-recorder -f ~/Pictures/screencast-$(date +'"'"'%FT%T'"'"').gif -c gif -g {}'
