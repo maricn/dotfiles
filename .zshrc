@@ -65,6 +65,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
     alias yayfzfpkginfo='yay -Qq | fzf --preview "yay -Qil {}" --layout=reverse --bind "enter:execute(yay -Qil {} | less)"'
     alias parufzfpkginfo='paru -Qq | fzf --preview "paru -Qil {}" --layout=reverse --bind "enter:execute(paru -Qil {} | less)"'
     alias parufzfinstall='paru -Slq | fzf -m --preview "paru -Si {1}" | sudo paru -S -'
+    alias fp='/home/nikola/Tools/1pass/1pass | fzf --preview "/home/nikola/Tools/1pass/1pass -p {}" --bind "enter:execute(/home/nikola/Tools/1pass/1pass {})"'
     alias ssh='TERM=xterm-256color ssh'
     # ~~~~~~~~ startsway ~~~~~~~~~~~
     # export $(dbus-launch)         - will export some envvars necessary for ???
@@ -79,7 +80,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Use wayland/swaywm firefox
 unalias firefox 2>/dev/null
 function firefox() {
-  MOZ_ENABLE_WAYLAND=1 /usr/bin/firefox "$@"
+  MOZ_ENABLE_WAYLAND=1 /usr/bin/firejail /usr/bin/firefox "$@"
 }
 
 # Use sudoedit instead, it's safer
@@ -132,6 +133,7 @@ setopt NO_BANG_HIST
 setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
+setopt EXTENDED_HISTORY # puts timestamps in the history
 
 setopt dot_glob
 
@@ -151,7 +153,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search fzf)
+plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search fzf mvn)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 # shrink-path # REMOVED BC USING P10K now
 # pyenv # REMOVED BC NOT BEING USED SO MUCH ANYMORE (and it was complaining it needs to be initialized and in the PATH in order to work)
@@ -267,17 +269,43 @@ export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:/var/lib/snapd/s
 # Utilities {{{
   function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
-  # Setup cdg function
-  # ------------------
-  # https://dmitryfrank.com/articles/shell_shortcuts
-  unalias cdg 2> /dev/null
-  cdg() {
-     local dest_dir=$(cdscuts_glob_echo | fzf )
-     if [[ $dest_dir != '' ]]; then
-        cd "$dest_dir"
-     fi
+  # z.lua {{{
+    # for fuzzy directory navigation
+    # https://github.com/skywind3000/z.lua
+    eval "$(lua ""$HOME/.local/bin/z.lua"" --init zsh enhanced)"
+
+    # Always pass to fzf, and don't use `fzf -e`
+    # unalias z 2> /dev/null
+    function zc() {
+      [ $# -ne 0 ] && [ -d "$@" ] && cd "$@" && return 0;
+      local args=''
+      [ $# -eq 0 ] && args="" || args="-q $@"
+      local dir="$(z -l 2>&1 | fzf --nth 2.. --reverse --inline-info --height 40% --tac +s $args)"
+      [ -n "$dir" ] && cd "$(echo $dir | sed -e 's/^\S*\s*//')"
+    }
+    alias zb="z -b -I"
+  # }}} z.lua
+
+  # md2pdf {{{
+  # Convert Markdown to PDF
+  # Use as: convertMarkdownToPdf your_markdown_file.md
+  function convertMarkdownToPdf() {
+    if [[ "$1" == *".md"* ]]; then
+      # Filename without extension
+      local FILE_NAME=$(basename "$1" .md)
+      # Read the markdown file and then convert it to an HTML file
+      cat "$FILE_NAME.md" | grip - --export "$FILE_NAME.html"
+      # Render HTML to PDF
+      node renderToPdf.js "$FILE_NAME.html"
+      # Open the generated PDF file
+      zathura "$FILE_NAME.pdf"
+    else
+      echo "Passed file is not of markdown type. Please pass a .md file"
+    fi
   }
-  export cdg > /dev/null
+
+  alias md2pdf=convertMarkdownToPdf
+  # }}} md2pdf
 # }}}
 
 # less
