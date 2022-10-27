@@ -45,7 +45,7 @@ rules:
     default-opacity: 0.85
 
   # no opacity
-  - app-id: ^(firefox|mpv|vlc)$
+  - app-id: ^(firefox|mpv|vlc|org.kde.digikam|photivo|rawtherapee)$
     default-opacity: 1
     flash-opacity: 0.4
   - window-class: ^(Firefox Developer Edition|firefox|Slack|Chromium|Chrome|tutanota-desktop|mpv|Skype|vlc)$
