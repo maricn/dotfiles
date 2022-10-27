@@ -15,7 +15,8 @@ font:
   size: 15
 env:
   TERM: xterm-256color
-background_opacity: 0.8
+window:
+  opacity: 0.8
 live_config_reload: true
 
 key_bindings:
@@ -172,5 +173,5 @@ schemes:
       cyan:    '#73FBF1'
       white:   '#FEFEF8'
 
-# colors: *argonaut
-colors: *dark
+colors: *argonaut
+# colors: *dark
