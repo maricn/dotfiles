@@ -48,7 +48,7 @@ Plug 'ConradIrwin/vim-bracketed-paste'  " Detect clipboard paste (auto :set past
 " Plug 'jremmen/vim-ripgrep'              " Use ripgrep for search - deprecated in favor of vim-grepper
 " temporarily until merged to mhinz/vim-grepper
 Plug 'trsdln/vim-grepper'                " grep using your fav grepper
-Plug 'majutsushi/tagbar'                " Tagbar (right side thing to show functions)
+Plug 'majutsushi/tagbar'                " Tagbar (right side thing to show functions), also used to jump to functions
 Plug 'mbbill/undotree'                  " The undo history visualizer for VIM
 Plug 'bkad/CamelCaseMotion'
 Plug 'tpope/vim-commentary'             " :Commentary to comment out a line or block
@@ -246,10 +246,6 @@ nnoremap Y y$
 map H ^
 map L $
 
-" append newline w/o exiting normal mode
-nnoremap <silent> <leader>o :<C-u>call append(line("."),   repeat([""], v:count1))<CR>
-nnoremap <silent> <leader>O :<C-u>call append(line(".")-1, repeat([""], v:count1))<CR>
-
 " duplicate selection
 vmap <c-d> y'>p
 
@@ -333,6 +329,7 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   " coc-codeaction-selected
   " nnoremap <leader>c :CocAction<CR>
   nnoremap <leader>c v<Plug>(coc-codeaction-selected)
+  vnoremap <leader>c v<Plug>(coc-codeaction-selected)
   
   " Give more space for displaying messages.
   set cmdheight=2
@@ -408,8 +405,10 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
   nmap <leader>rn <Plug>(coc-rename)
   
   " Formatting selected code.
-  xmap <leader>f  :Format<CR>
-  nmap <leader>f  :Format<CR>
+  xnoremap <silent> <leader><leader>f  :OR<CR>:Format<CR>
+  nnoremap <silent> <leader><leader>f  :OR<CR>:Format<CR>
+  xnoremap <leader><leader>o :OR<CR>
+  nnoremap <leader><leader>o :OR<CR>
   " nmap <leader>f <Plug>(coc-format-selected)
   " xmap <leader>f <Plug>(coc-format-selected)
   " vmap <leader>f <Plug>(coc-format-selected)
@@ -887,6 +886,64 @@ nmap <S-F6> <Plug>(coc-rename)
     nnoremap <silent> <leader>lg :LazyGit<CR>
   " }}} lazygit
   
+  " tagbar {{{
+  command! -bang FzfOutline call fzf#run(fzf#wrap('outline', s:outline(), <bang>0))
+  function! s:outline_format(lists) abort
+    for list in a:lists
+      let linenr = list[2][:len(list[2])-3]
+      let line = getline(linenr)
+      let idx = stridx(line, list[0])
+      let len = len(list[0])
+      let list[0] = line[:idx-1] . printf("\x1b[%s%sm%s\x1b[m", 34, '', line[idx : idx+len-1]) . line[idx + len :]
+    endfor
+    for list in a:lists
+      call map(list, "printf('%s', v:val)")
+    endfor
+    return a:lists
+  endfunction
+  
+  function! s:outline_source(tag_cmds) abort
+    if !filereadable(expand('%'))
+      throw 'Save the file first'
+    endif
+  
+    let lines = []
+    for cmd in a:tag_cmds
+      let lines = split(system(cmd), "\n")
+      if !v:shell_error
+        break
+      endif
+    endfor
+    if v:shell_error
+      throw get(lines, 0, 'Failed to extract tags')
+    elseif empty(lines)
+      throw 'No tags found'
+    endif
+    return map(s:outline_format(map(lines, 'split(v:val, "ш")')), 'join(v:val, "ш")')
+  endfunction
+  
+  function! s:outline_sink(lines) abort
+    if !empty(a:lines)
+      let line = a:lines[0]
+      execute split(line, "ш")[2]
+    endif
+  endfunction
+  
+  function! s:outline(...) abort
+    let s:source = 'outline'
+    let tag_cmds = [
+          \ printf('ctags -f - --sort=no --excmd=number --language-force=%s %s 2>/dev/null | sed "s/\t/ш/g"', &filetype, expand('%:S')),
+          \ printf('ctags -f - --sort=no --excmd=number %s 2>/dev/null | sed "s/\t/ш/g"', expand('%:S'))]
+    return {
+          \ 'source':  s:outline_source(tag_cmds),
+          \ 'sink*':   function('s:outline_sink'),
+          \ 'options': '--reverse +m -d "ш" --with-nth 1 -n 1 --ansi --prompt "Outline> "'}
+  endfunction
+
+  " Open FzfOutline to jump to function definition
+  nnoremap <silent> <Leader>fo  :<C-u>FzfOutline<CR>
+  " }}} tagbar
+  
 " }}} Plugins
 
 " Tmux {{{
@@ -944,6 +1001,7 @@ autocmd FileType git,gitcommit set formatoptions=n
 
   """ Tab indents (8 spaces appearance):
   autocmd Filetype java,groovy,kotlin setlocal ts=8 sts=8 sw=8 list noexpandtab
+  autocmd Filetype xml,xhtml setlocal ts=8 sts=8 sw=8 list noexpandtab
   
   """ Enable wrapping in textual files
   autocmd Filetype txt,md,markdown set wrap
