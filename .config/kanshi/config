@@ -11,7 +11,10 @@ profile "home hdmi beamer" {
 
 profile "work hdmi/dp 1 (DELL)" {
     output eDP-1 disable
+    # use for work
     output "Dell Inc. DELL U2515H 9X2VY73Q0BLL" enable mode 2560x1440 position 0,0 scale 1.0
+    # use for beamer replacement
+    # output "Dell Inc. DELL U2515H 9X2VY73Q0BLL" enable mode 1920x1080 position 0,0 scale 1.0
 }
 
 profile "work hdmi/dp 2 (LG)" {
@@ -58,6 +61,11 @@ profile "work Ben's" {
 
 profile "cadaques" {
     output "Sony SONY TV 0x00000101" enable mode 1920x1080 position 0,0 scale 1.0
+    output eDP-1 disable mode 1920x1080 position 1920,0
+}
+
+profile "kucamarica" {
+    output "Unknown TV_MONITOR 0x00000001" enable mode 3840x2160 scale 1.0 position 0,0
     output eDP-1 disable mode 1920x1080 position 1920,0
 }
 
