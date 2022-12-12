@@ -23,6 +23,11 @@ profile "work hdmi/dp 2 (LG)" {
     # output "Goldstar Company Ltd LG Ultra HD 0x0000D71C" enable mode 3840x2160 scale 1.4 position 0,0
 }
 
+profile "work hdmi/dp 3 (LG)" {
+    output eDP-1 disable
+    output "Goldstar Company Ltd LG Ultra HD 0x0000D9CA" enable mode 2560x1440 scale 1.0 position 0,0
+}
+
 profile "work hdmi/dp 2 (HP 24f)" {
     output eDP-1 disable
     output "Unknown HP 24f 3CM9200KDL" enable mode 1920x1080 scale 1.0 position 0,0
