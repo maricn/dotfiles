@@ -5,6 +5,7 @@ GRUB_TIMEOUT=0
 # GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="Arch"
 GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet i915.i915_enable_rc6=1 mem_sleep_default=deep btusb.enable_autosuspend=n"
+# GRUB_CMDLINE_LINUX_DEFAULT="apparmor=1 security=apparmor loglevel=3 quiet i915.i915_enable_rc6=1 mem_sleep_default=deep btusb.enable_autosuspend=n"
 #GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet cryptdevice=UUID=58293542-8f6b-4d1a-b487-a5f8f388912b:cryptlvm root=/dev/MyVolGroup/root"
 GRUB_CMDLINE_LINUX="cryptdevice=UUID=7c995668-7043-4e4d-b2d9-c9e33ce85c45:cryptlvm root=/dev/mapper/MyVolGroup-root cryptkey=rootfs:/encrypted-lvm.key"
 
