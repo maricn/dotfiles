@@ -17,11 +17,12 @@
   min-width: 100px !important;
 }
 
-/* No tab title pop-up tooltips when hovering over tab */
-#aHTMLTooltip {
+/* No tab title pop-up tooltips when hovering over tab - fix for firefox blinking on wayland */
+/*#aHTMLTooltip {
   display: none !important;
 }
 #remoteBrowserTooltip { display: none !important; }
+*/
 
 
 /* #tabbrowser-tabs, #navigator-toolbox, menuitem, menu, ... */
