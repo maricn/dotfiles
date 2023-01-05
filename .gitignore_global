@@ -9,7 +9,10 @@
 .DS_Store
 
 # Visual Studio Code / VSCodium stuff
-.vscode/
+.vscode
+.project
+.settings
+.classpath
 
 # Vim stuff
 *.swp
@@ -25,3 +28,16 @@ venv3/
 
 # Caches
 .ccls-cache/
+
+# IntelliJ family
+.idea
+*.iml
+out
+*.out
+*.iws
+*.ipr
+
+# Java tools
+.gradletasknamecache
+.jenv.sh
+.sdkmanrc
