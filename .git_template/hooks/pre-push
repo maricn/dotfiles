@@ -79,7 +79,6 @@ do
             fi
         fi
     fi
-    exit 1
 done
 
 exit 0

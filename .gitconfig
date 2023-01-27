@@ -14,13 +14,22 @@
     syntax-theme = Monokai Extended
 [interactive]
     diffFilter = delta --color-only
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+[diff]
+    colorMoved = default
+
 
 [pull]
     rebase = false
+[push]
+    autoSetupRemote = false     # use gpsu to --set-upstream
 [alias]
     project-summary = !which onefetch && onefetch
 [init]
     defaultBranch = main
+    templatedir = ~/.git_template
 
 [diff "odt"]
     textconv = odt2txt
@@ -36,4 +45,4 @@
     binary = true
 
 [includeIf "gitdir:~/Workspace/"]
-    path = ~/Workspace/.mimi.gitconfig
+    path = ~/Workspace/.gitconfig

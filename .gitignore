@@ -119,3 +119,7 @@ node_modules/
 # Sensitive plaintext
 .bash_history
 .zsh_history
+
+# OSX Finder state
+.DS_Store
+**/.DS_Store
