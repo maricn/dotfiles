@@ -14,7 +14,6 @@
 #
 #   <local ref> <local sha1> <remote ref> <remote sha1>
 
-
 # If we have a STDIN, use it, otherwise get one
 if tty >/dev/null 2>&1; then
     TTY=$(tty)
@@ -78,6 +77,8 @@ do
                 exit 1
             fi
         fi
+
+        exit 0
     fi
 done
 
