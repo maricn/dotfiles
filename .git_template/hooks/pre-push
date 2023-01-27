@@ -66,7 +66,8 @@ do
             range="$remote_sha..$local_sha"
         fi
 
-        if test -s "./build.gradle.kts" && grep "ktlint" "./build.gradle.kts" 1>&2 2>/dev/null && askYesNo "Run lint?" true; then
+        if test -s "./build.gradle.kts" && grep -q "ktlint" "./build.gradle.kts" && askYesNo "Run lint?" true; then
+            echo 'Running lint...'
             lint_output=$(./gradlew ktlintCheck 2>&1 1>/dev/null)
             lint_exit_code=$?
             if [ $lint_exit_code != 0 ]; then
@@ -75,6 +76,8 @@ do
                 echo $report
                 askYesNo "Print result?" true && cat "$report"
                 exit 1
+            else
+                echo 'Lint check successful!'
             fi
         fi
 
