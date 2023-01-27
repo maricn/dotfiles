@@ -6,7 +6,7 @@ addBranchName() {
   branch_name=$(git symbolic-ref --short -q HEAD)
   branch_name=${branch_name##refs/heads/}
   NAME=${branch_name:-HEAD}
-  NAME=$(echo $NAME | grep -o -i "\([a-zA-Z]\+\-[1-9][0-9]\+\|SPIKE\|HOTFIX\)" | sed 's/([0-9]+)/#\1/g')
+  NAME=$(echo $NAME | grep -o -i "\([a-zA-Z]\+\-[1-9][0-9]\+\|SPIKE\|HOTFIX\)")
   ## echo "Got git branch name: $NAME"
   
   DESCRIPTION=$(git config branch."$NAME".description)

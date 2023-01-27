@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# Called by "git push" after remote status check, before anything has been
+# pushed.  If this script exits with a non-zero status nothing will be pushed.
+#
+# This hook is called with the following parameters:
+#
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+#
+# If pushing without using a named remote those arguments will be equal.
+#
+# Information about the commits which are being pushed is supplied as lines to
+# the standard input in the form:
+#
+#   <local ref> <local sha1> <remote ref> <remote sha1>
+
+
+# If we have a STDIN, use it, otherwise get one
+if tty >/dev/null 2>&1; then
+    TTY=$(tty)
+else
+    TTY=/dev/tty
+fi
+
+function askYesNo {
+    QUESTION=$1
+    DEFAULT=$2
+    if [ "$DEFAULT" = true ]; then
+        OPTIONS="Y/n"
+        DEFAULT="y"
+    else
+        OPTIONS="y/N"
+        DEFAULT="n"
+    fi
+
+    # Ask the question (not using "read -p" as it uses stderr not stdout)
+    echo -n "$QUESTION [$OPTIONS] "
+
+    # Read the answer, fallback to default
+    read REPLY < "$TTY"
+    REPLY=${REPLY:-${DEFAULT}}
+
+    # Check if the reply is valid
+    case "$REPLY" in
+        Y*|y*) return 0 ;;
+        N*|n*) return 1 ;;
+    esac
+}
+
+
+remote="$1"
+url="$2"
+
+z40=0000000000000000000000000000000000000000
+
+IFS=' '
+while read local_ref local_sha remote_ref remote_sha
+do
+    if [ "$local_sha" != $z40 ] # Not a deletion
+    then
+        if [ "$remote_sha" = $z40 ]
+        then
+            # New branch, examine all commits
+            range="$local_sha"
+        else
+            # Update to existing branch, examine new commits
+            range="$remote_sha..$local_sha"
+        fi
+
+        if test -s "./build.gradle.kts" && grep "ktlint" "./build.gradle.kts" 1>&2 2>/dev/null && askYesNo "Run lint?" true; then
+            lint_output=$(./gradlew ktlintCheck 2>&1 1>/dev/null)
+            lint_exit_code=$?
+            if [ $lint_exit_code != 0 ]; then
+                echo 'Lint check failed, aborting git push! (to skip this hook, add `--no-verify` to `git push` command)'
+                report=$(grep -o '/Users.*/reports/ktlint/.*\.txt' <<< "$lint_output")
+                echo $report
+                askYesNo "Print result?" true && cat "$report"
+                exit 1
+            fi
+        fi
+    fi
+    exit 1
+done
+
+exit 0
+

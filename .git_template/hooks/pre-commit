@@ -10,7 +10,7 @@ then
   for f in $files
   do
     # Only examine known text files
-    if [[ "$f" =~ [.](json|properties|conf|txt|xml|yml|yaml|md|sh|sql|java|scala|feature|vm|twigg)$ ]]
+    if [[ "$f" =~ [.](json|properties|conf|txt|xml|yml|yaml|md|sh|sql|java|scala|kt|feature|vm|twigg)$ ]]
     then
 
       # Remove trailing whitespace if it exists
