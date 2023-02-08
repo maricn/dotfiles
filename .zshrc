@@ -16,7 +16,17 @@ fi
 ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="lukerandall"
 # ZSH_THEME="maricn"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
+source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  PATH_USRBIN="/opt/homebrew/Cellar";
+  alias sed=gsed
+else
+  PATH_USRBIN="/usr/bin";
+  ### Preserving legacy scripts compatibility
+  alias gsed=sed
+fi
 
   # export LC_CTYPE=en_US.UTF-8
   # Exports and autoloading {{{
@@ -26,6 +36,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
   # ISO-8601 and I accept nothing else, please fuck off
   export LC_TIME=en_DK.UTF-8
 
+  export GPG_TTY=`tty`
   export XDG_CONFIG_HOME="$HOME/.config"
   export XDG_PICTURES_DIR="$HOME/Pictures"
   export WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
@@ -91,6 +102,7 @@ function echobase64() { echo -n $@ | base64; }
 function echobase64decode() { echo -n $@ | base64 --decode; }
 function datefromepoch() { date -j -f "%s" "$1"; }
 function nmclitoggle() { type nmcli 1>/dev/null || (echo "no nmcli found" && return 1); if [[ "$(nmcli radio wwan)" == "enabled" ]]; then nmcli radio wwan off; nmcli radio wifi on; else nmcli radio wwan on; nmcli radio wifi off; fi; return 0; }
+function suspend_sleep_on_lid_closed_darwin_osx() { set +x; echo "Always run me in foreground and then ctrl+z. Otherwise, the sudo input might be put to background and I won't do anything."; if sudo -l &> /dev/null; then sudo pmset -b sleep 0; sudo pmset -b disablesleep 1; sleep "$1"; sudo pmset -b sleep 10; sudo pmset -b disablesleep 0; else echo "You need to run this with 'sudo'"; fi; }
 
 # Radio stations
 alias radio='mpv --no-video --no-cache --no-audio-display --vo=none --no-resume-playback --no-config'
@@ -153,7 +165,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search fzf mvn)
+plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search fzf mvn kubetail minikube k8s)
 # zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
 # shrink-path # REMOVED BC USING P10K now
 # pyenv # REMOVED BC NOT BEING USED SO MUCH ANYMORE (and it was complaining it needs to be initialized and in the PATH in order to work)
@@ -170,6 +182,8 @@ plugins=(git git-extras urltools pip common-aliases docker docker-compose docker
 # disabled for being too slow - uses find to depth 2 to look for `activate`
 # source "$HOME/Tools/virtualenv-autodetect/virtualenv-autodetect.plugin.zsh"
 
+# add brew completions to FPATH before sourcing oh-my-zsh as it needs to call compinit
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 # source oh-my-zsh before importing externals as they rely on compdef
 source $ZSH/oh-my-zsh.sh
 
@@ -177,8 +191,8 @@ source $ZSH/oh-my-zsh.sh
   # Source these before our own `bindkeys` so that we can override stuff
   # But after plugins so we override their behavior with stuff here
   scripts_to_source=(
-    ${HOME}/Tools/dht/dht-complete.zsh
-    ${HOME}/.dotfiles/zsh/fzf-helpers.zsh
+    #${HOME}/Tools/dht/dht-complete.zsh
+    #${HOME}/.dotfiles/zsh/fzf-helpers.zsh
   )
 
   for script in $scripts_to_source; do
@@ -211,8 +225,13 @@ bindkey '\ej' history-beginning-search-forward
     alias ls="lsd"
     alias lat="la --sort=time"
     # 🦇
-    alias bat='/usr/bin/bat'
-    alias cat='/usr/bin/bat --decorations=never --paging=never'
+    if [[ "$OSTYPE" != "darwin"* ]]; then
+      alias bat='/usr/bin/bat'
+      alias cat='/usr/bin/bat --decorations=never --paging=never'
+    else
+      alias bat='/opt/homebrew/bin/bat'
+      alias cat='/opt/homebrew/bin/bat --decorations=never --paging=never'
+    fi
     # 🗣
     alias rm='rm -iv'
     alias cp='cp -iv'
@@ -226,9 +245,10 @@ bindkey '\ej' history-beginning-search-forward
   # }}} change standard behavior
 # }}} Aliases
 
-## Git / GitHub
-export GIT_AUTHOR_NAME=Nikola\ Marić
-export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
+## Git - commented out because it conflicts with ~/.gitconfig that has includeIf for ~/Workspace and defines a different email address
+# export GIT_AUTHOR_NAME=Nikola\ Marić
+# export GIT_AUTHOR_EMAIL=3995223+maricn@users.noreply.github.com
+# GitHub user for gh cli stuff
 export GITHUB_USER=3995223+maricn@users.noreply.github.com
 
 ## Platform / Use case dependent
@@ -244,8 +264,6 @@ else
   export QT_SELECT=qt5
 fi
 
-### Preserving legacy scripts compatibility
-alias gsed=sed
 
 export DOCKER_HOST=unix:///var/run/docker.sock
 if [ -x "$(command -v nvim)" ]; then
@@ -256,9 +274,10 @@ else
   export EDITOR=vim
 fi
 
+export GRADLE_USER_HOME="$HOME/.gradle"
 export GOPATH="$HOME/go"
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
+export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:$HOME/Library/Python/3.9/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH:"/opt/homebrew/Cellar:${KREW_ROOT:-$HOME/.krew}/bin:/opt/homebrew/opt/php@8.0/bin:/opt/homebrew/opt/php@8.0/sbin:/opt/homebrew/opt/mysql-client/bin"
 # export PATH="$(pyenv root)/shims:$HOME/.local/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
 # if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
@@ -333,7 +352,13 @@ export rmzip() {
 source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # Software Development (Node.JS) {{{
   # NVM - Node Version Manager
-  source "/usr/share/nvm/init-nvm.sh"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    # temporarily skip loading nvm as it increases zsh startup time
+    # source $(brew --prefix nvm)/nvm.sh
+    source /opt/homebrew/Cellar/nvm/0.39.3/nvm.sh
+  else
+    source "/usr/share/nvm/init-nvm.sh"
+  fi
 
   export load_nvm() {
 
@@ -391,6 +416,12 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 #
 
 
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# disabled loading onepassword plugin for 2fa (for glab atm) as it just won't work
+# source /Users/nikola/.config/op/plugins.sh
