@@ -56,6 +56,7 @@ node_modules/
 .config/newsboat/history.cmdline
 !.config/nvim/
 !.config/pulsemixer.cfg
+!.config/skhd/
 !.config/swappy/
 !.config/sway/
 !.config/tridactyl/

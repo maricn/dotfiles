@@ -1,0 +1,248 @@
+#  NOTE(koekeishiya): A list of all built-in modifier and literal keywords can
+#                     be found at https://github.com/koekeishiya/skhd/issues/1
+#
+#                     A hotkey is written according to the following rules:
+#
+#                       hotkey       = <mode> '<' <action> | <action>
+#
+#                       mode         = 'name of mode' | <mode> ',' <mode>
+#
+#                       action       = <keysym> '[' <proc_map_lst> ']' | <keysym> '->' '[' <proc_map_lst> ']'
+#                                      <keysym> ':' <command>          | <keysym> '->' ':' <command>
+#                                      <keysym> ';' <mode>             | <keysym> '->' ';' <mode>
+#
+#                       keysym       = <mod> '-' <key> | <key>
+#
+#                       mod          = 'modifier keyword' | <mod> '+' <mod>
+#
+#                       key          = <literal> | <keycode>
+#
+#                       literal      = 'single letter or built-in keyword'
+#
+#                       keycode      = 'apple keyboard kVK_<Key> values (0x3C)'
+#
+#                       proc_map_lst = * <proc_map>
+#
+#                       proc_map     = <string> ':' <command> | <string>     '~' |
+#                                      '*'      ':' <command> | '*'          '~'
+#
+#                       string       = '"' 'sequence of characters' '"'
+#
+#                       command      = command is executed through '$SHELL -c' and
+#                                      follows valid shell syntax. if the $SHELL environment
+#                                      variable is not set, it will default to '/bin/bash'.
+#                                      when bash is used, the ';' delimeter can be specified
+#                                      to chain commands.
+#
+#                                      to allow a command to extend into multiple lines,
+#                                      prepend '\' at the end of the previous line.
+#
+#                                      an EOL character signifies the end of the bind.
+#
+#                       ->           = keypress is not consumed by skhd
+#
+#                       *            = matches every application not specified in <proc_map_lst>
+#
+#                       ~            = application is unbound and keypress is forwarded per usual, when specified in a <proc_map>
+#
+#  NOTE(koekeishiya): A mode is declared according to the following rules:
+#
+#                       mode_decl = '::' <name> '@' ':' <command> | '::' <name> ':' <command> |
+#                                   '::' <name> '@'               | '::' <name>
+#
+#                       name      = desired name for this mode,
+#
+#                       @         = capture keypresses regardless of being bound to an action
+#
+#                       command   = command is executed through '$SHELL -c' and
+#                                   follows valid shell syntax. if the $SHELL environment
+#                                   variable is not set, it will default to '/bin/bash'.
+#                                   when bash is used, the ';' delimeter can be specified
+#                                   to chain commands.
+#
+#                                   to allow a command to extend into multiple lines,
+#                                   prepend '\' at the end of the previous line.
+#
+#                                   an EOL character signifies the end of the bind.
+
+# add an on_enter command to the default mode
+:: default : /opt/homebrew/bin/yabai -m config active_window_border_color 0xaa33bbaa
+#
+# defines a new mode 'test' with an on_enter command, that captures keypresses
+# :: test @ : chunkc border::color 0xff24ccaa
+#
+# from 'default' mode, activate mode 'test'
+# cmd - x ; test
+#
+# from 'test' mode, activate mode 'default'
+# test < cmd - x ; default
+#
+# launch a new terminal instance when in either 'default' or 'test' mode
+# default, test < cmd - return : open -na /Applications/Terminal.app
+
+# application specific bindings
+# remap Firefox shortcuts to allow using ctrl instead of cmd
+ctrl - t [
+    "Firefox"   : skhd -k "cmd - t"
+]
+ctrl - w [
+    "Firefox"   : skhd -k "cmd - w"
+]
+ctrl - k [
+    "Firefox"   : skhd -k "cmd - k"
+]
+ctrl - r [
+    "Firefox"   : skhd -k "cmd - r"
+]
+ctrl - 0x1E [ # [
+    "Firefox"   : skhd -k "cmd - 0x1E"
+]
+ctrl - 0x21 [ # ]
+    "Firefox"   : skhd -k "cmd - 0x21"
+]
+ctrl - c [
+    "Firefox"   : skhd -k "cmd - c"
+]
+ctrl - v [
+    "Firefox"   : skhd -k "cmd - v"
+]
+ctrl - l [
+    "Firefox"   : skhd -k "cmd - l"
+]
+
+# specify a file that should be included as an additional config-file.
+# treated as an absolutepath if the filename begins with '/' otherwise
+# the file is relative to the path of the config-file it was loaded from.
+#
+# .load "/Users/Koe/.config/partial_skhdrc"
+# .load "partial_skhdrc"
+
+# prevent skhd from monitoring events for specific applications.
+#
+.blacklist [
+#   "kitty"
+#   "terminal"
+   "qutebrowser"
+]
+
+# open terminal, blazingly fast compared to iTerm/Hyper
+alt - return : /Applications/Kitty.app/Contents/MacOS/kitty --single-instance -d ~
+
+# focus window (stack / bsp)
+alt - h : if [ "$(/opt/homebrew/bin/yabai -m query --spaces --space | jq -r '.type')" = "stack" ]; then \
+            /opt/homebrew/bin/yabai -m window --focus stack.first; \
+          else \
+            /opt/homebrew/bin/yabai -m window --focus west || /opt/homebrew/bin/yabai -m display --focus west || /opt/homebrew/bin/yabai -m window --focus last; \
+          fi
+alt - l : if [ "$(/opt/homebrew/bin/yabai -m query --spaces --space | jq -r '.type')" = "stack" ]; then \
+            /opt/homebrew/bin/yabai -m window --focus stack.last; \
+          else \
+            /opt/homebrew/bin/yabai -m window --focus east || /opt/homebrew/bin/yabai -m display --focus east || /opt/homebrew/bin/yabai -m window --focus first; \
+          fi
+alt - k : if [ "$(/opt/homebrew/bin/yabai -m query --spaces --space | jq -r '.type')" = "stack" ]; then \
+            /opt/homebrew/bin/yabai -m window --focus stack.prev || /opt/homebrew/bin/yabai -m window --focus stack.first; \
+          else \
+            /opt/homebrew/bin/yabai -m window --focus north || /opt/homebrew/bin/yabai -m display --focus north || /opt/homebrew/bin/yabai -m window --focus last; \
+          fi
+alt - j : if [ "$(/opt/homebrew/bin/yabai -m query --spaces --space | jq -r '.type')" = "stack" ]; then \
+            /opt/homebrew/bin/yabai -m window --focus stack.next || /opt/homebrew/bin/yabai -m window --focus stack.last; \
+          else \
+            /opt/homebrew/bin/yabai -m window --focus south || /opt/homebrew/bin/yabai -m display --focus south || /opt/homebrew/bin/yabai -m window --focus first; \
+          fi
+
+# move managed window (use warp instead of swap)
+# shift + cmd - h : /opt/homebrew/bin/yabai -m window --warp west
+# shift + cmd - l : /opt/homebrew/bin/yabai -m window --warp east
+shift + alt - h : WIN_ID=$(/opt/homebrew/bin/yabai -m query --windows --window | jq '.id'); /opt/homebrew/bin/yabai -m window --warp west; [[ ! $? == 0 ]] && (/opt/homebrew/bin/yabai -m display --focus west; /opt/homebrew/bin/yabai -m window last --insert east; /opt/homebrew/bin/yabai -m window --focus $WIN_ID; /opt/homebrew/bin/yabai -m window --display prev; /opt/homebrew/bin/yabai -m window --focus $WIN_ID);
+shift + alt - l : WIN_ID=$(/opt/homebrew/bin/yabai -m query --windows --window | jq '.id'); /opt/homebrew/bin/yabai -m window --warp east; [[ ! $? == 0 ]] && (/opt/homebrew/bin/yabai -m display --focus east; /opt/homebrew/bin/yabai -m window first --insert west; /opt/homebrew/bin/yabai -m window --focus $WIN_ID; /opt/homebrew/bin/yabai -m window --display next; /opt/homebrew/bin/yabai -m window --focus $WIN_ID);
+shift + alt - k : /opt/homebrew/bin/yabai -m window --warp north
+shift + alt - j : /opt/homebrew/bin/yabai -m window --warp south
+
+# change the horizontal/vertical split
+# alt - e : /opt/homebrew/bin/yabai -m window --toggle split
+
+# change the layout types
+alt - s : /opt/homebrew/bin/yabai -m space --layout stack && /opt/homebrew/bin/yabai -m config left_padding 8 right_padding 6
+alt - e : /opt/homebrew/bin/yabai -m space --layout bsp && /opt/homebrew/bin/yabai -m config left_padding 2 right_padding 2
+alt - w : /opt/homebrew/bin/yabai -m space --layout float && /opt/homebrew/bin/yabai -m config left_padding 2 right_padding 2
+
+# toggle window float at middle of the screen
+alt + shift - space : /opt/homebrew/bin/yabai -m window --toggle float --grid 4:4:1:1:2:2
+# toggle focus from floating window to non-floating window
+alt - space : if [ "$(/opt/homebrew/bin/yabai -m query --spaces --space | jq -r '.type')" != "float" ]; then \
+                if [ $(/opt/homebrew/bin/yabai -m query --windows --window | jq -r '."is-floating"') = "true" ]; then \
+                    /opt/homebrew/bin/yabai -m focus $(/opt/homebrew/bin/yabai -m query --windows --space | jq 'map(select(."is-floating" == false))[0].id') \
+                else \
+                    /opt/homebrew/bin/yabai -m focus $(/opt/homebrew/bin/yabai -m query --windows --space | jq 'map(select(."is-floating"))[0].id') \
+                fi \
+            fi
+
+# toggle sticky
+alt + shift - s : /opt/homebrew/bin/yabai -m window --toggle sticky --toggle topmost --toggle pip
+
+# make floating window fill screen
+alt - 0x29      :   /opt/homebrew/bin/yabai -m window --toggle zoom-fullscreen # "/Users/nikola/.local/bin/skhdrc-extras.sh" /opt/homebrew/bin/yabai_fullscreen
+alt - f      :   /opt/homebrew/bin/yabai -m window --toggle zoom-fullscreen # "/Users/nikola/.local/bin/skhdrc-extras.sh" /opt/homebrew/bin/yabai_fullscreen
+
+# make floating window fill left-half of screen
+# shift + alt - left   : /opt/homebrew/bin/yabai -m window --grid 1:2:0:0:1:1
+
+# create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
+# shift + cmd - n : /opt/homebrew/bin/yabai -m space --create && \
+#                   index="$(/opt/homebrew/bin/yabai -m query --spaces --display | jq 'map(select(."is-native-fullscreen" == false))[-1].index')" && \
+#                   /opt/homebrew/bin/yabai -m window --space "${index}" && \
+#                   /opt/homebrew/bin/yabai -m space --focus "${index}"
+
+# fast focus desktopzzzzzzzzzzzzz
+ctrl - right : /opt/homebrew/bin/yabai -m space --focus next
+# alt + ctrl - l : /opt/homebrew/bin/yabai -m space --focus next
+ctrl - left : /opt/homebrew/bin/yabai -m space --focus prev
+# alt + ctrl - h : /opt/homebrew/bin/yabai -m space --focus prev
+alt - 1 : /opt/homebrew/bin/yabai -m space --focus 1
+alt - 2 : /opt/homebrew/bin/yabai -m space --focus 2
+alt - 3 : /opt/homebrew/bin/yabai -m space --focus 3
+alt - 4 : /opt/homebrew/bin/yabai -m space --focus 4
+alt - 5 : /opt/homebrew/bin/yabai -m space --focus 5
+
+# send window to desktop and follow focus
+# shift + cmd - left : /opt/homebrew/bin/yabai -m window --space prev; /opt/homebrew/bin/yabai -m space --focus prev
+# shift + cmd - h : /opt/homebrew/bin/yabai -m window --space prev; /opt/homebrew/bin/yabai -m space --focus prev
+# shift + cmd - right : /opt/homebrew/bin/yabai -m window --space next; /opt/homebrew/bin/yabai -m space --focus next
+# shift + cmd - l : /opt/homebrew/bin/yabai -m window --space next; /opt/homebrew/bin/yabai -m space --focus next
+shift + alt - 1 : /opt/homebrew/bin/yabai -m window --space 1 && /opt/homebrew/bin/yabai -m space --focus 1
+shift + alt - 2 : /opt/homebrew/bin/yabai -m window --space 2 && /opt/homebrew/bin/yabai -m space --focus 2
+shift + alt - 3 : /opt/homebrew/bin/yabai -m window --space 3 && /opt/homebrew/bin/yabai -m space --focus 3
+shift + alt - 4 : /opt/homebrew/bin/yabai -m window --space 4 && /opt/homebrew/bin/yabai -m space --focus 4
+shift + alt - 5 : /opt/homebrew/bin/yabai -m window --space 5 && /opt/homebrew/bin/yabai -m space --focus 5
+
+# focus monitor
+# ctrl + alt - z  : /opt/homebrew/bin/yabai -m display --focus prev
+# ctrl + alt - 3  : /opt/homebrew/bin/yabai -m display --focus 3
+
+# send window to monitor and follow focus
+# ctrl + cmd - c  : /opt/homebrew/bin/yabai -m window --display next; /opt/homebrew/bin/yabai -m display --focus next
+# ctrl + cmd - 1  : /opt/homebrew/bin/yabai -m window --display 1; /opt/homebrew/bin/yabai -m display --focus 1
+
+# move floating window
+# shift + ctrl - a : /opt/homebrew/bin/yabai -m window --move rel:-20:0
+# shift + ctrl - s : /opt/homebrew/bin/yabai -m window --move rel:0:20
+
+# resize window size
+# alt + shift - o : /opt/homebrew/bin/yabai -m window --resize left:-20:0; /opt/homebrew/bin/yabai -m window --resize top:0:-20
+# alt + shift - i : /opt/homebrew/bin/yabai -m window --resize left:+20:0; /opt/homebrew/bin/yabai -m window --resize top:0:+20
+# Resize windows
+ctrl + alt - h : /opt/homebrew/bin/yabai -m window --resize left:-50:0; \
+                  /opt/homebrew/bin/yabai -m window --resize right:-50:0
+ctrl + alt - j : /opt/homebrew/bin/yabai -m window --resize bottom:0:50; \
+                  /opt/homebrew/bin/yabai -m window --resize top:0:50
+ctrl + alt - k : /opt/homebrew/bin/yabai -m window --resize top:0:-50; \
+                  /opt/homebrew/bin/yabai -m window --resize bottom:0:-50
+ctrl + alt - l : /opt/homebrew/bin/yabai -m window --resize right:50:0; \
+                  /opt/homebrew/bin/yabai -m window --resize left:50:0
+
+# set insertion point in focused container
+# ctrl + alt - h : /opt/homebrew/bin/yabai -m window --insert west
+
+# Rotate on X and Y Axis
+# shift + alt - x : /opt/homebrew/bin/yabai -m space --mirror x-axis
+# shift + alt - y : /opt/homebrew/bin/yabai -m space --mirror y-axis
