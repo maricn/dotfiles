@@ -125,6 +125,10 @@ ctrl - l [
    "qutebrowser"
 ]
 
+
+# take a screenshot, interactive selection; save to ~/Pictures/screenshots/standup/Y-m-d/HHMMSS.png
+shift - f9 : source "/Users/nikola/.local/bin/skhdrc-extras.sh" && daily_standup_screenshot
+
 # open terminal, blazingly fast compared to iTerm/Hyper
 alt - return : /Applications/Kitty.app/Contents/MacOS/kitty --single-instance -d ~
 
