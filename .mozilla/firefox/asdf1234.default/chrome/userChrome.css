@@ -7,6 +7,11 @@
     visibility: collapse !important;
 }
 
+/* Hide firefox title bar (in addition to the Firefox->Customize Toolbars->Hide Titlebar) */
+#titlebar {
+  display: none !important;
+}
+
 /* Hide TST header on top of the sidebar */
 #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
   display: none;
@@ -68,6 +73,13 @@ browser[type=content-primary],browser[type=content] > html {
 :root {
     /*tab flash on new tab*/
     --in-content-page-background: #1D1B19 ;
+}
+
+/* darken the background on newtab in newer versions 
+ * of firefox (at least 118+, maybe since before) */
+html#main-window body vbox#appcontent 
+hbox.browserSidebarContainer.newTabBrowserPanel.deck-selected {
+  z-index: -1; /* sideeffect: this will disable right click context menu on new tabs */
 }
 
 /*
