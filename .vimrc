@@ -10,8 +10,8 @@ call plug#begin('~/.vim/plugged')
 " Productivity
 " JIRA {{{
   """ Plug 'paulkass/jira-vim'
-  Plug 'n0v1c3/vira', { 'do': './install.sh', 'branch': 'VIRA-247' }  " JIRA integration
-  Plug 'ActivityWatch/aw-watcher-vim'     " Track keyboard usage
+  " Plug 'n0v1c3/vira', { 'do': './install.sh', 'branch': 'VIRA-247' }  " JIRA integration
+  " Plug 'ActivityWatch/aw-watcher-vim'     " Track keyboard usage
 " }}} JIRA
 " TaskWarrior {{{
   " Plug 'blindFS/vim-taskwarrior'          " TaskWarrior todo list manager
@@ -47,7 +47,7 @@ Plug 'yaroot/vissort'                   " DrChip's Visual block based sorting
 Plug 'ConradIrwin/vim-bracketed-paste'  " Detect clipboard paste (auto :set paste!)
 " Plug 'jremmen/vim-ripgrep'              " Use ripgrep for search - deprecated in favor of vim-grepper
 " temporarily until merged to mhinz/vim-grepper
-Plug 'trsdln/vim-grepper'                " grep using your fav grepper
+Plug 'mhinz/vim-grepper'                " grep using your fav grepper
 Plug 'majutsushi/tagbar'                " Tagbar (right side thing to show functions), also used to jump to functions
 Plug 'mbbill/undotree'                  " The undo history visualizer for VIM
 Plug 'bkad/CamelCaseMotion'
@@ -146,6 +146,8 @@ set mouse=a
 set hidden
 set wildmode=list:longest
 set number relativenumber
+" supposed to fix slowness caused by vim-nerdtree-syntax-highlight
+set lazyredraw
 set title
 set ruler
 set nospell
@@ -168,7 +170,8 @@ set wildignore=*/node_modules/*
 " overwritten text into the buffer, but just paste over it)
 xnoremap p "_dP
 
-autocmd vimenter * :AWStart
+" disabled autowatcher on work osx
+" autocmd vimenter * :AWStart
 
 " Customize view {{{
   syntax on
@@ -322,7 +325,7 @@ let g:fugitive_summary_format = '%s (%cr) <%an>'
 
 " coc.nvim {{{
   " Use system node executable (coc.nvim requires newer node version).
-  let g:coc_node_path = '/home/nikola/.nvm/versions/node/v14.15.4/bin/node'
+  let g:coc_node_path = "$HOME/.nvm/versions/node/v18.12.1/bin/node"
 
   " Use ,c to suggest actions in lines that have a hint.
   " old :CocAction version not working anymore, moving to
