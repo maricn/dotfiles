@@ -1,0 +1,90 @@
+{
+    "title": "Cmd-H, Cmd-Opt-H, Cmd-M - Nikola",
+    "rules": [
+        {
+            "description": "Disable Cmd+Opt+H Hide",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "description": "",
+                    "from": {
+                        "key_code": "h",
+                        "modifiers": {
+                            "mandatory": [
+                                "command", "option"
+                            ],
+                            "optional": ["fn"]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "vk_none"
+                        }
+                    ],
+                    "conditions": [
+                      {
+                        "type": "frontmost_application_unless",
+                        "bundle_identifiers": [
+                            "^com\\.apple\\.Terminal$",
+                            "^com\\.googlecode\\.iterm2$"
+                        ]
+                      }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "Disable Cmd+H Hide",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "description": "",
+                    "from": {
+                        "key_code": "h",
+                        "modifiers": {
+                            "mandatory": [
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "vk_none"
+                        }
+                    ],
+                    "conditions": [
+                      {
+                        "type": "frontmost_application_unless",
+                        "bundle_identifiers": [
+                            "^com\\.apple\\.Terminal$",
+                            "^com\\.googlecode\\.iterm2$"
+                        ]
+                      }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "Disable Cmd+M Minimize",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "description": "",
+                    "from": {
+                        "key_code": "m",
+                        "modifiers": {
+                            "mandatory": [
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "vk_none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
