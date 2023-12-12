@@ -5,7 +5,21 @@
 :root {
   --tridactyl-bg: #1d1b19 !important;
   --tridactyl-fg: white !important;
+  /* --in-content-page-background: #1d1b19 !important; */
+  /* --in-content-page-color: white !important; */
+  /* --in-content-box-background: #1d1b19; */
+  /* --in-content-box-background-odd: black; */
 }
+
+/* this will affect also background of about:addons and similar pages but in a weird way
+@-moz-document url-prefix('about:')
+{
+  html:not(#ublock0-epicker),
+  html:not(#ublock0-epicker) body,
+  #newtab-customize-overlay {
+    background: #1d1b19;
+  }
+} */
 
 /* will not only work on empty page, but will also affect other web pages */
 /* .TridactylThemeMaricn-base16-gruvbox-dark-hard body, */
@@ -13,7 +27,9 @@
 /* background: #1d1b19; */
 /* } */
 
-@-moz-document url-prefix(about:home), url-prefix(about:newtab), url-prefix(about:blank) {
+@-moz-document url-prefix('about:home'), 
+/* @-moz-document url-prefix('about:newtab'), does nothing */
+@-moz-document url-prefix('about:blank') {
   html:not(#ublock0-epicker),
   html:not(#ublock0-epicker) body,
   #newtab-customize-overlay {

@@ -52,8 +52,9 @@ browser[type=content-primary],browser[type=content] > html {
 
 /*
  * dark background more from https://gist.github.com/regalstreak/0b293d2a285152410a1181dd56891b76
+ * updated xul -> xhtml with: https://forums.mozillazine.org/viewtopic.php?p=14967528&sid=a369de4f08f40a4c50f72e14ea4ac486#p14967528
  */
-@-moz-document url(chrome://browser/content/browser.xul) {
+@-moz-document url(chrome://browser/content/browser.xhtml) {
     #main-window,
     browser[type="content-primary"],
     browser[type="content"],
