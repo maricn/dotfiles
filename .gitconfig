@@ -20,7 +20,6 @@
 [diff]
     colorMoved = default
 
-
 [pull]
     rebase = false
 [push]
@@ -46,3 +45,5 @@
 
 [includeIf "gitdir:~/Workspace/"]
     path = ~/Workspace/.gitconfig
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/
