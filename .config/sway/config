@@ -71,11 +71,15 @@ set $lock_cmd "swaymsg exec 'swaylock --screenshots --clock --indicator --indica
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output "*" background "$HOME/.cache/wallpaper-bubble" fill
+
+#TODO: get the wallpaper
+# output "*" background "$HOME/.cache/wallpaper-bubble" fill
 
 # check out kanshi and ~/.config/kanshi/config for dynamic output configuration
-output eDP-1 scale 1
-output HDMI-A-1 res 2560x1440
+# output eDP-1 scale 1
+# output HDMI-A-1 res 2560x1440
+# actually, now using way-displays
+exec way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1
 
 
 ### Idle configuration

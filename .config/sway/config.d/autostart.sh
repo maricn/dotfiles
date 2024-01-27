@@ -5,7 +5,7 @@ exec brightnessctl --device='tpacpi::kbd_backlight' s 1 &
 exec sleep 1 && flashfocus &
 exec sleep 1 && keepassxc &
 
-exec sleep 2 && unset QT_QPA_PLATFORMTHEME && chromium &
+# exec sleep 2 && unset QT_QPA_PLATFORMTHEME && chromium &
 exec sleep 2 && unset QT_QPA_PLATFORMTHEME && firefox &
 
 exec sleep 3 && ydotoold &
