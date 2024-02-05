@@ -12,18 +12,7 @@
     "sway/workspaces": {
         "disable-scroll": false,
         "all-outputs": true,
-        "format": "{name}: {icon}",
-        "format-icons": {
-            "1": "", // 📬
-            "2": "",
-            "3": "⏱",
-            "4": "",
-            "5": "",
-            "6": "",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        }
+        "format": "{icon}"
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -92,7 +81,7 @@
     },
     "temperature": {
         // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
         "critical-threshold": 80,
         "format-critical": "{icon} {temperatureC}°C",
         "format": "{icon} {temperatureC}°C",
@@ -179,7 +168,7 @@
         "format-surce-muted": "",
 
         "format-icons": {
-            "headphone": "",
+            "headphone": "  ",
             "hands-free": "",
             "headset": "",
             "phone": "",
