@@ -59,6 +59,7 @@ node_modules/
 !.config/skhd/
 !.config/swappy/
 !.config/sway/
+!.config/systemd/
 !.config/tridactyl/
 !.config/weechat/
 .config/weechat/sec.conf

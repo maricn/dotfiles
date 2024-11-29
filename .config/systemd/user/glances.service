@@ -1,0 +1,9 @@
+[Unit]
+Description=Glances monitor CPU/GPU/HDD
+Requires=network.target htpc.target
+
+[Service]
+ExecStart=/usr/bin/glances -w --disable-process
+
+[Install]
+WantedBy=default.target

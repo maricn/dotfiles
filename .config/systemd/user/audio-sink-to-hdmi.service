@@ -1,0 +1,9 @@
+[Unit]
+Description=Audio Sink to HDMI
+Requires=wireplumber.service pipewire.service pipewire-session-manager.service htpc.target
+
+[Service]
+ExecStart=/home/nikola/.local/bin/wpctl-set-default-hdmi.sh
+
+[Install]
+WantedBy=default.target

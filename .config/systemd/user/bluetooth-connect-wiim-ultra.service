@@ -1,0 +1,11 @@
+[Unit]
+Description=Audio Sink to WiiM Ultra via Bluetooth
+Requires=wireplumber.service pipewire.service pipewire-session-manager.service htpc.target
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c 'systemctl is-active --quiet bluetooth.service || exit 1'
+ExecStart=/home/nikola/.local/bin/bluetooth-connect-wiim-ultra.sh
+
+[Install]
+WantedBy=default.target
