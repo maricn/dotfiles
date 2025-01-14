@@ -78,8 +78,7 @@ set $lock_cmd "swaymsg exec 'swaylock --screenshots --clock --indicator --indica
 # check out kanshi and ~/.config/kanshi/config for dynamic output configuration
 # output eDP-1 scale 1
 # output HDMI-A-1 res 2560x1440
-# actually, now using way-displays
-exec way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1
+# actually, now using way-displays, see ~/.config/sway/config.d/autostart.sh
 
 
 ### Idle configuration
@@ -120,7 +119,7 @@ input type:keyboard {
     #xkb_file ~/.dotfiles/xkb/xkb_arch.xkb
     xkb_layout us,de,rs,hr
     xkb_variant intl
-    xkb_options grp:ctrls_toggle,grp_led:caps
+    xkb_options grp:alt_shift_toggle,grp:ctrls_toggle,grp_led:caps
 }
 
 # Hide mouse cursor after 10 seconds
@@ -136,6 +135,11 @@ seat * xcursor_theme $my_cursor $my_cursor_size
 exec_always {
     gsettings set org.gnome.desktop.interface cursor-theme $my_cursor
     gsettings set org.gnome.desktop.interface cursor-size $my_cursor_size
+}
+
+# 2024-10-13T14:50:19+0200 temp for all mice
+input * {
+    natural_scroll enabled
 }
 
 input "21569:1:TADA_TADA68_Mouse" {
@@ -169,6 +173,11 @@ input "1133:16500:Logitech_G305" {
 
 input "1133:49242:Logitech_USB_Optical_Mouse" {
     natural_scroll enabled
+}
+
+input "1133:50184:Logitech_USB_Trackball" {
+    natural_scroll enabled
+    scroll_method on_button_down
 }
 
 input "76:617:Tiags_Magic_Mouse_1" {
@@ -239,7 +248,8 @@ assign [class="Slack"] number 1
 assign [class="Signal"] number 1
 assign [class="Signal Beta"] number 1
 assign [class="tutanota"] number 1
-assign [class="KeePassXC"] number 1
+assign [class="KeePassXC"] number 2
+assign [app_id="org.keepassxc.KeePassXC"] number 2
 assign [class="Firefox Developer Edition" window_type="normal"] number 2
 assign [class="firefox" window_type="normal"] number 2
 # assign [app_id="firefox" window_type="normal"] number 2
@@ -453,7 +463,8 @@ mode "exit: [x]sway, [l]ock, [s]leep, [r]eboot, [p]oweroff" {
   bindsym x mode "default", exec swaymsg exit
   bindsym l mode "default", exec $lock_cmd
   bindsym r mode "default", exec systemctl reboot
-  bindsym s mode "default", exec systemctl suspend
+  # 2024-06-18T15:44:35+0200 disabled [s]leep due to wake up issues
+  # bindsym s mode "default", exec systemctl suspend
   bindsym p mode "default", exec shutdown --poweroff now
   bindsym Escape mode "default"
   bindsym Return mode "default"
