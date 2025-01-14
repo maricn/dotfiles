@@ -49,7 +49,6 @@ node_modules/
 .config/mps-youtube/input_history
 .config/mps-youtube/cache*
 !.config/mpv
-.config/mpv/*
 !.config/mpv/mpv.conf
 !.config/newsboat
 .config/newsboat/cache.db
@@ -61,6 +60,7 @@ node_modules/
 !.config/sway/
 !.config/systemd/
 !.config/tridactyl/
+!.config/way-displays/
 !.config/weechat/
 .config/weechat/sec.conf
 .config/weechat/weechat.log
