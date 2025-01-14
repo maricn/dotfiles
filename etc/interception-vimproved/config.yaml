@@ -1,0 +1,69 @@
+- intercept: KEY_CAPSLOCK
+  # in case caps2esc -m 2 is used, this will cancel CAPSLOCK completely
+  # otherwise, if vimproved is the only interceptor modifier, pay attention 
+  # that grave/tilde key is available on the keyboard hw
+  # see ~/.dotfiles/etc/interception/udevmon.d/keymod.yaml
+  ontap: KEY_ESC
+  onhold: KEY_LEFTCTRL
+
+- intercept: KEY_ENTER
+  # not necessary: ontap: KEY_ENTER is inferred if left empty
+  onhold: KEY_RIGHTCTRL
+
+- intercept: KEY_BACKSLASH
+  onhold:
+
+  # xf86 brightness
+  - {from: KEY_C, to: KEY_BRIGHTNESSUP}
+  - {from: KEY_X, to: KEY_EJECTCD}
+
+# this is a layer. hold space (onhold) contains several remappings
+- intercept: KEY_SPACE
+  onhold:
+
+  # special chars
+  - from: KEY_E
+    to: KEY_ESC
+
+  # test
+  - {from: KEY_C, to: KEY_BRIGHTNESSUP}
+  - {from: KEY_X, to: KEY_BRIGHTNESSDOWN}
+
+  # alternative syntax
+  - {from: KEY_D, to: KEY_DELETE}
+  - {from: KEY_B, to: KEY_BACKSPACE}
+
+  # vim home row
+  - {from: KEY_H, to: KEY_LEFT}
+  - {from: KEY_J, to: KEY_DOWN}
+  - {from: KEY_K, to: KEY_UP}
+  - {from: KEY_L, to: KEY_RIGHT}
+
+  # vim above home row
+  - {from: KEY_Y, to: KEY_HOME}
+  - {from: KEY_U, to: KEY_PAGEDOWN}
+  - {from: KEY_I, to: KEY_PAGEUP}
+  - {from: KEY_O, to: KEY_END}
+
+  # number row, to F keys
+  - {from: KEY_1, to: KEY_F1}
+  - {from: KEY_2, to: KEY_F2}
+  - {from: KEY_3, to: KEY_F3}
+  - {from: KEY_4, to: KEY_F4}
+  - {from: KEY_5, to: KEY_F5}
+  - {from: KEY_6, to: KEY_F6}
+  - {from: KEY_7, to: KEY_F7}
+  - {from: KEY_8, to: KEY_F8}
+  - {from: KEY_9, to: KEY_F9}
+  - {from: KEY_0, to: KEY_F10}
+  - {from: KEY_MINUS, to: KEY_F11}
+  - {from: KEY_EQUAL, to: KEY_F12}
+
+  # xf86 audio
+  - {from: KEY_M, to: KEY_MUTE}
+  - {from: KEY_COMMA, to: KEY_VOLUMEDOWN}
+  - {from: KEY_DOT, to: KEY_VOLUMEUP}
+
+  # mouse navigation
+  - {from: BTN_LEFT, to: BTN_BACK}
+  - {from: BTN_RIGHT, to: BTN_FORWARD}
