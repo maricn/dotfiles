@@ -1,23 +1,98 @@
+# Start configuration added by Zim install {{{
+#
+# User configuration sourced by interactive shells
+#
+
+# -----------------
+# Zsh configuration
+# -----------------
+
+#
+# History
+#
+setopt NO_BANG_HIST
+setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+# Remove older command from the history if a duplicate is to be added.
+# setopt HIST_IGNORE_ALL_DUPS
+setopt EXTENDED_HISTORY # puts timestamps in the history
+# http://unix.stackexchange.com/questions/273861/unlimited-history-in-zsh
+# You need to set both HISTSIZE and SAVEHIST. They indicate how many lines of history to keep in
+# memory and how many lines to keep in the history file, respectively.
+HISTFILE=~/.zsh_history
+HISTSIZE=999999999
+SAVEHIST=$HISTSIZE
+
+#
+# Input/output
+#
+
+# Set editor default keymap to emacs (`-e`) or vi (`-v`)
+bindkey -v
+
+# Remove path separator from WORDCHARS.
+WORDCHARS=${WORDCHARS//[\/]}
+
+# Append `../` to your input for each `.` you type after an initial `..`
+zstyle ':zim:input' double-dot-expand yes
+
+# --------------------
+# Module configuration
+# --------------------
+
+# Disable automatic widget re-binding on each precmd. This can be set when
+# zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+# Set what highlighters will be used.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+# ------------------
+# Initialize modules
+# ------------------
+
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  if (( ${+commands[curl]} )); then
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  else
+    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  fi
+fi
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE:-${ZDOTDIR:-${HOME}}/.zimrc} ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
+
+# ------------------------------
+# Post-init module configuration
+# ------------------------------
+
+#
+# zsh-history-substring-search
+#
+
+zmodload -F zsh/terminfo +p:terminfo
+# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
+for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
+for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
+for key ('k') bindkey -M vicmd ${key} history-substring-search-up
+for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+unset key
+# }}} End configuration added by Zim install
+
 ### Initialize ssh-agent (has to go before p10k)
 if [ -x "$(command -v keychain)" ]; then
   eval $(keychain --eval --quiet "$HOME/.ssh/id_me_maricn_nikola_2019" "$HOME/.ssh/id_mimi_nikola_maric")
 elif [[ $(hostname) == *"work-"* || $(hostname) == *"home-"* ]]; then
-  eval $(ssh-agent -s)
+  eval "$(ssh-agent -s)" 1>/dev/null
 fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
-# ZSH_THEME="lukerandall"
-# ZSH_THEME="maricn"
-# ZSH_THEME="powerlevel10k/powerlevel10k"
-source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   PATH_USRBIN="/opt/homebrew/Cellar";
@@ -28,13 +103,13 @@ else
   alias gsed=sed
 fi
 
-  # export LC_CTYPE=en_US.UTF-8
-  # Exports and autoloading {{{
+# Exports and autoloading {{{
   export LC_ALL=en_US.UTF-8
   # Setting for nano to figure out I want it in English
   export LANG=en_US.UTF-8
   # ISO-8601 and I accept nothing else, please fuck off
   export LC_TIME=en_DK.UTF-8
+  # export LC_CTYPE=en_US.UTF-8
 
   export GPG_TTY=`tty`
   export XDG_CONFIG_HOME="$HOME/.config"
@@ -42,7 +117,7 @@ fi
   export WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
 
   # ~/.local/bin/url_handler.sh uses $BROWSER (for urlview/newsboat/neomutt)
-  export BROWSER=firefox
+  export BROWSER=librewolf
   # So xdg-open (and opening links from other apps) would use proper firefox
   export MOZ_ENABLE_WAYLAND=1
 
@@ -85,14 +160,9 @@ fi
     # _JAVA_AWT_WM_NONREPARENTING=1 - used for java applications to fix them being completely blank (tinyMediaManager)
     # WLR_DRM_NO_MODIFIERS=1        - fix for black screens when plugging in/out displays (https://github.com/swaywm/sway/issues/6167)
     alias startsway='export $(dbus-launch) && WAYLAND_DEBUG=0 XDG_CURRENT_DESKTOP=sway _JAVA_AWT_WM_NONREPARENTING=1 WLR_DRM_NO_MODIFIERS=1 sway 2>&1 >~/sway.$(date +"%Y-%m-%d").log'
+    source "$HOME/.dotfiles/zsh/git.plugin.zsh"
   # }}} Shortcuts w/ arguments
 # }}} Aliases
-
-# Use wayland/swaywm firefox
-unalias firefox 2>/dev/null
-function firefox() {
-  MOZ_ENABLE_WAYLAND=1 /usr/bin/firejail /usr/bin/firefox "$@"
-}
 
 # Use sudoedit instead, it's safer
 # alias sudoe='sudo -E PATH=$PATH'
@@ -118,34 +188,8 @@ alias radio_paradise_320aac_rock_mixup='radio http://stream-uk1.radioparadise.co
 alias radio_krawallradio_unknown_deutschrock='radio http://yokote.streampanel.net:8124/stream'
 
 DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how often before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
-
 # Uncomment following line if you want to disable autosetting terminal title.
 DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want to disable command autocorrection
-# DISABLE_CORRECTION="true"
-
-# Uncomment following line if you want to disable marking untracked files under
-# VCS as dirty. This makes repository status check for large repositories much,
-# much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# http://unix.stackexchange.com/questions/273861/unlimited-history-in-zsh
-# You need to set both HISTSIZE and SAVEHIST. They indicate how many lines of history to keep in
-# memory and how many lines to keep in the history file, respectively.
-HISTFILE=~/.zsh_history
-HISTSIZE=999999999
-SAVEHIST=$HISTSIZE
-
-# Settings
-setopt NO_BANG_HIST
-setopt SHARE_HISTORY
-setopt INC_APPEND_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt EXTENDED_HISTORY # puts timestamps in the history
 
 setopt dot_glob
 
@@ -162,14 +206,6 @@ zstyle ':completion:*:kill:*' force-list always
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,cputime,command'
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras urltools pip common-aliases docker docker-compose docker-helpers globalias highlight zsh-autosuggestions history-substring-search fzf mvn kubetail minikube k8s)
-# zsh-nvm # REMOVED DUE TO INCREASE IN STARTUP TIME
-# shrink-path # REMOVED BC USING P10K now
-# pyenv # REMOVED BC NOT BEING USED SO MUCH ANYMORE (and it was complaining it needs to be initialized and in the PATH in order to work)
-
 # In addition to oh-my-zsh plugins, use zplug for managing zsh plugins
 # source /usr/share/zsh/scripts/zplug/init.zsh
 # zplug "wfxr/forgit"
@@ -183,16 +219,20 @@ plugins=(git git-extras urltools pip common-aliases docker docker-compose docker
 # source "$HOME/Tools/virtualenv-autodetect/virtualenv-autodetect.plugin.zsh"
 
 # add brew completions to FPATH before sourcing oh-my-zsh as it needs to call compinit
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
 # source oh-my-zsh before importing externals as they rely on compdef
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # External scripts {{{
+  # Set up fzf key bindings and fuzzy completion
+  source <(fzf --zsh)
   # Source these before our own `bindkeys` so that we can override stuff
   # But after plugins so we override their behavior with stuff here
   scripts_to_source=(
     #${HOME}/Tools/dht/dht-complete.zsh
-    #${HOME}/.dotfiles/zsh/fzf-helpers.zsh
+    #"${HOME}/.dotfiles/zsh/fzf-helpers.zsh"
   )
 
   for script in $scripts_to_source; do
@@ -209,11 +249,13 @@ bindkey '∆' history-beginning-search-forward
 ## use alt+k and alt+j keys for old history lookup
 bindkey '\ek' history-beginning-search-backward
 bindkey '\ej' history-beginning-search-forward
+## use ctrl+k to remove the rest of the line, basically in vim: d$
+bindkey '^K' kill-line
 
 # Aliases {{{
   # Unalias {{{
     # https://github.com/muesli/duf vs common-aliases
-    unalias duf
+    # unalias duf - not necessary now
     # http://www.graphicsmagick.org/ vs git-merge
     unalias gm
     # use rg as grep vs common-aliases
@@ -223,6 +265,7 @@ bindkey '\ej' history-beginning-search-forward
   # change standard behavior {{{
     # 🌈
     alias ls="lsd"
+    alias la="ls -alh"
     alias lat="la --sort=time"
     # 🦇
     if [[ "$OSTYPE" != "darwin"* ]]; then
@@ -254,7 +297,7 @@ export GITHUB_USER=3995223+maricn@users.noreply.github.com
 ## Platform / Use case dependent
 if [[ $(hostname) == *"work-"* ]]; then
   ### Work specific
-  source "$HOME/.mimi"
+  source "$HOME/.zshrc_work"
 else
   export PATH="$PATH:/home/nikola/Tools/F8331/android/platform-tools"
 
@@ -279,11 +322,11 @@ export GOPATH="$HOME/go"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:$HOME/Library/Python/3.9/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH:"/opt/homebrew/Cellar:${KREW_ROOT:-$HOME/.krew}/bin:/opt/homebrew/opt/php@8.0/bin:/opt/homebrew/opt/php@8.0/sbin:/opt/homebrew/opt/mysql-client/bin"
 # export PATH="$(pyenv root)/shims:$HOME/.local/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
-# if command -v pyenv 1>/dev/null 2>&1; then
+if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
   # eval "$(pyenv init -)"
   # eval "$(pyenv virtualenv-init -)"
-# fi
+fi
 
 # Utilities {{{
   function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
@@ -291,7 +334,7 @@ export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:$HOME/Library/Py
   # z.lua {{{
     # for fuzzy directory navigation
     # https://github.com/skywind3000/z.lua
-    eval "$(lua ""$HOME/.local/bin/z.lua"" --init zsh enhanced)"
+    eval "$(lua ""$HOME/.local/bin/z"" --init zsh enhanced)"
 
     # Always pass to fzf, and don't use `fzf -e`
     # unalias z 2> /dev/null
@@ -349,7 +392,7 @@ export rmzip() {
   unzip -l $1 | head -n -2 | tail -n +4 | awk '{print $4}' | sort -r | while read file; do if [ -d "$file" ]; then rmdir "$file"; else rm -f "$file"; fi; done
 }
 
-source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # Software Development (Node.JS) {{{
   # NVM - Node Version Manager
   if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -419,9 +462,6 @@ source "$HOME/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # disabled loading onepassword plugin for 2fa (for glab atm) as it just won't work
 # source /Users/nikola/.config/op/plugins.sh
