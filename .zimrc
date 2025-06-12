@@ -26,10 +26,13 @@ zmodule utility
 
 # Exposes to prompts how long the last command took to execute, used by asciiship.
 # zmodule duration-info
-# Exposes git repository status information to prompts, used by asciiship.
-# zmodule git-info
 # A heavily reduced, ASCII-only version of the Spaceship and Starship prompts.
 # zmodule asciiship
+
+# Exposes git repository status information to prompts, used by asciiship.
+#zmodule git-info
+# Using my modified version that does branch name shortening
+zmodule maricn/git-info
 
 #
 # Completion
@@ -44,8 +47,12 @@ zmodule completion
 #
 # Theme
 #
+# Needed to show the current working dir
 zmodule prompt-pwd
+# Lambda left, workdir+gitbranch right
 zmodule minimal
+# Arrow+workdir+gitbranch+checkmark left
+# zmodule gitster
 
 #
 # Modules that must be initialized last
