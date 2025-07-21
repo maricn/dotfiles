@@ -7,6 +7,8 @@
     editor = nvim
     pager = delta
     excludesFile = ~/.dotfiles/.gitignore_global
+[credential]
+	helper = store
 
 [delta]
     plus-style = syntax "#012800"
@@ -16,14 +18,20 @@
     diffFilter = delta --color-only
 [delta]
     navigate = true    # use n and N to move between diff sections
-    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    light = true       # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
 [diff]
-    colorMoved = default
+    ; https://blog.gitbutler.com/how-git-core-devs-configure-git/ said plain colorMoved = default
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
 
 [pull]
     rebase = false
 [push]
     autoSetupRemote = false     # use gpsu to --set-upstream
+    default = simple
+    followTags = true
 [alias]
     project-summary = !which onefetch && onefetch
 [init]
@@ -45,5 +53,42 @@
 
 [includeIf "gitdir:~/Workspace/"]
     path = ~/Workspace/.gitconfig
-[url "ssh://git@github.com/"]
-    insteadOf = https://github.com/
+
+
+# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+
+[column]
+        ui = auto
+[branch]
+        sort = -committerdate
+[tag]
+        sort = version:refname
+[fetch]
+        prune = true
+        pruneTags = true
+        all = true
+
+# why the hell not?
+
+[help]
+        autocorrect = prompt
+[commit]
+        verbose = true
+[rerere]
+        enabled = true
+        autoupdate = true
+[rebase]
+        autoSquash = true
+        autoStash = true
+        updateRefs = true
+
+# a matter of taste (uncomment if you dare)
+
+[core]
+        # fsmonitor = true
+        # untrackedCache = true
+[merge]
+        # (just 'diff3' if git version < 2.3)
+        conflictstyle = zdiff3 
+[pull]
+        # rebase = true

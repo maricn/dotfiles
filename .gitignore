@@ -1,3 +1,8 @@
+# Dotter dotfile management
+.dotter/local.toml
+.dotter/cache.toml
+.dotter/cache
+
 *.orig
 node_modules/
 
