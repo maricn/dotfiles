@@ -153,6 +153,7 @@ fi
     alias parufzfinstall='paru -Slq | fzf -m --preview "paru -Si {1}" | sudo paru -S -'
     alias fp='/home/nikola/Tools/1pass/1pass | fzf --preview "/home/nikola/Tools/1pass/1pass -p {}" --bind "enter:execute(/home/nikola/Tools/1pass/1pass {})"'
     alias ssh='TERM=xterm-256color ssh'
+    alias lzd='lazydocker'
     # ~~~~~~~~ startsway ~~~~~~~~~~~
     # export $(dbus-launch)         - will export some envvars necessary for ???
     # WAYLAND_DEBUG=0               - turn off wayland debug output
@@ -320,7 +321,8 @@ fi
 export GRADLE_USER_HOME="$HOME/.gradle"
 export GOPATH="$HOME/go"
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:$HOME/Library/Python/3.9/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH:"/opt/homebrew/Cellar:${KREW_ROOT:-$HOME/.krew}/bin:/opt/homebrew/opt/php@8.0/bin:/opt/homebrew/opt/php@8.0/sbin:/opt/homebrew/opt/mysql-client/bin"
+
+export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:$HOME/Library/Python/3.9/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH:"/opt/homebrew/Cellar:${KREW_ROOT:-$HOME/.krew}/bin:/opt/homebrew/opt/php@8.0/bin:/opt/homebrew/opt/php@8.0/sbin:/opt/homebrew/opt/mysql-client/bin:$XDG_CONFIG_HOME/composer/vendor/bin/"
 # export PATH="$(pyenv root)/shims:$HOME/.local/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:$GOPATH/bin:/usr/local/go/bin:$HOME/.fzf/bin:$HOME/Tools/git-fuzzy/bin":$PATH
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"

@@ -11,7 +11,7 @@
 # Sets sane Zsh built-in environment options.
 zmodule environment
 # Provides handy git aliases and functions.
-#zmodule git - source .dotfiles/zsh/git.plugin.zsh from .zshrc
+#zmodule git - disabled in favour of source .dotfiles/zsh/git.plugin.zsh from .zshrc
 #zmodule 'wfxr/forgit'
 # Applies correct bindkeys for input events.
 zmodule input
