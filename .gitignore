@@ -76,6 +76,7 @@ node_modules/
 !.config/wofi/
 !.config/waybar/
 !.config/yay/
+!.config/zathura/
 
 # Local (to be symlinked), mostly ~/.local/bin/*
 !.local/
