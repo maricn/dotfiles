@@ -288,7 +288,11 @@ alias greln=git-release-notes
 
 function grco() {
   UNIQUE_BRANCHES=$(git reflog | /usr/bin/grep -Eio 'moving from ([^[:space:]]+)' | awk '{ print $3 }' | awk ' !x[$0]++' | head "-n${1:-10}")
-  [ -z "$1" ] && echo "$UNIQUE_BRANCHES" | fzf | xargs -I{} git checkout {} || git checkout "$(echo $UNIQUE_BRANCHES | tail -n1)"
+  if [ -z "$1" ]; then
+    echo "$UNIQUE_BRANCHES" | fzf | xargs -I{} git checkout {}
+  else
+    git checkout "$(echo $UNIQUE_BRANCHES | tail -n1)"
+  fi
 }
 alias grco1='grco 1'
 alias grco2='grco 2'
