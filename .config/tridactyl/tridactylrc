@@ -25,7 +25,9 @@ unbind <C-d>
 unbind <C-u>
 " unbind firefox shortcuts, but use default tridactyl
 unbind <C-f> --mode=browser
+unbind <C-f>
 unbind <C-b> --mode=browser
+unbind <C-b>
 " clipboard tabopen
 unbind p
 unbind P
@@ -69,6 +71,9 @@ bind <Escape> composite mode normal ; hidecmdline ; nohlsearch
 bind --mode=ex <ArrowRight> ex.insert_completion
 
 bind --mode=insert <CA-i> editor
+
+# Fix for DDG https://github.com/tridactyl/tridactyl/issues/5174
+bindurl ^https://duckduckgo.com gi focusinput
 
 " For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
 " vim: set filetype=tridactyl
