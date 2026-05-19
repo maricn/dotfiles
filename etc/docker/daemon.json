@@ -1,0 +1,1 @@
+{ "default-address-pools": [ {"base":"172.16.0.0/12","size":26}, {"base":"10.0.0.0/8","size":26} ] }
