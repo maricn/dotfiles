@@ -6,6 +6,8 @@
 # versions of acpid), we skip this script. (Purging and reinstalling acpid
 # resolves this situation, or simply deleting /etc/acpi/events/powerbtn.)
 
+exit 0
+
 if [ -f /etc/acpi/events/powerbtn -o -f /etc/acpi/events/powerbtn.dpkg-bak ] ; then 
 	logger Acpi-support not handling power button, acpid handler exists at /etc/acpi/events/powerbtn or /etc/acpi/events/powerbtn.dpkg-bak.
 	exit 0
