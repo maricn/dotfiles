@@ -1,0 +1,7 @@
+[user]
+    name = CHANGE_ME
+    email = CHANGE_ME
+[core]
+    ; sshCommand = ssh -o IdentitiesOnly=yes -i ~/.ssh/CHANGE_ME
+
+# vim: set ft=gitconfig:

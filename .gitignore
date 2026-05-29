@@ -39,6 +39,8 @@ node_modules/
 !.config/flashfocus/
 !.config/fontconfig/
 !.config/git/
+.config/git/users/**
+!.config/git/users/template
 !.config/gammastep/
 !.config/i3/
 !.config/i3status/

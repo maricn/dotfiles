@@ -1,14 +1,30 @@
 [user]
-    email = 3995223+maricn@users.noreply.github.com
-    name = Nikola Marić
+    name = CHANGE_ME
+    email = CHANGE_ME
 [hub]
     protocol = https
 [core]
     editor = nvim
     pager = delta
-    excludesFile = ~/.dotfiles/.gitignore_global
+    excludesFile = ~/.config/git/.gitignore_global
 [credential]
 	helper = store
+
+# Use hasconfig to check if the remote URL is Github.
+[includeIf "hasconfig:remote.*.url:https://*.github.com/**"]
+    path = ~/.config/git/users/github-maricn
+[includeIf "hasconfig:remote.*.url:git@*.github.com:*/**"]
+    path = ~/.config/git/users/github-maricn
+# Use workspace gitconfig for work
+[includeIf "gitdir:~/.ansible/"]
+    path = ~/Workspace/.gitconfig
+[includeIf "gitdir:~/Workspace/"]
+    path = ~/Workspace/.gitconfig
+# Use hasconfig to check if the remote URL is Codeberg
+[includeIf "hasconfig:remote.*.url:https://*.codeberg.org/**"]
+    path = ~/.config/git/users/codeberg-maricn
+[includeIf "hasconfig:remote.*.url:git@*.codeberg.org:*/**"]
+    path = ~/.config/git/users/codeberg-maricn
 
 [delta]
     plus-style = syntax "#012800"
@@ -51,9 +67,6 @@
     textconv = catppt
     binary = true
 
-[includeIf "gitdir:~/Workspace/"]
-    path = ~/Workspace/.gitconfig
-
 
 # https://blog.gitbutler.com/how-git-core-devs-configure-git/
 
@@ -89,6 +102,7 @@
         # untrackedCache = true
 [merge]
         # (just 'diff3' if git version < 2.3)
-        conflictstyle = zdiff3 
+        # 2025-07-24 - could be this merge conflict resolution failed for one case
+        # conflictstyle = zdiff3 
 [pull]
         # rebase = true

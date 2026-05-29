@@ -1,0 +1,70 @@
+[helpers]
+
+[default]
+depends = []
+[default.files]
+".config/tridactyl/" = "~/.config/tridactyl/"
+".config/.curlrc" = "~/.curlrc"
+".config/zathura" = "~/.config/zathura"
+".config/git" = "~/.config/git"
+".config/git/.gitconfig" = "~/.gitconfig"
+# ".gitconfig" = "~/.gitconfig"
+".config/git/.git_template" = "~/.git_template"
+Library = ""
+Tools = ""
+"anagram-solver.sh" = ""
+dotfile-symlinks = ""
+iTerm2 = ""
+"link.sh" = ""
+"logcat-colored.py" = ""
+pacstrap = ""
+"stylus-2020-05-19.json" = ""
+"urxvt-quake.sh" = ""
+xkb = ""
+[default.variables]
+
+[linux]
+[linux.files]
+".local" = "~/.local"
+"etc/acpi/events/powerbtn-acpi-support" = "/etc/acpi/events/powerbtn-acpi-support"
+"etc/acpi/powerbtn-acpi-support.sh" = "/etc/acpi/powerbtn-acpi-support.sh"
+"etc/interception-vimproved/config.yaml" = "/etc/interception-vimproved/config.yaml"
+"etc/docker/daemon.json" = "/etc/docker/daemon.json"
+#etc = "/etc"
+#usr = "/usr"
+
+[zsh]
+depends = ["default"]
+[zsh.files]
+".zshrc" = { target = "~/.zshrc", type = "symbolic" }
+".zimrc" = { target = "~/.zimrc", type = "symbolic" }
+#".zprofile" = { target = "~/.zshrc", type = "template" }
+
+[graphic]
+[graphic.files]
+".config/fontconfig/" = "~/.config/fontconfig/"
+
+[firefox]
+depends = ["graphic"]
+[firefox.files]
+# this needs to be overriden in local.toml
+".mozilla/firefox/asdf1234.default/chrome" = ""
+[librewolf]
+depends = ["graphic"]
+[librewolf.files]
+# this needs to be overriden in local.toml
+".mozilla/firefox/asdf1234.default/chrome" = ""
+
+[xorg]
+depends = ["graphic","linux"]
+
+[wayland]
+depends = ["graphic","linux"]
+[wayland.files]
+".config/mako" = "~/.config/mako/"
+".config/way-displays" = "~/.config/way-displays/"
+"etc/acpi/events/jack-hdmi" = "/etc/acpi/events/jack-hdmi"
+"etc/acpi/jack-hdmi-swaywm.sh" = "/etc/acpi/jack-hdmi-swaywm.sh"
+
+[settings]
+default_target_type = "automatic"

@@ -4,6 +4,13 @@
 .helpers/
 .helpers.mjs/
 .netcat/
+## LLMs
+.ai/
+.agents/
+AGENTS.md
+opencode**
+boost.json
+
 
 # OSX stuff
 .DS_Store
@@ -41,3 +48,5 @@ out
 .gradletasknamecache
 .jenv.sh
 .sdkmanrc
+
+# vim: set ft=gitignore:
