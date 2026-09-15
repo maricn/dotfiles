@@ -1,0 +1,76 @@
+# Auth with polkit-gnome:
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Import environment variables for user systemd service manager
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+
+# Update dbus environments with display variables
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+
+# way displays for monitor management
+exec way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1
+
+# Idle configuration
+exec swayidle idlehint 1
+exec_always swayidle -w before-sleep "gtklock -d"
+
+# Desktop notifications
+exec mako
+
+# Dynamic wallpaper change
+# exec sunpaper -c && sunpaper &
+# exec mpvpaper -vs \
+#   -o "no-audio loop video-unscaled speed=0.5 video-pan-y=0.1 video-pan-x=0.02" \
+#   eDP-1 ~/Pictures/blue-dark-galaxy-moewalls-com.mp4 &
+
+# Start foot server
+exec_always --no-startup-id foot --server
+
+# Autotiling
+# exec autotiling --limit 2 --splitwidth 0.77
+exec autotiling --limit 2 --splitwidth 0.60
+
+# cliphist
+# exec wl-paste --type text --watch cliphist store
+# exec wl-paste --type image --watch cliphist store
+exec sleep 3 && unset QT_QPA_PLATFORMTHEME && QT_QPA_PLATFORM=wayland copyq &
+     
+# Network Applet
+exec nm-applet --indicator
+
+# Firewall Applet
+exec sleep 5 && firewall-applet
+
+exec librewolf
+exec keepassxc
+exec thunderbird
+exec sleep 2 && footclient
+exec sleep 2 && signal-desktop
+
+### grep 'Name|Exec' ~/.local/share/applications/FFPWA-*.desktop ###
+# SchildiChat
+# exec sleep 4 && exo-open $HOME/.local/share/applications/FFPWA-01KAB5147TPT2T355WARZGR5N1.desktop
+# M$ Teams
+exec sleep 4 && exo-open $HOME/.local/share/applications/FFPWA-01KQC7TNJMVVZJW5RFB8EH6QYB.desktop
+# Mailbox Suite
+# exec sleep 4 && exo-open $HOME/.local/share/applications/FFPWA-01K8GRWTQSJZT1W9SKSY255C8Q.desktop
+# WhatsApp Web
+# exec sleep 4 && exo-open $HOME/.local/share/applications/FFPWA-01K1T3F7KT970F15PBK3MYTNE2.desktop
+# Telegram Web
+# exec sleep 4 && exo-open $HOME/.local/share/applications/FFPWA-01JVS00H594X3R30JK7F593PQ9.desktop
+
+# Welcome App
+# exec eos-welcome --startdelay=3
+
+# Sway Fader
+# exec python3 ~/.config/sway/scripts/swayfader.py
+
+# nwg-drawer
+exec_always nwg-drawer -r -c 7 -is 90 -mb 10 -ml 50 -mr 50 -mt 10
+
+# ydotool, per https://gabrielstaples.com/ydotool-tutorial/
+# actually, using systemctl --user start ydotool
+#exec ydotoold --socket-path="/run/user/$(id -u)/.ydotool_socket" --socket-own="$(id -u):$(id -g)"
+
+# vim: set ft=swayconfig:

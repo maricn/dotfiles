@@ -1,0 +1,56 @@
+# Apply gtk theming
+exec_always ~/.config/sway/scripts/import-gsettings
+
+# Set inner/outer gaps
+gaps inner 2
+gaps outer 0
+
+# Hide titlebar on windows:
+default_border pixel 1
+
+# Default Font
+#font pango:Noto Sans Regular 10
+font pango:monospace 10
+
+# Thin borders:
+smart_borders on
+
+# Set wallpaper:
+# exec ~/.azotebg
+# autostart_applications: exec sunpaper &
+
+# Title format for windows
+for_window [shell="xdg_shell"] title_format "%title (%app_id)"
+for_window [shell="x_wayland"] title_format "%class - %title"
+
+set $bg-color 	         #995588
+set $urgent-bg-color     #f62e4e
+set $inactive-bg-color   #311131
+set $text-color          #000000
+set $inactive-text-color #86888c
+# class                 border  bground text    indicator child_border
+# client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+# client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+# client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+# client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+# client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+# client.background       #F8F8F2
+# window colors
+# class                 border              background         text                 indicator       child_border                 
+client.focused          $bg-color           $bg-color          $text-color          #00ff00         $bg-color
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00         $inactive-bg-color 
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00         $inactive-bg-color 
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00         $urgent-bg-color          
+client.placeholder      $inactive-bg-color  #0c0c0c 	       #ffffff              #212121         #262626
+client.background       #212121
+# class                 border              backgr.            text                 indicator       child_border
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    swaybar_command waybar
+}
+
+# vim: set ft=swayconfig:

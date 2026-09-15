@@ -1,0 +1,271 @@
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+
+# Add Vim key support
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Set default terminal emulator
+set $term footclient
+
+# Application launcher
+set $launcher fuzzel
+
+# Application menu
+set $menu nwg-drawer
+
+# Power Menu
+set $powermenu ~/.config/sway/scripts/power_menu.sh
+
+### Key bindings
+#
+# Basics:
+#
+    # Launch the terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $launcher
+
+    # Emoji picker
+    bindsym $mod+Shift+d exec bemoji -t
+
+    # Menu (nwg-drawer)
+    # bindsym $mod+Shift+d exec $menu
+
+    # Lock screen
+    bindsym $mod+f1 exec gtklock
+
+    # Activities
+    bindsym $mod+Tab exec ~/.config/sway/scripts/window_switcher.sh
+
+    # Move windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Change "normal" to "inverse" to switch left and right
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # System exit
+    mode "exit: [x]sway, [l]ock, [s]leep, [r]eboot, [p]oweroff" {
+      bindsym x mode "default", exec swaymsg exit
+      bindsym l mode "default", exec gtklock
+      bindsym r mode "default", exec systemctl reboot
+      bindsym s mode "default", exec systemctl suspend
+      bindsym p mode "default", exec shutdown --poweroff now
+      bindsym Escape mode "default"
+      bindsym Return mode "default"
+      bindsym $mod+x mode "default"
+    }
+    bindsym $mod+x mode "exit: [x]sway, [l]ock, [s]leep, [r]eboot, [p]oweroff"
+#
+# Moving around:
+#
+    bindsym {
+        # Change window focus
+        $mod+Left focus left
+        $mod+Down focus down
+        $mod+Up focus up
+        $mod+Right focus right
+        # Vim key support
+        $mod+$left focus left
+        $mod+$down focus down
+        $mod+$up focus up
+        $mod+$right focus right
+
+        # Move the focused window
+        $mod+Shift+Left move left
+        $mod+Shift+Down move down
+        $mod+Shift+Up move up
+        $mod+Shift+Right move right
+        # Vim key support
+        $mod+Shift+$left move left
+        $mod+Shift+$down move down
+        $mod+Shift+$up move up
+        $mod+Shift+$right move right
+    }
+
+#
+# Displays:
+#
+
+bindsym {
+    $mod+p exec way-displays -y -g | yq '.STATE.HEADS.[].NAME' | xargs -I{} way-displays -t DISABLED {}
+    #$mod+Shift+v exec ed -s ~/.config/way-displays/cfg.yaml <<< $'1,$s/ARRANGE: ROW/ARRANGE: COLUMN/g\nw\nq'
+    #$mod+Shift+h exec ed -s ~/.config/way-displays/cfg.yaml <<< $'1,$s/ARRANGE: COLUMN/ARRANGE: ROW/g\nw\nq'
+    #$mod+Ctrl+d exec 'ed -s ~/.config/way-displays/cfg.yaml <<< $"'"1,$s/DISABLED: [{ NAME_DESC: \"eDP-1\" }]/DISABLED:/g\nw\nq"'" || ed -s ~/.config/way-displays/cfg.yaml <<< $"'"1,$s/DISABLED:/DISABLED: [{ NAME_DESC: \"eDP-1\" }]/g\nw\nq"'"
+}
+
+#
+# Workspaces:
+#
+    # Workspace bindings are using bindcode instead of bindsym for better Azerty compatibility.
+    # https://github.com/EndeavourOS-Community-Editions/sway/pull/81
+    # Use wev to find keycodes for setting up other bindings this way.
+
+    bindcode {
+        # Switch to workspace
+        $mod+10 workspace number 1
+        $mod+11 workspace number 2
+        $mod+12 workspace number 3
+        $mod+13 workspace number 4
+        $mod+14 workspace number 5
+        $mod+15 workspace number 6
+        $mod+16 workspace number 7
+        $mod+17 workspace number 8
+        $mod+18 workspace number 9
+        $mod+19 workspace number 10
+
+        # Move focused container to workspace
+        $mod+Shift+10 move container to workspace number 1
+        $mod+Shift+11 move container to workspace number 2
+        $mod+Shift+12 move container to workspace number 3
+        $mod+Shift+13 move container to workspace number 4
+        $mod+Shift+14 move container to workspace number 5
+        $mod+Shift+15 move container to workspace number 6
+        $mod+Shift+16 move container to workspace number 7
+        $mod+Shift+17 move container to workspace number 8
+        $mod+Shift+18 move container to workspace number 9
+        $mod+Shift+19 move container to workspace number 10
+    }
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+
+#
+# Layout stuff:
+#
+    # Set how the current window will be split
+    # Split the window vertically
+    bindsym $mod+v splitv
+    bindsym $mod+apostrophe splitv
+    # Split the window horizontally
+    bindsym $mod+b splith
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+    bindsym $mod+Semicolon fullscreen
+
+    # Toggle between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+
+#
+# Resizing containers:
+#
+    bindsym {
+        # Resize with arrow keys
+        #$mod+ctrl+Right resize shrink width 10 px
+        #$mod+ctrl+Up resize grow height 10 px
+        #$mod+ctrl+Down resize shrink height 10 px
+        #$mod+ctrl+Left resize grow width 10 px
+        # Resize with Vim keys
+        #$mod+ctrl+$right resize shrink width 10 px
+        #$mod+ctrl+$up resize grow height 10 px
+        #$mod+ctrl+$down resize shrink height 10 px
+        #$mod+ctrl+$left resize grow width 10 px
+        $mod+shift+y resize shrink width 5
+        $mod+shift+u resize shrink height 5
+        $mod+shift+i resize grow height 5
+        $mod+shift+o resize grow width 5
+    }
+
+    # Resize floating windows with mouse scroll:
+    bindsym --whole-window --border {
+        # Resize vertically
+        $mod+button4 resize shrink height 5 px or 5 ppt
+        $mod+button5 resize grow height 5 px or 5 ppt
+        # Resize horizontally
+        $mod+Shift+button4 resize shrink width 5 px or 5 ppt
+        $mod+Shift+button5 resize grow width 5 px or 5 ppt
+    }
+
+#
+# Media Keys
+#
+    bindsym {
+        # Volume
+        # XF86AudioRaiseVolume exec pamixer -ui 2
+        # XF86AudioLowerVolume exec pamixer -ud 2
+        XF86AudioRaiseVolume exec amixer sset Master 5%+
+        XF86AudioLowerVolume exec amixer sset Master 5%-
+        XF86AudioMute exec pamixer --toggle-mute
+
+        # Player
+        XF86AudioPlay exec playerctl play-pause
+        XF86AudioNext exec playerctl next
+        XF86AudioPrev exec playerctl previous
+
+        # Backlight
+        XF86MonBrightnessUp exec brightnessctl -c backlight --min-value=1 -e set +5%
+        XF86MonBrightnessDown exec brightnessctl -c backlight --min-value=1 -e set 5%-
+    }
+
+#
+# App shortcuts
+#
+    # Launch the file explorer
+    bindsym $mod+n exec thunar
+
+    # Launch the browser
+    bindsym $mod+o exec librewolf
+
+    # Launch the clipboard manager
+    # bindsym $mod+Ctrl+v exec cliphist list | fuzzel -d -w 90 -l 30 -p "Select an entry to copy it to your clipboard buffer:"| cliphist decode | wl-copy
+    bindsym --no-repeat $mod+Ctrl+v exec "$HOME/.local/bin/sway-copyq-launcher.sh"
+    # Delete an entry from the clipboard manager
+    # bindsym $mod+Ctrl+x exec cliphist list | fuzzel -d -w 90 -l 30 -t cc9393ff -S cc9393ff -p "Select an entry to delete it from cliphist:"| cliphist delete
+    # Note: you can clear all cliphist entries by running `cliphist wipe`
+
+#
+# Screenshots
+#
+# inspiration: https://www.reddit.com/r/swaywm/comments/ghnlea/comment/fqnzxkx
+    set $satty satty --filename - --initial-tool=arrow --copy-command=wl-copy --brush-smooth-history-size=5 --floating-hack --output-filename ~/Pictures/screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png
+    set $printscreen_mode 'printscreen (r:region, f:full, w:window)'
+    mode $printscreen_mode {
+        bindsym r exec swaymsg 'mode "default"' && grim -t ppm -g "$(slurp -d)" - | $satty
+        bindsym f exec swaymsg 'mode "default"' && grim -t ppm - | $satty
+        bindsym w exec swaymsg 'mode "default"' && grim -t ppm -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" - | $satty
+        # bindsym w exec swaymsg 'mode "default"' && swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | grim -t ppm -g - - | $satty
+    
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+    }
+    bindsym $mod+Shift+p mode $printscreen_mode
+
+    # Screenrecord region with wf-recorder
+    set $slurp_recorder exec timeout 120s wf-recorder -g "$(slurp)" -f ~/Videos/recording.$(date -I).mp4
+    # set $slurp_recorder exec wf-recorder -g "$(slurp)" -f "~/Videos/recording.$(date --rfc-3339=seconds).mp4"
+    bindsym $mod+Alt+p $slurp_recorder
+
+
+# vim: set ft=swayconfig:

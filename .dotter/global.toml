@@ -62,6 +62,7 @@ depends = ["graphic","linux"]
 depends = ["graphic","linux"]
 [wayland.files]
 ".config/mako" = "~/.config/mako/"
+".config/sway" = "~/.config/sway/"
 ".config/way-displays" = "~/.config/way-displays/"
 "etc/acpi/events/jack-hdmi" = "/etc/acpi/events/jack-hdmi"
 "etc/acpi/jack-hdmi-swaywm.sh" = "/etc/acpi/jack-hdmi-swaywm.sh"

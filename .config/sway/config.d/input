@@ -1,0 +1,67 @@
+### Input configuration
+#
+# Read `man 5 sway-input` for more information about this section.
+
+# Hide mouse cursor after 10 seconds
+seat * hide_cursor 10000
+seat * xcursor_theme default 50
+# Set cursor theme
+# see ./config.d/theme and ./scripts/import-gsettings
+
+# Natural scroll always enabled
+input * {
+    natural_scroll enabled
+}
+
+# Touchpad configuration
+input type:touchpad {
+    # Disable While Typing = on
+    dwt enabled
+    tap enabled
+    drag_lock disabled
+}
+focus_follows_mouse no
+
+# Swipe 4 fingers
+bindgesture swipe:4:right workspace prev
+bindgesture swipe:4:left workspace next
+bindgesture pinch:4:inward fullscreen
+
+# Keyboard setup
+input type:keyboard {
+    repeat_delay 250
+    repeat_rate 33
+    # EN, RS_lat, RS_cyr, DE and no xkb based cadets
+    # (use interception tools like caps2esc for cadets)
+    #xkb_file ~/.dotfiles/xkb/xkb_arch.xkb
+    xkb_layout us,de,rs,hr
+    # intl uses deadkeys
+    # xkb_variant intl
+    xkb_options grp:alt_shift_toggle,grp:ctrls_toggle,grp_led:caps
+    # Enable numlock by default
+    xkb_numlock enabled
+}
+
+# Trackball scroll method
+input "1133:50184:Logitech_USB_Trackball" {
+    scroll_method on_button_down
+}
+
+# Set keyboard layout and variant based on current system settings
+# exec_always {
+#     'swaymsg input type:keyboard xkb_layout "$(localectl status | grep "X11 Layout" | sed -e "s/^.*X11 Layout://")"'
+#     'swaymsg input type:keyboard xkb_variant "$(localectl status | grep "X11 Variant" | sed -e "s/^.*X11 Variant://")"'
+# }
+
+# # Toggle between keyboard layouts. This example has the "us" and "gb"
+# # keyboard layouts, and uses Alt+Shift to toggle between them.
+# input "type:keyboard" {
+#     xkb_layout "us,gb"
+#     xkb_options "grp:alt_shift_toggle"
+# }
+# # Assign the same binding to "pkill -RTMIN+1 waybar" to send signal to
+# # the Waybar keyboard module (so the module shows the updated layout).
+# # This example uses Alt + left Shift.
+# bindsym Alt+Shift_L exec "pkill -RTMIN+1 waybar"
+
+# vim: set ft=swayconfig:
