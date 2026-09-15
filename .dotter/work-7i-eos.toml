@@ -1,0 +1,28 @@
+# local.toml can "include" another file - more on this in the next section.
+# includes = [".dotter/linux.toml"]
+
+# An array of the names of all packages that are selected.
+# Only the files and variables that belong to packages in this list are kept.
+packages = ["default", "zsh", "wayland"]
+
+# File target locations can be overridden in local.toml
+# This can be useful for example for applications which read from a different
+#  location depending on the platform.
+# Disabling files is possible by setting them to the special value "".
+[files]
+".mozilla/firefox/asdf1234.default/chrome/" = "~/.librewolf/u12a70ha.default-default/chrome/"
+".mozilla/firefox/asdf1234.default/librewolf.overrides.cfg" = "~/.librewolf/u12a70ha.default-default/librewolf.overrides.cfg"
+".mozilla/firefox/asdf1234.default/librewolf.overrides.cfg" = "~/.librewolf/librewolf.overrides.cfg"
+"etc/udev/rules.d/99-local-webcam.rules" = "/etc/udev/rules.d/99-local-webcam.rules"
+# Xinitrc = "~/.my_Xinitrc"
+# polybar = ""
+
+# I need to define some machine-specific variables.
+[variables]
+# network_interface = "wlan0"
+# screen_size = "1920x1080"
+# terminal = "xfce4-terminal"
+# Actually, I want the font size on this screen to be a bit bigger.
+# Any variables defined in local.toml override variables in global.toml.
+# Unlike files, it's impossible to delete variables.
+# font_size = 18
