@@ -30,6 +30,7 @@ xkb = ""
 "etc/acpi/powerbtn-acpi-support.sh" = "/etc/acpi/powerbtn-acpi-support.sh"
 "etc/interception-vimproved/config.yaml" = "/etc/interception-vimproved/config.yaml"
 "etc/docker/daemon.json" = "/etc/docker/daemon.json"
+"etc/NetworkManager/NetworkManager.conf" = "/etc/NetworkManager/NetworkManager.conf"
 #etc = "/etc"
 #usr = "/usr"
 
