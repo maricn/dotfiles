@@ -1,10 +1,9 @@
 /* Hide horizontal tabs at the top of the window */
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"])
-  #TabsToolbar
-  > .toolbar-items {
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar>.toolbar-items {
   opacity: 0;
   pointer-events: none;
 }
+
 #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
   visibility: collapse !important;
 }
@@ -15,9 +14,34 @@
 }
 
 /* Hide TST header on top of the sidebar */
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]
-  #sidebar-header {
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
   display: none;
+}
+
+/* Hide TST header on top of the sidebar - Firefox 157 fix (https://github.com/piroor/treestyletab/issues/3978#issuecomment-5908035664) */
+#webextpanels-window #sidebar-panel-header {
+  display: none !important;
+}
+
+@-moz-document url-prefix("chrome://browser/content/webext-panels.xhtml") {
+  #sidebar-panel-header {
+    margin-block-start: 0 !important;
+    padding-block: 6px !important;
+  }
+
+  .sidebar-panel-heading {
+    margin-block-end: 0 !important;
+  }
+
+  .sidebar-panel-heading>h4 {
+    margin-block: 2px !important;
+  }
+}
+
+/* Hide narrow bar that sits beyond the sidebar, "the far bar", works together with option "Show settings from sidebar" or 
+* something like that, which appears on right-clicking "the far bar"*/
+#sidebar-box {
+  padding-inline-start: 0 !important;
 }
 
 /* Reduce min width of sidebar */
@@ -51,7 +75,7 @@
 #content,
 #tabbrowser-tabpanels,
 browser[type="content-primary"],
-browser[type="content"] > html {
+browser[type="content"]>html {
   background: #1d1b19 !important;
 }
 
@@ -59,24 +83,25 @@ browser[type="content"] > html {
  * dark background more from https://gist.github.com/regalstreak/0b293d2a285152410a1181dd56891b76
  * updated xul -> xhtml with: https://forums.mozillazine.org/viewtopic.php?p=14967528&sid=a369de4f08f40a4c50f72e14ea4ac486#p14967528
  */
-@-moz-document url(chrome://browser/content/browser.xhtml)
-{
-  #main-window,
-  browser[type="content-primary"],
-  browser[type="content"],
-  tabbrowser#content,
-  #content,
-  browser[type="content"] > html {
-    background: #1d1b19 !important;
-  }
+@-moz-document url(chrome://browser/content/browser.xhtml){
 
-  /* overlay indicating microphone/camera/screenshare usage */
-  #webrtcIndicator {
-    /* display:none; */
-    opacity: 0.5;
-    float: right;
-  }
+#main-window,
+browser[type="content-primary"],
+browser[type="content"],
+tabbrowser#content,
+#content,
+browser[type="content"]>html {
+  background: #1d1b19 !important;
 }
+
+/* overlay indicating microphone/camera/screenshare usage */
+#webrtcIndicator {
+  /* display:none; */
+  opacity: 0.5;
+  float: right;
+}
+}
+
 :root {
   /*tab flash on new tab*/
   --in-content-page-background: #1d1b19;
@@ -84,11 +109,9 @@ browser[type="content"] > html {
 
 /* darken the background on newtab in newer versions 
  * of firefox (at least 118+, maybe since before) */
-html#main-window
-  body
-  vbox#appcontent
-  hbox.browserSidebarContainer.newTabBrowserPanel.deck-selected {
-  z-index: -1; /* sideeffect: this will disable right click context menu on new tabs */
+html#main-window body vbox#appcontent hbox.browserSidebarContainer.newTabBrowserPanel.deck-selected {
+  z-index: -1;
+  /* sideeffect: this will disable right click context menu on new tabs */
 }
 
 /*
